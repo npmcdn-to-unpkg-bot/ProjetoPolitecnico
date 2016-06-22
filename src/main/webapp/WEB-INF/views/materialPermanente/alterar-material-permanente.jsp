@@ -44,22 +44,22 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="materialPermanente?numeroProjeto=${projeto.numeroProjeto}">Material Permanente</a></li>
 			<li role="presentation"><a href="redirecionaModificarMaterialPermanente?numeroProjeto=${projeto.numeroProjeto}">Modificar Material Permanente</a></li>
 			<li role="presentation" class="active"><a href="#">Alterar Material Permanente</a></li>			
 		</ul>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
+		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="materialPermanente?numeroProjeto=${projeto.numeroProjeto}">Material Permanente</a></li>
 	  		<li class="active">Alterar Material Permanente</li>
 		</ol>
 		
-		<div class="row" style="margin-top:2%;">
+		<div class="row" style="margin-top:3%;">
 			<c:forEach var="materialPermanente" items="${materialPermanente}">
-			<form action="alterarMaterialPermanente?numeroProjeto=${projeto.numeroProjeto}&&codigoMaterial=${materialPermanente.codigoDemanda}&&valorTotal=${materialPermanente.valorTotal}" method="post">
+			<form action="alterarMaterialPermanente?numeroProjeto=${projeto.numeroProjeto}&&id=${materialPermanente.id}" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
@@ -141,7 +141,14 @@
 			</form>
 			</c:forEach>
 		</div>
-		<hr style="margin-top: 3%;">
+
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

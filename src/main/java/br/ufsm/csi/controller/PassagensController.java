@@ -48,16 +48,16 @@ public class PassagensController {
 	}
 	
 	@RequestMapping("redirecionaAlterarPassagens")
-	public String redirecionaAlterar (long numeroProjeto, String codigoMaterial, float valorTotal, Model model){
+	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
-		model.addAttribute("passagens", new PassagensDAO().getPassagens(numeroProjeto, codigoMaterial, valorTotal));
+		model.addAttribute("passagens", new PassagensDAO().getPassagens(id));
 		
 		return "passagens/alterar-passagens";
 	}
 	
 	@RequestMapping("removerPassagens")
-	public String removerPassagens (long numeroProjeto, String codigoMaterial, float valorTotal, RedirectAttributes redirectAttributes) throws Exception{
-		this.retorno = new PassagensDAO().remover(numeroProjeto, codigoMaterial, valorTotal);
+	public String removerPassagens (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+		this.retorno = new PassagensDAO().remover(id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "removePassagens");
@@ -68,8 +68,8 @@ public class PassagensController {
 	}
 	
 	@RequestMapping("alterarPassagens")
-	public String alterarPassagens (Passagens passagens, long numeroProjeto, String codigoMaterial, float valorTotal, RedirectAttributes redirectAttributes) throws SQLException{
-		this.retorno = new PassagensDAO().alterar(passagens, numeroProjeto, codigoMaterial, valorTotal);
+	public String alterarPassagens (Passagens passagens, long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
+		this.retorno = new PassagensDAO().alterar(passagens, id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "alterarPassagenso");

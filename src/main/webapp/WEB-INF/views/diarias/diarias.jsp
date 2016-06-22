@@ -43,11 +43,17 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation" class="active"><a href="#">Diárias</a></li>
 			<li role="presentation"><a href="redirecionaModificarDiarias?numeroProjeto=${projeto.numeroProjeto}">Modificar Diárias</a></li>
 		</ul>
-		
+
+		<ol class="breadcrumb" style="margin-top: 3%;">
+			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
+	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
+	  		<li class="active">Diárias</li>
+		</ol>
+					
 		<c:if test="${status == 'cadastroDiarias'}">
 			<div style="margin-top: 2%">
 				<c:import url="../mensagens/mensagem.jsp" />
@@ -59,23 +65,7 @@
 				<c:import url="../mensagens/mensagem.jsp" />
 			</div>
 		</c:if>
-		
-		<ol class="breadcrumb" style="margin-top: 2%;">
-			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
-	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
-	  		<li class="active">Diárias</li>
-		</ol>
-						
-		<nav>
-			<ul class="pager">
-				<li class="previous">
-					<a href="cadastro">
-						<span aria-hidden="true">&larr;</span> Solicitar outras Demandas
-					</a>
-				</li>
-			</ul>
-		</nav>
-		
+
 		<div class="row" style="margin-top:3%;">
 			<form action="cadastrarDiarias?numeroProjeto=${projeto.numeroProjeto}" method="post">
 				<div class="col-md-1"></div>
@@ -83,7 +73,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
-								<label for="descricao">Descrição</label>
+								<label for="descricao">Destino</label>
 								<textarea class="form-control" rows="2" name="descricao" ng-model="item.descricao"></textarea required>
 							</div>
 						</div>
@@ -93,14 +83,14 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
-								<input type="text" class="form-control" name="valorUnitario" placeholder="Valor Unitário" value="0" ng-model="item.valorUnit" ui-number>
+								<label for="precoUnit">Valor da Diária <strong>R$</strong></label>
+								<input type="text" class="form-control" name="valorUnitario" placeholder="Valor da Diária" value="0" ng-model="item.valorUnit" ui-number>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="quantidade">Quantidade</label>
-								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="Quantidade" ng-model="item.quantidade" ui-number>
+								<label for="quantidade">Nº de Dias</label>
+								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="Nº de Dias" ng-model="item.quantidade" ui-number>
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -143,7 +133,14 @@
 				<div class="col-md-1"></div>
 			</form>
 		</div>
-		<hr style="margin-top: 3%;">
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

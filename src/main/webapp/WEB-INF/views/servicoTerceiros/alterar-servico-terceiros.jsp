@@ -43,22 +43,22 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="servicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Serviço de Terceiros</a></li>
 			<li role="presentation"><a href="redirecionaModificarServicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Modificar Serviço de Terceiros</a></li>
 			<li role="presentation" class="active"><a href="#">Alterar Serviço de Terceiros</a></li>			
 		</ul>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
+		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="servicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Serviço de Terceiros</a></li>
 	  		<li class="active">Alterar Serviço de Terceiros</li>
 		</ol>
 		
-		<div class="row" style="margin-top:2%;">
+		<div class="row" style="margin-top:3%;">
 			<c:forEach var="servico" items="${servicoTerceiros}">
-			<form action="alterarservicoTerceiros?numeroProjeto=${projeto.numeroProjeto}&&valorTotal=${servico.valorTotal}" method="post">
+			<form action="alterarServicoTerceiros?numeroProjeto=${projeto.numeroProjeto}&&id=${servico.id}" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
@@ -135,7 +135,14 @@
 			</form>
 			</c:forEach>
 		</div>
-		<hr style="margin-top: 3%;">
+
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

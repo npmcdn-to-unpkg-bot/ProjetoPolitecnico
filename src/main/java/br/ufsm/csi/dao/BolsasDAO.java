@@ -15,8 +15,8 @@ public class BolsasDAO {
 	private String query;
 	
 	public boolean adicionar(Bolsas bolsas, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (numeroprojeto, codigomaterial, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, valorunitario, quantidade, periodo, justificativa)"
+				+ " VALUES (default, ?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);
 			
@@ -45,7 +45,7 @@ public class BolsasDAO {
 		ArrayList<Bolsas> bolsas = new ArrayList<Bolsas>();
 		
 		try{
-			this.query = " SELECT valorunitario, quantidade, periodo, justificativa"
+			this.query = " SELECT id, valorunitario, quantidade, periodo, justificativa"
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
 				+ " AND material.codigodemanda = 5 "
@@ -59,10 +59,12 @@ public class BolsasDAO {
 			while(rs.next()){
 				Bolsas bolsa = new Bolsas();
 				
+				bolsa.setId(rs.getInt("id"));
 				bolsa.setValorUnitario(rs.getFloat("valorunitario"));
 				bolsa.setQuantidade(rs.getInt("quantidade"));
 				bolsa.setPeriodo(rs.getString("periodo"));
 				bolsa.setJustificativa(rs.getString("justificativa"));
+				bolsa.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				
 				bolsas.add(bolsa);
 			}
@@ -75,28 +77,25 @@ public class BolsasDAO {
 		return bolsas;
 	}
 
-	public ArrayList<Bolsas> getBolsas(long numeroProjeto, float valorTotal) {
+	public ArrayList<Bolsas> getBolsas(int id) {
 		
 		ArrayList<Bolsas> bolsas = new ArrayList<Bolsas>();
 		
 		try{
-			this.query = " SELECT valorunitario, quantidade, periodo, justificativa "
+			this.query = " SELECT id, valorunitario, quantidade, periodo, justificativa "
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND material.codigodemanda = 5 "
-				+ " AND (valorunitario * quantidade) = ?"
-				+ " AND numeroprojeto = ? "
-				+ " LIMIT 1; ";
+				+ " AND id = ?;";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setFloat(1, valorTotal);
-			stmt.setLong(2, numeroProjeto);
+			stmt.setFloat(1, id);
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				Bolsas bolsa = new Bolsas();
 				
+				bolsa.setId(rs.getInt("id"));
 				bolsa.setValorUnitario(rs.getFloat("valorunitario"));
 				bolsa.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				bolsa.setQuantidade(rs.getInt("quantidade"));
@@ -114,17 +113,13 @@ public class BolsasDAO {
 		return bolsas;
 	}
 
-	public boolean remover(long numeroProjeto, float valorTotal) throws SQLException {
+	public boolean remover(int id) throws SQLException {
 		this.query = " DELETE FROM itens "
-				+ " WHERE numeroProjeto = ? "
-				+ " AND codigomaterial = ?"
-				+ " AND (valorunitario * quantidade) = ?; ";
+				+ " WHERE id = ?; ";
 		
 		stmt = conn.prepareStatement(this.query);
 			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, "5");
-		stmt.setFloat(3, valorTotal);
+		stmt.setInt(1, id);
 
 		try{
 			stmt.execute();
@@ -139,13 +134,11 @@ public class BolsasDAO {
 		return autenticado;
 	}
 
-	public boolean alterar(Bolsas bolsas, long numeroProjeto, float valorTotal) throws SQLException {
+	public boolean alterar(Bolsas bolsas, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET valorunitario = ?, "
 			+ " quantidade = ?, periodo = ?, justificativa = ? "
-			+ " WHERE numeroProjeto = ? "
-			+ " AND codigomaterial = ? "
-			+ " AND (valorunitario * quantidade) = ?; ";
+			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
 			
@@ -153,9 +146,7 @@ public class BolsasDAO {
 		stmt.setInt(2, bolsas.getQuantidade());
 		stmt.setString(3, bolsas.getPeriodo());
 		stmt.setString(4, bolsas.getJustificativa());
-		stmt.setLong(5, numeroProjeto);
-		stmt.setString(6, "5");
-		stmt.setFloat(7, valorTotal);
+		stmt.setLong(5, id);
 
 		try{
 			stmt.execute();

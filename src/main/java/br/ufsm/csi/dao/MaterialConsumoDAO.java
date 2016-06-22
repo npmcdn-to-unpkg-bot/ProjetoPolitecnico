@@ -16,8 +16,8 @@ public class MaterialConsumoDAO {
 	private String query;
 	
 	public boolean adicionar(MaterialConsumo materialConsumo, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (?,?,?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
+				+ " VALUES (default, ?,?,?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
 		
@@ -48,7 +48,8 @@ public class MaterialConsumoDAO {
 		ArrayList<MaterialConsumo> materiaisConsumo = new ArrayList<MaterialConsumo>();
 		
 		try{
-			this.query = " SELECT itens.codigomaterial, subitem, valorunitario * quantidade as valortotal"
+			this.query = " SELECT id, itens.codigomaterial, descricao, subitem, valorunitario, quantidade, "
+					+ "valorunitario * quantidade as valortotal, unidademedida, periodo, justificativa"
 					+ " FROM itens, material "
 					+ " WHERE itens.codigomaterial = material.codigomaterial "
 					+ " AND material.codigodemanda = 3 "
@@ -62,9 +63,16 @@ public class MaterialConsumoDAO {
 			while(rs.next()){
 				MaterialConsumo materialConsumo = new MaterialConsumo();
 				
+				materialConsumo.setId(rs.getInt("id"));
+				materialConsumo.setDescricao(rs.getString("descricao"));
 				materialConsumo.setCodigoDemanda(rs.getString("codigomaterial"));
 				materialConsumo.setSubItem(rs.getString("subitem"));
 				materialConsumo.setValorTotal(rs.getFloat("valortotal"));
+				materialConsumo.setValorUnitario(rs.getFloat("valorunitario"));
+				materialConsumo.setQuantidade(rs.getInt("quantidade"));
+				materialConsumo.setUnidadeMedida(rs.getString("unidademedida"));
+				materialConsumo.setPeriodo(rs.getString("periodo"));
+				materialConsumo.setJustificativa(rs.getString("justificativa"));
 				
 				materiaisConsumo.add(materialConsumo);
 			}
@@ -77,17 +85,12 @@ public class MaterialConsumoDAO {
 		return materiaisConsumo;
 	}
 
-	public boolean remover(long numeroProjeto, String codigoMaterial, float valorTotal) throws SQLException {
+	public boolean remover(int id) throws SQLException {
 		this.query = " DELETE FROM itens "
-				+ " WHERE numeroProjeto = ? "
-				+ " AND codigomaterial = ?"
-				+ " AND (valorunitario * quantidade) = ?; ";
+				+ " WHERE id = ? ;";
 		
-		stmt = conn.prepareStatement(this.query);
-			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, codigoMaterial);
-		stmt.setFloat(3, valorTotal);
+		stmt = conn.prepareStatement(this.query);		
+		stmt.setInt(1, id);
 
 		try{
 			stmt.execute();
@@ -102,27 +105,24 @@ public class MaterialConsumoDAO {
 		return autenticado;
 	}
 
-	public ArrayList<MaterialConsumo> getMaterialConsumo(long numeroProjeto, String codigoMaterial, float valorTotal) {
+	public ArrayList<MaterialConsumo> getMaterialConsumo(int id) {
 		ArrayList<MaterialConsumo> materiaisConsumo = new ArrayList<MaterialConsumo>();
 		
 		try{
-			this.query = " SELECT subitem, itens.codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa "
+			this.query = " SELECT id, subitem, itens.codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa "
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND itens.codigomaterial = ? "
-				+ " AND (valorunitario * quantidade) = ?"
-				+ " AND numeroprojeto = ?; ";
+				+ " AND id = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setString(1, codigoMaterial);
-			stmt.setFloat(2, valorTotal);
-			stmt.setLong(3, numeroProjeto);
+			stmt.setInt(1, id);
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				MaterialConsumo materialConsumo = new MaterialConsumo();
 				
+				materialConsumo.setId(rs.getInt("id"));
 				materialConsumo.setDescricao(rs.getString("descricao"));
 				materialConsumo.setCodigoDemanda(rs.getString("codigomaterial"));
 				materialConsumo.setValorUnitario(rs.getFloat("valorunitario"));
@@ -144,25 +144,20 @@ public class MaterialConsumoDAO {
 		return materiaisConsumo;
 	}
 
-	public boolean alterar(MaterialConsumo materialConsumo, long numeroProjeto, String codigoMaterial, float valorTotal) throws SQLException {
+	public boolean alterar(MaterialConsumo materialConsumo, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET descricao = ?, unidademedida = ?, valorunitario = ?, "
 			+ " quantidade = ?, periodo = ?, justificativa = ? "
-			+ " WHERE numeroProjeto = ? "
-			+ " AND codigomaterial = ? "
-			+ " AND (valorunitario * quantidade) = ?; ";
+			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
-			
 		stmt.setString(1, materialConsumo.getDescricao());
 		stmt.setString(2, materialConsumo.getUnidadeMedida());
 		stmt.setFloat(3, materialConsumo.getValorUnitario());
 		stmt.setInt(4, materialConsumo.getQuantidade());
 		stmt.setString(5, materialConsumo.getPeriodo());
 		stmt.setString(6, materialConsumo.getJustificativa());
-		stmt.setLong(7, numeroProjeto);
-		stmt.setString(8, codigoMaterial);
-		stmt.setFloat(9, valorTotal);
+		stmt.setInt(7, id);
 
 		try{
 			stmt.execute();

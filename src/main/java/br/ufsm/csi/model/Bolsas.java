@@ -2,6 +2,7 @@ package br.ufsm.csi.model;
 
 public class Bolsas {
 	
+	private int id;
 	private String codigoDemanda;
 	private float valorUnitario;
 	private int quantidade;
@@ -44,5 +45,11 @@ public class Bolsas {
 	}
 	public void setJustificativa(String justificativa) {
 		this.justificativa = justificativa;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

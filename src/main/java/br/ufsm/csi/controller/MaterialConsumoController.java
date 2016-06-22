@@ -25,7 +25,9 @@ public class MaterialConsumoController {
 	}
 	
 	@RequestMapping("cadastrarMaterialConsumo")
-	public String cadastrarMaterialConsumo (long numeroProjeto, MaterialConsumo materialConsumo, RedirectAttributes redirectAttributes) throws SQLException{
+	public String cadastrarMaterialConsumo (long numeroProjeto, MaterialConsumo materialConsumo, 
+			RedirectAttributes redirectAttributes) throws SQLException{
+		
 		this.retorno = new MaterialConsumoDAO().adicionar(materialConsumo, numeroProjeto);
 
 		if(retorno){
@@ -46,16 +48,16 @@ public class MaterialConsumoController {
 	}
 	
 	@RequestMapping("redirecionaAlterarMaterialConsumo")
-	public String redirecionaAlterar (long numeroProjeto, String codigoMaterial, float valorTotal, Model model){
+	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
-		model.addAttribute("materialConsumo", new MaterialConsumoDAO().getMaterialConsumo(numeroProjeto, codigoMaterial, valorTotal));
+		model.addAttribute("materialConsumo", new MaterialConsumoDAO().getMaterialConsumo(id));
 		
 		return "materialConsumo/alterar-material-consumo";
 	}
 	
 	@RequestMapping("removerMaterialConsumo")
-	public String removerMaterialConsumo (long numeroProjeto, String codigoMaterial, float valorTotal, RedirectAttributes redirectAttributes) throws Exception{
-		this.retorno = new MaterialConsumoDAO().remover(numeroProjeto, codigoMaterial, valorTotal);
+	public String removerMaterialConsumo (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+		this.retorno = new MaterialConsumoDAO().remover(id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "removeMaterialConsumo");
@@ -66,8 +68,8 @@ public class MaterialConsumoController {
 	}
 	
 	@RequestMapping("alterarMaterialConsumo")
-	public String alterarMaterialConsumo (MaterialConsumo materialConsumo, long numeroProjeto, String codigoMaterial, float valorTotal, RedirectAttributes redirectAttributes) throws SQLException{
-		this.retorno = new MaterialConsumoDAO().alterar(materialConsumo, numeroProjeto, codigoMaterial, valorTotal);
+	public String alterarMaterialConsumo (MaterialConsumo materialConsumo, long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
+		this.retorno = new MaterialConsumoDAO().alterar(materialConsumo, id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "alterarMaterialConsumo");

@@ -27,7 +27,9 @@ public class ServicoTerceirosController {
 	}
 	
 	@RequestMapping("cadastrarServicoTerceiros")
-	public String cadastrarServicoTerceiros (long numeroProjeto, ServicoTerceiros servicoTerceiros, RedirectAttributes redirectAttributes) throws SQLException{
+	public String cadastrarServicoTerceiros (long numeroProjeto, ServicoTerceiros servicoTerceiros, 
+			RedirectAttributes redirectAttributes) throws SQLException{
+		
 		this.retorno = new ServicoTerceirosDAO().adicionar(servicoTerceiros, numeroProjeto);
 
 		if(retorno){
@@ -48,33 +50,35 @@ public class ServicoTerceirosController {
 	}
 	
 	@RequestMapping("redirecionaAlterarServicoTerceiros")
-	public String redirecionaAlterar (long numeroProjeto, float valorTotal, Model model){
+	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
-		model.addAttribute("servicoTerceiros", new ServicoTerceirosDAO().getServicoTerceiros(numeroProjeto, valorTotal));
+		model.addAttribute("servicoTerceiros", new ServicoTerceirosDAO().getServicoTerceiros(id));
 		
 		return "servicoTerceiros/alterar-servico-terceiros";
 	}
 	
 	@RequestMapping("removerServicoTerceiros")
-	public String removerServicoTerceiros (long numeroProjeto, float valorTotal, RedirectAttributes redirectAttributes) throws Exception{
-		this.retorno = new ServicoTerceirosDAO().remover(numeroProjeto, valorTotal);
+	public String removerServicoTerceiros (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+		this.retorno = new ServicoTerceirosDAO().remover(id);
 
 		if(retorno){
-			redirectAttributes.addFlashAttribute("status", "removeServicoTerceiros");
+			redirectAttributes.addFlashAttribute("status", "removeServico");
 		}else{
-			redirectAttributes.addFlashAttribute("status", "erro_removeServicoTerceiros");
+			redirectAttributes.addFlashAttribute("status", "erro_removeServico");
 		}
 		return "redirect:redirecionaModificarServicoTerceiros?numeroProjeto="+numeroProjeto;
 	}
 	
 	@RequestMapping("alterarServicoTerceiros")
-	public String alterarServicoTerceiros (ServicoTerceiros servicoTerceiros, long numeroProjeto, float valorTotal, RedirectAttributes redirectAttributes) throws SQLException{
-		this.retorno = new ServicoTerceirosDAO().alterar(servicoTerceiros, numeroProjeto, valorTotal);
+	public String alterarServicoTerceiros (ServicoTerceiros servicoTerceiros, long numeroProjeto, int id, 
+			RedirectAttributes redirectAttributes) throws SQLException{
+		
+		this.retorno = new ServicoTerceirosDAO().alterar(servicoTerceiros, id);
 
 		if(retorno){
-			redirectAttributes.addFlashAttribute("status", "alterarServicoTerceiros");
+			redirectAttributes.addFlashAttribute("status", "alterarServico");
 		}else{
-			redirectAttributes.addFlashAttribute("status", "erro_alterarServicoTerceiros");
+			redirectAttributes.addFlashAttribute("status", "erro_alterarServico");
 		}
 		return "redirect:redirecionaModificarServicoTerceiros?numeroProjeto="+numeroProjeto;
 	}

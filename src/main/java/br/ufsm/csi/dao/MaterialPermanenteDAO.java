@@ -16,8 +16,8 @@ public class MaterialPermanenteDAO {
 	private String query;
 	
 	public boolean adicionar(MaterialPermanente materialPermanente, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
-			+ " VALUES (?,?,?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
+			+ " VALUES (default, ?,?,?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
 		
@@ -48,7 +48,8 @@ public class MaterialPermanenteDAO {
 		ArrayList<MaterialPermanente> materiaisPermanente = new ArrayList<MaterialPermanente>();
 		
 		try{
-			this.query = " SELECT itens.codigomaterial, subitem, valorunitario * quantidade as valortotal"
+			this.query = " SELECT id, itens.codigomaterial, descricao, subitem, valorunitario, quantidade, "
+				+ "valorunitario * quantidade as valortotal, unidademedida, periodo, justificativa"
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
 				+ " AND material.codigodemanda = 4 "
@@ -62,10 +63,17 @@ public class MaterialPermanenteDAO {
 			while(rs.next()){
 				MaterialPermanente materialPermanente = new MaterialPermanente();
 				
+				materialPermanente.setId(rs.getInt("id"));
+				materialPermanente.setDescricao(rs.getString("descricao"));
 				materialPermanente.setCodigoDemanda(rs.getString("codigomaterial"));
 				materialPermanente.setSubItem(rs.getString("subitem"));
 				materialPermanente.setValorTotal(rs.getFloat("valortotal"));
-				
+				materialPermanente.setValorUnitario(rs.getFloat("valorunitario"));
+				materialPermanente.setQuantidade(rs.getInt("quantidade"));
+				materialPermanente.setUnidadeMedida(rs.getString("unidademedida"));
+				materialPermanente.setPeriodo(rs.getString("periodo"));
+				materialPermanente.setJustificativa(rs.getString("justificativa"));
+							
 				materiaisPermanente.add(materialPermanente);
 			}
 			stmt.close();
@@ -77,28 +85,26 @@ public class MaterialPermanenteDAO {
 		return materiaisPermanente;
 	}
 
-	public ArrayList<MaterialPermanente> getMaterialPermanente(long numeroProjeto, String codigoMaterial, float valorTotal) {
+	public ArrayList<MaterialPermanente> getMaterialPermanente(int id) {
 		
 		ArrayList<MaterialPermanente> materiaisPermanente = new ArrayList<MaterialPermanente>();
 		
 		try{
-			this.query = " SELECT subitem, itens.codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa "
+			this.query = " SELECT id, subitem, itens.codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa "
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND itens.codigomaterial = ? "
-				+ " AND (valorunitario * quantidade) = ?"
-				+ " AND numeroprojeto = ?; ";
+				+ " AND id = ?; ";
+
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setString(1, codigoMaterial);
-			stmt.setFloat(2, valorTotal);
-			stmt.setLong(3, numeroProjeto);
+			stmt.setInt(1, id);
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				MaterialPermanente materialPermanente = new MaterialPermanente();
 				
+				materialPermanente.setId(rs.getInt("id"));
 				materialPermanente.setDescricao(rs.getString("descricao"));
 				materialPermanente.setCodigoDemanda(rs.getString("codigomaterial"));
 				materialPermanente.setValorUnitario(rs.getFloat("valorunitario"));
@@ -120,17 +126,13 @@ public class MaterialPermanenteDAO {
 		return materiaisPermanente;
 	}
 
-	public boolean remover(long numeroProjeto, String codigoMaterial, float valorTotal) throws SQLException{
+	public boolean remover(int id) throws SQLException{
 		this.query = " DELETE FROM itens "
-			+ " WHERE numeroProjeto = ? "
-			+ " AND codigomaterial = ?"
-			+ " AND (valorunitario * quantidade) = ?; ";
+			+ " WHERE id = ?; ";
 		
 		stmt = conn.prepareStatement(this.query);
 			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, codigoMaterial);
-		stmt.setFloat(3, valorTotal);
+		stmt.setInt(1, id);
 
 		try{
 			stmt.execute();
@@ -145,13 +147,11 @@ public class MaterialPermanenteDAO {
 		return autenticado;
 	}
 
-	public boolean alterar(MaterialPermanente materialPermanente, long numeroProjeto, String codigoMaterial, float valorTotal) throws SQLException {
+	public boolean alterar(MaterialPermanente materialPermanente, int id) throws SQLException {
 		this.query = " UPDATE itens "
 				+ " SET descricao = ?, unidademedida = ?, valorunitario = ?, "
 				+ " quantidade = ?, periodo = ?, justificativa = ? "
-				+ " WHERE numeroProjeto = ? "
-				+ " AND codigomaterial = ? "
-				+ " AND (valorunitario * quantidade) = ?; ";
+				+ " WHERE id = ?; ";
 
 			stmt = conn.prepareStatement(this.query);
 				
@@ -161,9 +161,7 @@ public class MaterialPermanenteDAO {
 			stmt.setInt(4, materialPermanente.getQuantidade());
 			stmt.setString(5, materialPermanente.getPeriodo());
 			stmt.setString(6, materialPermanente.getJustificativa());
-			stmt.setLong(7, numeroProjeto);
-			stmt.setString(8, codigoMaterial);
-			stmt.setFloat(9, valorTotal);
+			stmt.setLong(7, id);
 
 			try{
 				stmt.execute();

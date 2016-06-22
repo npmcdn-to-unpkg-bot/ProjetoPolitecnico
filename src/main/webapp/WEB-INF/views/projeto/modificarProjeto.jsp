@@ -11,6 +11,7 @@
     <title>Principal</title>
 
     <link type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/>">
 	
 	<script src="<c:url value='/resources/angular/angular.js'/>"></script>
 	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
@@ -21,7 +22,7 @@
     <div class="container" style="margin-top: 1%;">
     	<div class="row">
     		<div class="col-md-10">
-    			<h1 class="text-muted"> <span class="glyphicon glyphicon-list-alt"></span> Solicitar Demandas no Projeto</h1>
+    			<h1 class="text-muted"> <span class="fa fa-calendar-check-o"></span> Solicitar Demandas no Projeto</h1>
     		</div>
 
     		<div class="col-md-2">
@@ -41,17 +42,17 @@
     		</div>
     	</div>
     	<hr>
-		
-		<c:if test="${status == 'cadastroProjeto'}">
-			<c:import url="../mensagens/mensagem.jsp" />
-		</c:if>
-		
+
 		<ol class="breadcrumb">
 	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li class="active">Alterar Projeto</li>
 	  		<li></li>	
 		</ol>
+				
+		<c:if test="${status == 'cadastroProjeto'}">
+			<c:import url="../mensagens/mensagem.jsp" />
+		</c:if>
 		
 		<div class="row" style="margin-top: 2%;">	
 			<div class="col-md-7">
@@ -60,7 +61,6 @@
 						<label for="proponente">Proponente</label>
 						<input type="text" class="form-control" value="${projeto.proponente}" disabled>
 						<input type="hidden" class="form-control" name="proponente" value="${projeto.proponente}">
-						
 					</div>
 					  
 					<div class="form-group">
@@ -74,12 +74,12 @@
 						<input type="hidden" class="form-control" name="numeroProjeto" value="${projeto.numeroProjeto}">
 						
 					</div>
-						
-					<button class="btn btn-primary" type="submit" style="margin-top: 2%; margin-right: 1%; margin-bottom: 1%;"> 
-						<span class="glyphicon glyphicon-ok"></span> Confirmar 
-					</button>			
-					<a class="btn btn-danger" href="cadastro" style="margin-top: 2%; margin-bottom: 1%;"> 
-						<span class="glyphicon glyphicon-remove"></span> Cancelar
+					
+					<button class="btn btn-default" type="submit" style="margin-top: 2%; margin-right: 1%; margin-bottom: 1%;"> 
+						<span class="glyphicon glyphicon-ok text-success"></span> <span class="text-success">Confirmar</span></strong>
+					</button>				
+					<a class="btn btn-default" href="cadastro" style="margin-top: 2%; margin-bottom: 1%;"> 
+						<span class="glyphicon glyphicon-remove text-danger"></span> <span class="text-danger">Cancelar</span>
 					</a>	
 				</form>
 
@@ -101,81 +101,73 @@
 		
 		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation" class="active"><a href="#">Orçamentos</a></li>
-			<li role="presentation"><a href="#">Materia de Consumo</a></li>
-			<li role="presentation"><a href="#">Serviços de Terceiros</a></li>
-			<li role="presentation"><a href="#">Passagens</a></li>
-			<li role="presentation"><a href="#">Diárias</a></li>
-			<li role="presentation"><a href="#">Material Permanente</a></li>
-			<li role="presentation"><a href="#">Bolsas</a></li>
+			<li role="presentation"><a href="materialConsumo?numeroProjeto=${projeto.numeroProjeto}">Materia de Consumo</a></li>
+			<li role="presentation"><a href="servicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Serviços de Terceiros</a></li>
+			<li role="presentation"><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
+			<li role="presentation"><a href="diarias?numeroProjeto=${projeto.numeroProjeto}">Diárias</a></li>
+			<li role="presentation"><a href="materialPermanente?numeroProjeto=${projeto.numeroProjeto}">Material Permanente</a></li>
+			<li role="presentation"><a href="bolsas?numeroProjeto=${projeto.numeroProjeto}">Bolsas</a></li>
 		</ul>
 		
 		<div class="row">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<div id="conteudo" style="margin-top: 3%">
-					<h1 class="text-muted"> <span class="glyphicon glyphicon-usd"></span> Orçamento Total</h1>
+					<h1 class="text-muted"> <span class="fa fa-calculator"></span> Orçamento Total</h1>
 					<hr>
 					
 					<table class="table table-bordered">
- 						<thead>
- 							<tr>
- 								<th>#</th>
- 								<th>Ítem</th>
- 								<th>Valor do Ítem</th>
- 							</tr>
- 						</thead>
- 						<tbody>
- 							<tr>
- 								<td><strong>1</strong></td>
- 								<td>Materia de Consumo</td>
- 								<td><strong>R$</strong> 645.00</td>
- 							</tr>
- 							<tr>
- 								<td><strong>2</strong></td>
- 								<td>Serviços de Terceiros</td>
- 								<td><strong>R$</strong> 0.00</td>
- 							</tr>
- 							<tr>
- 								<td><strong>3</strong></td>
- 								<td>Passagens/ Trecho Aério</td>
- 								<td><strong>R$</strong> 220.00</td>
- 							</tr>
- 							<tr>
- 								<td><strong>4</strong></td>
- 								<td>Passagens/ Trecho Terrestre</td>
- 								<td><strong>R$</strong> 160.00</td>
- 							</tr>
- 							<tr>
- 								<td><strong>5</strong></td>
- 								<td>Diárias</td>
- 								<td><strong>R$</strong> 850.00</td>
- 							</tr>
- 							<tr>
- 								<td><strong>6</strong></td>
- 								<td>Material Permanente</td>
- 								<td><strong>R$</strong> 755.00</td>
- 							</tr>
- 							<tr>
- 								<td><strong>7</strong></td>
- 								<td>Bolsas</td>
- 								<td><strong>R$</strong> 3250.00</td>
- 							</tr>
- 						</tbody>
- 						<tfooter>
- 							<tr>
- 								<td class="text-center"><strong>...</strong></td>
- 								<td class="text-center"><strong>...</strong></td>
- 								<td class="text-center"><strong>Total R$</strong> 2630.00</td>
- 							</tr>
- 						</tfooter>
-					</table>
+	 					<thead>
+	 						<tr>
+	 							<th class="text-center">#</th>
+	 							<th>Ítem</th>
+	 							<th class="text-center">Valor do Ítem</th>
+	 						</tr>
+	 					</thead>
+	 					<tbody>
+	 						<c:forEach var="demanda" items="${demandas}">
+	 						<tr>
+	 							<td class="text-center" width="6%"><strong>${demanda.codigoDemanda}</strong></td>
+	 							<c:if test="${demanda.quantidade > 0}">
+									<td class="text-info">
+	 									${demanda.demanda} 
+	 									<span class="badge">${demanda.quantidade}</span> 
+	 								</td>
+	 							</c:if>
+	 							<c:if test="${demanda.quantidade <= 0}">
+									<td> ${demanda.demanda} </td>
+	 							</c:if>
+	 							<td class="text-center" width="30%"><strong>R$</strong> ${demanda.valorTotal}</td>
+	 						</tr>
+	 						<c:set var="soma" value="${soma + demanda.valorTotal}"/>						
+	 						</c:forEach>
+	 					</tbody>
+	 					<tfooter>
+	 						<tr>
+	 							<td class="text-center"><strong>...</strong></td>
+	 							<td class="text-center"><strong>...</strong></td>
+	 							<td class="text-center"><strong>Total R$</strong> ${soma}</td>
+	 						</tr>
+	 					</tfooter>
+	 				</table>
 				</div>
 			</div>
 			<div class="col-md-1"></div>
 		</div>
+		
+		<hr style="margin-top: 3%">		
+		<button class="btn btn-primary" type="submit"> <span class="glyphicon glyphicon-ok"></span> Finalizar</button>
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 	
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
-	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/bootstrap.js'/>"></script>
   </body>
 </html>

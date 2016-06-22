@@ -43,32 +43,22 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="diarias?numeroProjeto=${projeto.numeroProjeto}">Diárias</a></li>
 			<li role="presentation"><a href="redirecionaModificarDiarias?numeroProjeto=${projeto.numeroProjeto}">Modificar Diárias</a></li>
 			<li role="presentation" class="active"><a href="#">Alterar Diárias</a></li>			
 		</ul>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
+		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="diarias?numeroProjeto=${projeto.numeroProjeto}">Diárias</a></li>
 	  		<li class="active">Alterar Diárias</li>
 		</ol>
-						
-		<nav>
-			<ul class="pager">
-				<li class="previous">
-					<a href="cadastro">
-						<span aria-hidden="true">&larr;</span> Solicitar outras Demandas
-					</a>
-				</li>
-			</ul>
-		</nav>
-		
-		<div class="row" style="margin-top:2%;">
+
+		<div class="row" style="margin-top:3%;">
 			<c:forEach var="diaria" items="${diarias}">
-			<form action="alterarDiarias?numeroProjeto=${projeto.numeroProjeto}&&valorTotal=${diaria.valorTotal}" method="post">
+			<form action="alterarDiarias?numeroProjeto=${projeto.numeroProjeto}&&id=${diaria.id}" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
@@ -135,7 +125,14 @@
 			</form>
 			</c:forEach>
 		</div>
-		<hr style="margin-top: 3%;">
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

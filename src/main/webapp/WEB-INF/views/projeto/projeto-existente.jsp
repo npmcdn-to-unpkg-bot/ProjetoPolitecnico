@@ -43,6 +43,12 @@
     	</div>
     	<hr>
 	
+		<ol class="breadcrumb">
+	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
+	  		<li class="active">Projeto Existente</li>
+	  		<li></li>	
+		</ol>
+					
 		<c:if test="${status == 'removeProjeto'}">
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
@@ -50,12 +56,6 @@
 		<c:if test="${status == 'erro_removeProjeto'}">
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
-	
-		<ol class="breadcrumb">
-	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
-	  		<li class="active">Projeto Existente</li>
-	  		<li></li>	
-		</ol>
 		
 		<div class="row" style="margin-top: 2%;">
 			<div class="col-md-12">
@@ -104,7 +104,14 @@
 				</c:if>
 			</div>
 		</div>
-		<hr style="margin-top: 2%;">
+
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 	
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

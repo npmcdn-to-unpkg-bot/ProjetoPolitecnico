@@ -48,16 +48,16 @@ public class MaterialPermanenteController {
 	}
 	
 	@RequestMapping("redirecionaAlterarMaterialPermanente")
-	public String redirecionaAlterar (long numeroProjeto, String codigoMaterial, float valorTotal, Model model){
+	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
-		model.addAttribute("materialPermanente", new MaterialPermanenteDAO().getMaterialPermanente(numeroProjeto, codigoMaterial, valorTotal));
+		model.addAttribute("materialPermanente", new MaterialPermanenteDAO().getMaterialPermanente(id));
 		
 		return "materialPermanente/alterar-material-permanente";
 	}
 	
 	@RequestMapping("removerMaterialPermanente")
-	public String removerMaterialPermanente (long numeroProjeto, String codigoMaterial, float valorTotal, RedirectAttributes redirectAttributes) throws Exception{
-		this.retorno = new MaterialPermanenteDAO().remover(numeroProjeto, codigoMaterial, valorTotal);
+	public String removerMaterialPermanente (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+		this.retorno = new MaterialPermanenteDAO().remover(id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "removeMaterialConsumo");
@@ -68,8 +68,10 @@ public class MaterialPermanenteController {
 	}
 	
 	@RequestMapping("alterarMaterialPermanente")
-	public String alterarMaterialPermanente (MaterialPermanente materialPermanente, long numeroProjeto, String codigoMaterial, float valorTotal, RedirectAttributes redirectAttributes) throws SQLException{
-		this.retorno = new MaterialPermanenteDAO().alterar(materialPermanente, numeroProjeto, codigoMaterial, valorTotal);
+	public String alterarMaterialPermanente (MaterialPermanente materialPermanente, long numeroProjeto, int id, 
+			RedirectAttributes redirectAttributes) throws SQLException{
+		
+		this.retorno = new MaterialPermanenteDAO().alterar(materialPermanente, id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "alterarMaterialConsumo");

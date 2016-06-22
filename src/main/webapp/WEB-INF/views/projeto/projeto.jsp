@@ -41,16 +41,16 @@
     		</div>
     	</div>
     	<hr>
-	
-		<c:if test="${status == 'erro_cadastroProjeto'}">
-			<c:import url="../mensagens/mensagem.jsp" />
-		</c:if>
-		
+
 		<ol class="breadcrumb">
 	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li class="active">Cadastrar Projeto</li>
 	  		<li></li>	
 		</ol>
+			
+		<c:if test="${status == 'erro_cadastroProjeto'}">
+			<c:import url="../mensagens/mensagem.jsp" />
+		</c:if>
 		
 		<div class="row" style="margin-top: 2%;">	
 			<div class="col-md-7">
@@ -89,7 +89,14 @@
 				</div>
 			</div>
 		</div>
-		<hr style="margin-top: 2%;">
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 	
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

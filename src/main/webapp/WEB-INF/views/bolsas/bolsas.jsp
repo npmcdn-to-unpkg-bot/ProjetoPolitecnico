@@ -43,11 +43,17 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation" class="active"><a href="#">Bolsas</a></li>
 			<li role="presentation"><a href="redirecionaModificarBolsas?numeroProjeto=${projeto.numeroProjeto}">Modificar Bolsas</a></li>
 		</ul>
 		
+		<ol class="breadcrumb" style="margin-top: 3%;">
+			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
+	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
+	  		<li class="active">Bolsas</li>
+		</ol>
+			
 		<c:if test="${status == 'cadastroBolsas'}">
 			<div style="margin-top: 2%">
 				<c:import url="../mensagens/mensagem.jsp" />
@@ -59,23 +65,7 @@
 				<c:import url="../mensagens/mensagem.jsp" />
 			</div>
 		</c:if>
-		
-		<ol class="breadcrumb" style="margin-top: 2%;">
-			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
-	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
-	  		<li class="active">Bolsas</li>
-		</ol>
-						
-		<nav>
-			<ul class="pager">
-				<li class="previous">
-					<a href="cadastro">
-						<span aria-hidden="true">&larr;</span> Solicitar outras Demandas
-					</a>
-				</li>
-			</ul>
-		</nav>
-		
+
 		<div class="row" style="margin-top:3%;">
 			<form action="cadastrarBolsas?numeroProjeto=${projeto.numeroProjeto}" method="post">
 				<div class="col-md-1"></div>
@@ -133,7 +123,13 @@
 				<div class="col-md-1"></div>
 			</form>
 		</div>
-		<hr style="margin-top: 3%;">
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

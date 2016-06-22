@@ -43,11 +43,18 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="bolsas?numeroProjeto=${projeto.numeroProjeto}">Bolsas</a></li>
 			<li role="presentation" class="active"><a href="#">Modificar Bolsas</a></li>
 		</ul>
-		
+
+		<ol class="breadcrumb" style="margin-top: 3%;">
+			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
+	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
+	  		<li><a href="bolsas?numeroProjeto=${projeto.numeroProjeto}">Bolsas</a></li>
+	  		<li class="active">Modificar Bolsas</li>
+		</ol>
+				
 		<c:if test="${status == 'removeBolsas'}">
 			<div style="margin-top: 2%">
 				<c:import url="../mensagens/mensagem.jsp" />
@@ -72,49 +79,90 @@
 			</div>
 		</c:if>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
-			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
-	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
-	  		<li><a href="bolsas?numeroProjeto=${projeto.numeroProjeto}">Bolsas</a></li>
-	  		<li class="active">Modificar Bolsas</li>
-		</ol>
-		
-		<div class="row" style="margin-top:2%;">
+		<div class="row" style="margin-top:3%;">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<c:if test="${not empty bolsas}">
 				<table class="table table-bordered">
 	 				<thead>
 	 					<tr>
+	 						<th class="text-center">#</th>
 	 						<th>Periodo</th>
 	 						<th class="text-center">Valor Unit.</th>
 	 						<th class="text-center">Quantid.</th>
 	 						<th class="text-center">Valor Total</th>
-	 						<th class="text-center">Ação</th>
+	 						<th class="text-center"><i class="fa fa-cogs" aria-hidden="true"></th>
 	 					</tr>
 	 				</thead>
 	 				<tbody>
 	 					<c:forEach var="bolsa" items="${bolsas}">
 	 						<tr>
+	 							<td class="text-center text-muted" width="5%">${bolsa.id}</td>
 	 							<td>${bolsa.periodo}</td>
 	 							<td class="text-center text-muted" width="10%"><strong>R$</strong> ${bolsa.valorUnitario}</td>
 	 							<td class="text-center text-muted" width="7%">${bolsa.quantidade}</td>
 	 							<td class="text-center text-muted" width="15%"><strong>R$</strong> ${bolsa.quantidade * bolsa.valorUnitario}</td>
 	 							<td class="text-center" width="14%">
-	 								<a href="#" class="btn btn-default btn-sm" title="Visualizar"><span class="glyphicon glyphicon-eye-open text-info"></span></a>
-	 								<a href="redirecionaAlterarBolsas?numeroProjeto=${projeto.numeroProjeto}&&valorTotal=${bolsa.quantidade * bolsa.valorUnitario}" class="btn btn-default btn-sm" title="Editar"><span class="glyphicon glyphicon-wrench text-success"></span></a>
-	 								<a href="removerBolsas?numeroProjeto=${projeto.numeroProjeto}&&valorTotal=${bolsa.quantidade * bolsa.valorUnitario}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
+	 								<button class="btn btn-default btn-sm" type="button" title="Visualizar" data-toggle="modal" data-target="#modal_${bolsa.id}">
+	 									<span class="glyphicon glyphicon-eye-open text-info"></span>
+	 								</button>
+	 								<a href="redirecionaAlterarBolsas?numeroProjeto=${projeto.numeroProjeto}&&id=${bolsa.id}" class="btn btn-default btn-sm" title="Editar"><span class="glyphicon glyphicon-wrench text-success"></span></a>
+	 								<a href="removerBolsas?numeroProjeto=${projeto.numeroProjeto}&&id=${bolsa.id}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
 	 							</td>
 	 						</tr>
 	 						<c:set var="soma" value="${soma + (bolsa.quantidade * bolsa.valorUnitario)}"/>
+	 						
+	 						<div class="modal fade" id="modal_${bolsa.id}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			            		<div class="modal-dialog modal-lg" role="document">
+			                		<div class="modal-content">
+			                			<c:forEach var="b" items="${bolsas}">
+			                				<c:if test="${bolsa.id == b.id}">
+			                    		<div class="modal-header">
+			                       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                        		<h3 class="modal-title text-center text-muted" id="myModalLabel"> <span class="fa fa-user-times"></span> <strong>${b.id} - Bolsa</strong> </h3>
+			                    		</div>
+			                    		<div class="modal-body">
+											<div class="row">
+												<div class="col-md-3"></div>
+												<div class="col-md-6">
+													<h4><strong><i class="fa fa-calendar" aria-hidden="true"></i> Periodo:</strong> <small>${b.periodo}</small></h4>
+												</div>
+												<div class="col-md-3"></div>
+											</div>
+											<hr>
+											<div class="row" style="margin-top:3%">
+												<div class="col-md-1"></div>
+												<div class="col-md-4">
+													<h4><strong><i class="fa fa-money" aria-hidden="true"></i> Valor Unitário R$</strong> ${b.valorUnitario}</h4>
+												</div>
+												<div class="col-md-3">
+													<h4><strong><i class="fa fa-asterisk" aria-hidden="true"></i> Quantidade:</strong> ${b.quantidade}</h4>
+												</div>
+												<div class="col-md-4">
+													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total R$</strong> ${b.valorTotal}</h4>
+												</div>
+											</div>
+											<hr>
+											<h4><strong><i class="fa fa-info-circle" aria-hidden="true"></i> Justificativa:</strong></h4> 
+											<textarea class="form-control" rows="2" readonly>${b.justificativa}</textarea> 
+			                    		</div>
+                    					<div class="modal-footer">
+                    						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                   						</div>
+                        					</c:if>
+                        				</c:forEach>
+                        			</div>
+                    			</div>
+                			</div>	 						
 	 					</c:forEach>
 	 				</tbody>
 	 				<tfooter>
  						<tr>
  							<td class="text-center"><strong>...</strong></td>
- 							<td class="text-center"><strong>...</strong></td>
- 							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>Total R$ ${soma}</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>...</strong></td>
  						</tr>
  					</tfooter>
@@ -126,7 +174,14 @@
 			</div>
 			<div class="col-md-1"></div>
 		</div>
-		<hr style="margin-top: 3%;">
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

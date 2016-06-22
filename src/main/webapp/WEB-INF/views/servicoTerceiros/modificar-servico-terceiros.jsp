@@ -43,7 +43,7 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="servicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Serviço de Terceiros</a></li>
 			<li role="presentation" class="active"><a href="#">Modificar Serviço de Terceiros</a></li>
 		</ul>
@@ -72,49 +72,102 @@
 			</div>
 		</c:if>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
+		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="servicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Serviço de Terceiros</a></li>
 	  		<li class="active">Modificar Serviço de Terceiros</li>
 		</ol>
 		
-		<div class="row" style="margin-top:2%;">
+		<div class="row" style="margin-top:3%;">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<c:if test="${not empty servicoTerceiros}">
 				<table class="table table-bordered">
 	 				<thead>
 	 					<tr>
+	 						<th class="text-center">#</th>
 	 						<th>Descrição</th>
 	 						<th class="text-center">Valor Unit.</th>
 	 						<th class="text-center">Quantid.</th>
 	 						<th class="text-center">Valor Total</th>
-	 						<th class="text-center">Ação</th>
+	 						<th class="text-center"><i class="fa fa-cogs" aria-hidden="true"></th>
 	 					</tr>
 	 				</thead>
 	 				<tbody>
 	 					<c:forEach var="servico" items="${servicoTerceiros}">
 	 						<tr>
+	 							<td class="text-center text-muted" width="5%">${servico.id}</td>
 	 							<td>${servico.descricao}</td>
 	 							<td class="text-center text-muted" width="10%"><strong>R$</strong> ${servico.valorUnitario}</td>
 	 							<td class="text-center text-muted" width="7%">${servico.quantidade}</td>
 	 							<td class="text-center text-muted" width="15%"><strong>R$</strong> ${servico.quantidade * servico.valorUnitario}</td>
 	 							<td class="text-center" width="14%">
-	 								<a href="#" class="btn btn-default btn-sm" title="Visualizar"><span class="glyphicon glyphicon-eye-open text-info"></span></a>
-	 								<a href="redirecionaAlterarServicoTerceiros?numeroProjeto=${projeto.numeroProjeto}&&valorTotal=${servico.quantidade * servico.valorUnitario}" class="btn btn-default btn-sm" title="Editar"><span class="glyphicon glyphicon-wrench text-success"></span></a>
-	 								<a href="removerServicoTerceiros?numeroProjeto=${projeto.numeroProjeto}&&valorTotal=${servico.quantidade * servico.valorUnitario}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
+	 								<button class="btn btn-default btn-sm" type="button" title="Visualizar" data-toggle="modal" data-target="#modal_${servico.id}">
+	 									<span class="glyphicon glyphicon-eye-open text-info"></span>
+	 								</button>
+	 								<a href="redirecionaAlterarServicoTerceiros?numeroProjeto=${projeto.numeroProjeto}&&id=${servico.id}" class="btn btn-default btn-sm" title="Editar"><span class="glyphicon glyphicon-wrench text-success"></span></a>
+	 								<a href="removerServicoTerceiros?numeroProjeto=${projeto.numeroProjeto}&&id=${servico.id}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
 	 							</td>
 	 						</tr>
 	 						<c:set var="soma" value="${soma + (servico.quantidade * servico.valorUnitario)}"/>
+	 						
+	 						<div class="modal fade" id="modal_${servico.id}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			            		<div class="modal-dialog modal-lg" role="document">
+			                		<div class="modal-content">
+			                			<c:forEach var="serv" items="${servicoTerceiros}">
+			                				<c:if test="${serv.id == servico.id}">
+			                    		<div class="modal-header">
+			                       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                        		<h3 class="modal-title text-center text-muted" id="myModalLabel"> <span class="fa fa-users"></span> <strong>${serv.id} - Serviço de Terceiros</strong> </h3>
+			                    		</div>
+			                    		<div class="modal-body">
+											<h4><strong><i class="fa fa-pencil" aria-hidden="true"></i> Descricão:</strong> </h4>
+											<textarea class="form-control" rows="2" readonly>${serv.descricao}</textarea>
+											<hr>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<h4><strong><i class="fa fa-object-ungroup" aria-hidden="true"></i> Unidade de Medida: </strong> <small>${serv.unidadeMedida}</small></h4>
+												</div>
+												<div class="col-md-6">
+													<h4><strong><i class="fa fa-calendar" aria-hidden="true"></i> Periodo:</strong> <small>${serv.periodo}</small></h4>
+												</div>
+											</div>
+											<hr>
+											<div class="row" style="margin-top:3%">
+												<div class="col-md-1"></div>
+												<div class="col-md-4">
+													<h4><strong><i class="fa fa-money" aria-hidden="true"></i> Valor Unitário R$</strong> ${serv.valorUnitario}</h4>
+												</div>
+												<div class="col-md-3">
+													<h4><strong><i class="fa fa-asterisk" aria-hidden="true"></i> Quantidade:</strong> ${serv.quantidade}</h4>
+												</div>
+												<div class="col-md-4">
+													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total R$</strong> ${serv.valorTotal}</h4>
+												</div>
+											</div>
+											<hr>
+											<h4><strong><i class="fa fa-info-circle" aria-hidden="true"></i> Justificativa:</strong></h4> 
+											<textarea class="form-control" rows="2" readonly>${serv.justificativa}</textarea> 
+			                    		</div>
+                    					<div class="modal-footer">
+                    						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                   						</div>
+                        					</c:if>
+                        				</c:forEach>
+                        			</div>
+                    			</div>
+                			</div> 						
 	 					</c:forEach>
 	 				</tbody>
 	 				<tfooter>
  						<tr>
  							<td class="text-center"><strong>...</strong></td>
- 							<td class="text-center"><strong>...</strong></td>
- 							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>Total R$ ${soma}</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>...</strong></td>
  						</tr>
  					</tfooter>
@@ -126,10 +179,17 @@
 			</div>
 			<div class="col-md-1"></div>
 		</div>
-		<hr style="margin-top: 3%;">
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
-	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/bootstrap.js'/>"></script>
   </body>
 </html>

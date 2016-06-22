@@ -15,8 +15,8 @@ public class DiariasDAO {
 	private String query;
 	
 	public boolean adicionar(Diarias diarias, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (?,?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
+				+ " VALUES (default, ?,?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);
 			
@@ -45,7 +45,7 @@ public class DiariasDAO {
 		ArrayList<Diarias> diarias = new ArrayList<Diarias>();
 		
 		try{
-			this.query = " SELECT descricao, valorunitario, quantidade"
+			this.query = " SELECT id, descricao, valorunitario, quantidade, periodo, justificativa"
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
 				+ " AND material.codigodemanda = 6 "
@@ -59,9 +59,12 @@ public class DiariasDAO {
 			while(rs.next()){
 				Diarias diaria = new Diarias();
 				
+				diaria.setId(rs.getInt("id"));
 				diaria.setDescricao(rs.getString("descricao"));
 				diaria.setValorUnitario(rs.getFloat("valorunitario"));
 				diaria.setQuantidade(rs.getInt("quantidade"));
+				diaria.setPeriodo(rs.getString("periodo"));
+				diaria.setJustificativa(rs.getString("justificativa"));
 				
 				diarias.add(diaria);
 			}
@@ -73,28 +76,25 @@ public class DiariasDAO {
 		return diarias;
 	}
 
-	public ArrayList<Diarias> getDiarias(long numeroProjeto, float valorTotal) {
+	public ArrayList<Diarias> getDiarias(int id) {
 		
 		ArrayList<Diarias> diarias = new ArrayList<Diarias>();
 		
 		try{
-			this.query = " SELECT descricao, valorunitario, quantidade, periodo, justificativa "
+			this.query = " SELECT id, descricao, valorunitario, quantidade, periodo, justificativa "
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND material.codigodemanda = 6 "
-				+ " AND (valorunitario * quantidade) = ?"
-				+ " AND numeroprojeto = ? "
-				+ " LIMIT 1; ";
+				+ " AND id = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setFloat(1, valorTotal);
-			stmt.setLong(2, numeroProjeto);
+			stmt.setInt(1, id);
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				Diarias diaria = new Diarias();
 				
+				diaria.setId(rs.getInt("id"));
 				diaria.setDescricao(rs.getString("descricao"));
 				diaria.setValorUnitario(rs.getFloat("valorunitario"));
 				diaria.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
@@ -112,17 +112,13 @@ public class DiariasDAO {
 		return diarias;
 	}
 
-	public boolean remover(long numeroProjeto, float valorTotal) throws SQLException {
+	public boolean remover(int id) throws SQLException {
 		this.query = " DELETE FROM itens "
-				+ " WHERE numeroProjeto = ? "
-				+ " AND codigomaterial = ?"
-				+ " AND (valorunitario * quantidade) = ?; ";
+				+ " WHERE id = ?; ";
 		
 		stmt = conn.prepareStatement(this.query);
 			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, "6");
-		stmt.setFloat(3, valorTotal);
+		stmt.setInt(1, id);
 
 		try{
 			stmt.execute();
@@ -136,13 +132,11 @@ public class DiariasDAO {
 		return autenticado;
 	}
 
-	public boolean alterar(Diarias diarias, long numeroProjeto, float valorTotal) throws SQLException {
+	public boolean alterar(Diarias diarias, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET descricao = ?, valorunitario = ?, "
 			+ " quantidade = ?, periodo = ?, justificativa = ? "
-			+ " WHERE numeroProjeto = ? "
-			+ " AND codigomaterial = ? "
-			+ " AND (valorunitario * quantidade) = ?; ";
+			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
 			
@@ -151,9 +145,7 @@ public class DiariasDAO {
 		stmt.setInt(3, diarias.getQuantidade());
 		stmt.setString(4, diarias.getPeriodo());
 		stmt.setString(5, diarias.getJustificativa());
-		stmt.setLong(6, numeroProjeto);
-		stmt.setString(7, "6");
-		stmt.setFloat(8, valorTotal);
+		stmt.setInt(6, id);
 
 		try{
 			stmt.execute();

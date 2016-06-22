@@ -43,13 +43,13 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="bolsas?numeroProjeto=${projeto.numeroProjeto}">Bolsas</a></li>
 			<li role="presentation"><a href="redirecionaModificarBolsas?numeroProjeto=${projeto.numeroProjeto}">Modificar Bolsas</a></li>
 			<li role="presentation" class="active"><a href="#">Alterar Bolsas</a></li>			
 		</ul>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
+		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="bolsas?numeroProjeto=${projeto.numeroProjeto}">Bolsas</a></li>
@@ -66,9 +66,9 @@
 			</ul>
 		</nav>
 		
-		<div class="row" style="margin-top:2%;">
+		<div class="row" style="margin-top:3%;">
 			<c:forEach var="bolsa" items="${bolsas}">
-			<form action="alterarBolsas?numeroProjeto=${projeto.numeroProjeto}&&valorTotal=${bolsa.valorTotal}" method="post">
+			<form action="alterarBolsas?numeroProjeto=${projeto.numeroProjeto}&&id=${bolsa.id}" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
@@ -125,7 +125,14 @@
 			</form>
 			</c:forEach>
 		</div>
-		<hr style="margin-top: 3%;">
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

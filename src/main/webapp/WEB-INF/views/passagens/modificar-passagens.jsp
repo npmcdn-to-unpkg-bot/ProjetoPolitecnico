@@ -11,6 +11,7 @@
     <title>Passagens</title>
 
 	<link type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
+	<link rel="stylesheet" href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/>">
 	
 	<script src="<c:url value='/resources/angular/angular.js'/>"></script>
 	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
@@ -23,7 +24,7 @@
 	<div class="container" id="conteudo" style="margin-top: 1%;">
 		<div class="row">
     		<div class="col-md-10">
-    			<h1 class="text-muted"> <span class="glyphicon glyphicon-copy"></span> Passagens</h1>
+    			<h1 class="text-muted"> <span class="fa fa-ticket"></span> Passagens</h1>
     		</div>
     		<div class="col-md-2">
     			<h4 class="text-muted pull-right">
@@ -42,11 +43,18 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
 			<li role="presentation" class="active"><a href="#">Modificar Passagens</a></li>
 		</ul>
-		
+
+		<ol class="breadcrumb" style="margin-top: 3%;">
+			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
+	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
+	  		<li><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
+	  		<li class="active">Modificar Passagens</li>
+		</ol>
+				
 		<c:if test="${status == 'removePassagens'}">
 			<div style="margin-top: 2%">
 				<c:import url="../mensagens/mensagem.jsp" />
@@ -71,22 +79,16 @@
 			</div>
 		</c:if>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
-			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
-	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
-	  		<li><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
-	  		<li class="active">Modificar Passagens</li>
-		</ol>
-		
-		<div class="row" style="margin-top:2%;">
+		<div class="row" style="margin-top:3%;">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<c:if test="${not empty passagens}">
 				<table class="table table-bordered">
 	 				<thead>
 	 					<tr>
+	 						<th class="text-center">#</th>
 	 						<th>Trecho</th>
-	 						<th>Modalidade</th>
+	 						<th class="text-center">Modalidade</th>
 	 						<th class="text-center">Valor Unit.</th>
 	 						<th class="text-center">Quantid.</th>
 	 						<th class="text-center">Valor Total</th>
@@ -96,31 +98,82 @@
 	 				<tbody>
 	 					<c:forEach var="passagem" items="${passagens}">
 	 						<tr>
+	 							<td class="text-center text-muted" width="5%">${passagem.id}</td>
 	 							<td>${passagem.descricao}</td>
 	 							<c:if test="${passagem.codigoDemanda == '2.2'}">
-	 								<td>Aéria</td>
+	 								<td class="text-center" width="10%">Aéria</td>
 	 							</c:if>
 	 							<c:if test="${passagem.codigoDemanda == '2.1'}">
-	 								<td>Terrestre</td>
+	 								<td class="text-center" width="12%">Terrestre</td>
 	 							</c:if>
 	 							<td class="text-center text-muted" width="10%"><strong>R$</strong> ${passagem.valorUnitario}</td>
-	 							<td class="text-center text-muted" width="7%">${passagem.quantidade}</td>
-	 							<td class="text-center text-muted" width="15%"><strong>R$</strong> ${passagem.quantidade * passagem.valorUnitario}</td>
+	 							<td class="text-center text-muted" width="6%">${passagem.quantidade}</td>
+	 							<td class="text-center text-muted" width="13%"><strong>R$</strong> ${passagem.quantidade * passagem.valorUnitario}</td>
 	 							<td class="text-center" width="14%">
-	 								<a href="#" class="btn btn-default btn-sm" title="Visualizar"><span class="glyphicon glyphicon-eye-open text-info"></span></a>
-	 								<a href="redirecionaAlterarPassagens?numeroProjeto=${projeto.numeroProjeto}&&codigoMaterial=${passagem.codigoDemanda}&&valorTotal=${passagem.quantidade * passagem.valorUnitario}" class="btn btn-default btn-sm" title="Editar"><span class="glyphicon glyphicon-wrench text-success"></span></a>
-	 								<a href="removerPassagens?numeroProjeto=${projeto.numeroProjeto}&&codigoMaterial=${passagem.codigoDemanda}&&valorTotal=${passagem.quantidade * passagem.valorUnitario}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
+	 								<button class="btn btn-default btn-sm" type="button" title="Visualizar" data-toggle="modal" data-target="#modal_${passagem.id}">
+	 									<span class="glyphicon glyphicon-eye-open text-info"></span>
+	 								</button>
+	 								<a href="redirecionaAlterarPassagens?numeroProjeto=${projeto.numeroProjeto}&&id=${passagem.id}" class="btn btn-default btn-sm" title="Editar"><span class="glyphicon glyphicon-wrench text-success"></span></a>
+	 								<a href="removerPassagens?numeroProjeto=${projeto.numeroProjeto}&&id=${passagem.id}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
 	 							</td>
 	 						</tr>
 	 						<c:set var="soma" value="${soma + (passagem.quantidade * passagem.valorUnitario)}"/>
+	 						 						
+	 						<div class="modal fade" id="modal_${passagem.id}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			            		<div class="modal-dialog modal-lg" role="document">
+			                		<div class="modal-content">
+			                			<c:forEach var="p" items="${passagens}">
+			                				<c:if test="${p.id == passagem.id}">
+			                    		<div class="modal-header">
+			                       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                        		<h3 class="modal-title text-center text-muted" id="myModalLabel"> <span class="fa fa-ticket"></span> <strong>${p.id} - Passagem</strong> </h3>
+			                    		</div>
+			                    		<div class="modal-body">
+											<h4><strong><i class="fa fa-pencil" aria-hidden="true"></i> Trecho:</strong> </h4>
+											<textarea class="form-control" rows="2" readonly>${p.descricao}</textarea>
+											<hr>
+											<div class="row">
+												<div class="col-md-3"></div>
+												<div class="col-md-6">
+													<h4><strong><i class="fa fa-calendar" aria-hidden="true"></i> Periodo:</strong> <small>${p.periodo}</small></h4>
+												</div>
+												<div class="col-md-3"></div>
+											</div>
+											<hr>
+											<div class="row" style="margin-top:3%">
+												<div class="col-md-1"></div>
+												<div class="col-md-4">
+													<h4><strong><i class="fa fa-money" aria-hidden="true"></i> Valor Unitário R$</strong> ${p.valorUnitario}</h4>
+												</div>
+												<div class="col-md-3">
+													<h4><strong><i class="fa fa-asterisk" aria-hidden="true"></i> Quantidade:</strong> ${p.quantidade}</h4>
+												</div>
+												<div class="col-md-4">
+													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total R$</strong> ${p.valorTotal}</h4>
+												</div>
+											</div>
+											<hr>
+											<h4><strong><i class="fa fa-info-circle" aria-hidden="true"></i> Justificativa:</strong></h4> 
+											<textarea class="form-control" rows="2" readonly>${p.justificativa}</textarea> 
+			                    		</div>
+                    					<div class="modal-footer">
+                    						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                   						</div>
+                        					</c:if>
+                        				</c:forEach>
+                        			</div>
+                    			</div>
+                			</div>	 											
 	 					</c:forEach>
 	 				</tbody>
 	 				<tfooter>
  						<tr>
  							<td class="text-center"><strong>...</strong></td>
- 							<td class="text-center"><strong>...</strong></td>
- 							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>Total R$ ${soma}</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
+ 							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>...</strong></td>
  						</tr>
  					</tfooter>
@@ -132,7 +185,14 @@
 			</div>
 			<div class="col-md-1"></div>
 		</div>
-		<hr style="margin-top: 3%;">
+
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

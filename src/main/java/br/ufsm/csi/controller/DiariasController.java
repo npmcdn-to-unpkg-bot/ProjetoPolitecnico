@@ -47,16 +47,16 @@ public class DiariasController {
 	}
 	
 	@RequestMapping("redirecionaAlterarDiarias")
-	public String redirecionaAlterar (long numeroProjeto, float valorTotal, Model model){
+	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
-		model.addAttribute("diarias", new DiariasDAO().getDiarias(numeroProjeto, valorTotal));
+		model.addAttribute("diarias", new DiariasDAO().getDiarias(id));
 		
 		return "diarias/alterar-diarias";
 	}
 	
 	@RequestMapping("removerDiarias")
-	public String removerDiarias (long numeroProjeto, float valorTotal, RedirectAttributes redirectAttributes) throws Exception{
-		this.retorno = new DiariasDAO().remover(numeroProjeto, valorTotal);
+	public String removerDiarias (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+		this.retorno = new DiariasDAO().remover(id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "removeDiarias");
@@ -67,8 +67,8 @@ public class DiariasController {
 	}
 	
 	@RequestMapping("alterarDiarias")
-	public String alterarDiarias (Diarias diarias, long numeroProjeto, float valorTotal, RedirectAttributes redirectAttributes) throws SQLException{
-		this.retorno = new DiariasDAO().alterar(diarias, numeroProjeto, valorTotal);
+	public String alterarDiarias (Diarias diarias, long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
+		this.retorno = new DiariasDAO().alterar(diarias, id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "alterarDiarias");

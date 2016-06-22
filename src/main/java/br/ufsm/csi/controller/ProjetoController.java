@@ -90,6 +90,7 @@ public class ProjetoController {
 	@RequestMapping("redirecionaModificar")
 	public String redirecionaModificar (long numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
+		model.addAttribute("demandas", new ProjetoDAO().getDemandas(numeroProjeto));
 		
 		return "projeto/modificarProjeto";
 	}
@@ -116,7 +117,8 @@ public class ProjetoController {
 		this.retorno = new ProjetoDAO().remover(projeto.getNumeroProjeto());
 
 		if(retorno){
-			return "redirect:redirecionaInicio";
+			redirectAttributes.addFlashAttribute("status", "removeProjeto"); 
+			return "redirect:projetoExistente?siape="+projeto.getSiape();
 		}else{
 			redirectAttributes.addFlashAttribute("status", "erro_removeProjeto");
 			redirectAttributes.addFlashAttribute("projeto", new ProjetoDAO().listaProjeto(projeto.getNumeroProjeto()));

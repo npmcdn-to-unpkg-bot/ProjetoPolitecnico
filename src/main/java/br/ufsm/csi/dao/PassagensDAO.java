@@ -15,8 +15,8 @@ public class PassagensDAO {
 	private String query;
 	
 	public boolean adicionar(Passagens passagens, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (?,?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
+				+ " VALUES (default, ?,?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
 		
@@ -46,7 +46,7 @@ public class PassagensDAO {
 		ArrayList<Passagens> passagens = new ArrayList<Passagens>();
 		
 		try{
-			this.query = " SELECT itens.codigomaterial, descricao, valorunitario, quantidade, periodo"
+			this.query = " SELECT id, itens.codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa"
 					+ " FROM itens, material "
 					+ " WHERE itens.codigomaterial = material.codigomaterial "
 					+ " AND material.codigodemanda = 2 "
@@ -60,11 +60,13 @@ public class PassagensDAO {
 			while(rs.next()){
 				Passagens passagem = new Passagens();
 				
+				passagem.setId(rs.getInt("id"));
 				passagem.setCodigoDemanda(rs.getString("codigomaterial"));
 				passagem.setDescricao(rs.getString("descricao"));
 				passagem.setValorUnitario(rs.getFloat("valorunitario"));
 				passagem.setQuantidade(rs.getInt("quantidade"));
 				passagem.setPeriodo(rs.getString("periodo"));
+				passagem.setJustificativa(rs.getString("justificativa"));
 				
 				passagens.add(passagem);
 			}
@@ -77,17 +79,12 @@ public class PassagensDAO {
 		return passagens;
 	}
 
-	public boolean remover(long numeroProjeto, String codigoMaterial, float valorTotal) throws SQLException {
+	public boolean remover(int id) throws SQLException {
 		this.query = " DELETE FROM itens "
-			+ " WHERE numeroProjeto = ? "
-			+ " AND codigomaterial = ?"
-			+ " AND (valorunitario * quantidade) = ?; ";
-		System.out.println(valorTotal);
+			+ " WHERE id = ?;";
+		
 		stmt = conn.prepareStatement(this.query);
-			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, codigoMaterial);
-		stmt.setFloat(3, valorTotal);
+		stmt.setInt(1, id);
 
 		try{
 			stmt.execute();
@@ -102,28 +99,25 @@ public class PassagensDAO {
 		return autenticado;
 	}
 
-	public ArrayList<Passagens> getPassagens(long numeroProjeto, String codigoMaterial, float valorTotal) {
+	public ArrayList<Passagens> getPassagens(int id) {
 		
 		ArrayList<Passagens> passagens = new ArrayList<Passagens>();
 		
 		try{
-			this.query = " SELECT itens.codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa "
+			this.query = " SELECT id, itens.codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa "
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND itens.codigomaterial = ? "
-				+ " AND (valorunitario * quantidade) = ?"
-				+ " AND numeroprojeto = ?; ";
+				+ " AND id = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setString(1, codigoMaterial);
-			stmt.setFloat(2, valorTotal);
-			stmt.setLong(3, numeroProjeto);
+			stmt.setInt(1, id);
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				Passagens passagem = new Passagens();
 				
+				passagem.setId(rs.getInt("id"));
 				passagem.setDescricao(rs.getString("descricao"));
 				passagem.setCodigoDemanda(rs.getString("codigomaterial"));
 				passagem.setValorUnitario(rs.getFloat("valorunitario"));
@@ -143,24 +137,21 @@ public class PassagensDAO {
 		return passagens;
 	}
 
-	public boolean alterar(Passagens passagens, long numeroProjeto, String codigoMaterial, float valorTotal) throws SQLException {
+	public boolean alterar(Passagens passagens, int id) throws SQLException {
 		this.query = " UPDATE itens "
-			+ " SET descricao = ?, valorunitario = ?, "
+			+ " SET descricao = ?, valorunitario = ?, codigomaterial = ?, "
 			+ " quantidade = ?, periodo = ?, justificativa = ? "
-			+ " WHERE numeroProjeto = ? "
-			+ " AND codigomaterial = ? "
-			+ " AND (valorunitario * quantidade) = ?; ";
+			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
 			
 		stmt.setString(1, passagens.getDescricao());
 		stmt.setFloat(2, passagens.getValorUnitario());
-		stmt.setInt(3, passagens.getQuantidade());
-		stmt.setString(4, passagens.getPeriodo());
-		stmt.setString(5, passagens.getJustificativa());
-		stmt.setLong(6, numeroProjeto);
-		stmt.setString(7, codigoMaterial);
-		stmt.setFloat(8, valorTotal);
+		stmt.setString(3, passagens.getCodigoDemanda());
+		stmt.setInt(4, passagens.getQuantidade());
+		stmt.setString(5, passagens.getPeriodo());
+		stmt.setString(6, passagens.getJustificativa());
+		stmt.setInt(7, id);
 
 		try{
 			stmt.execute();

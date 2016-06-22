@@ -43,7 +43,7 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation" class="active"><a href="#">Serviço de Terceiros</a></li>
 			<li role="presentation"><a href="redirecionaModificarServicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Modificar Serviço de Terceiros</a></li>
 		</ul>
@@ -60,7 +60,7 @@
 			</div>
 		</c:if>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
+		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li class="active">Serviço de Terceiros</li>
@@ -143,7 +143,14 @@
 				<div class="col-md-1"></div>
 			</form>
 		</div>
-		<hr style="margin-top: 3%;">
+
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

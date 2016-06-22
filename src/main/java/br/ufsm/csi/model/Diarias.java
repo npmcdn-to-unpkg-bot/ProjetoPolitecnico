@@ -2,6 +2,7 @@ package br.ufsm.csi.model;
 
 public class Diarias {
 	
+	private int id;
 	private String codigoDemanda;
 	private String descricao;
 	private float valorUnitario;
@@ -51,6 +52,12 @@ public class Diarias {
 	}
 	public void setJustificativa(String justificativa) {
 		this.justificativa = justificativa;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

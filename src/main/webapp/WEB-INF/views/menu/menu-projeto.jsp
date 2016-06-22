@@ -8,7 +8,6 @@
 		<title>Bem-Vindo</title>
 	
 	    <link type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
-	    <link type="text/css" href="<c:url value='/resources/css/style.css'/>" rel="stylesheet">
 	    <link type="text/css" href="<c:url value='/resources/assets/css/mocca-pack-ufsm-min.css'/>" rel="stylesheet">
 	    <link type="text/css" href="<c:url value='/resources/assets/css/smoothness/jquery-ui-min.css'/>" rel="stylesheet"> 
 	    <script type="text/javascript" src="<c:url value='/resources/assets/js/browser-detector-min.js'/>"></script>
@@ -45,10 +44,6 @@
     			</div>
     		</div>
     		<hr>
-    		
-    		<c:if test="${status == 'removeProjeto'}">
-				<c:import url="../mensagens/mensagem.jsp" />
-			</c:if>
 		
 	    	<ol class="breadcrumb">
 	  			<li class="active">Pagina Inicial</li>
@@ -87,28 +82,95 @@
 					</a>
 				</li>
 			</ul>
-			<hr style="margin-top: 5%;">
+			
+			<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+				<hr>
+        		<h4>
+        			<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        			<small> Todos os direitos reservados. </small>
+        		</h4>
+        	</footer>
 		</div>
 		
-		<!-- 			
-		<footer>
-			<div class="container">
+		
+		
+		<!--		
+		<footer style="margin-top: 12%;">
+			<div class="container">			
 				<div class="row">
-					<div class="col-md-3 borda">
-						Av. Roraima nº 1000 
-						Cidade Universitária 
-						Bairro Camobi 
-						Santa Maria - RS 
-						CEP: 97105-900 
-						+55 (55) 3220-8000</div>
-					<div class="col-md-3 borda">a</div>
-					<div class="col-md-3 borda">a</div>
-					<div class="col-md-3">a</div>
+					<div class="col-md-3 borda text-center">
+						<img src="<c:url value='/resources/img/footer-ufsm.png'/>">
+						<div class="footer-widget">
+							<h4 class="humanist-font" style="margin-top: 5%;">
+								<small style="color: black;">Universidade Federal de Santa Maria</small>
+							</h4>
+							<h4 class="humanist-font"><small>Av. Roraima nº 1000</small></h4>
+							<h4 class="humanist-font"><small>Cidade Universitária</small></h4>
+							<h4 class="humanist-font"><small>Bairro Camobi</small></h4>
+							<h4 class="humanist-font"><small>Santa Maria - RS</small></h4>
+							<h4 class="humanist-font"><small>CEP: 97105-900</small></h4>
+							<h4 class="humanist-font"><small>+55 (55) 3220-8000</small></h4>
+						</div>
+					</div>
+					<div class="col-md-3 borda text-center">
+						<img src="<c:url value='/resources/img/footer-politecnico.png'/>">
+						<div class="footer-widget">
+							<h4 class="humanist-font" style="margin-top: 5%;">
+								<small style="color: black;">Colégio Politécnico</small>
+							</h4>
+							<h4 class="humanist-font"><small>Av. Roraima nº 1000</small></h4>
+							<h4 class="humanist-font"><small>Cidade Universitária</small></h4>
+							<h4 class="humanist-font"><small>Bairro Camobi</small></h4>
+							<h4 class="humanist-font"><small>Santa Maria - RS</small></h4>
+							<h4 class="humanist-font"><small>CEP: 97105-900</small></h4>
+							<h4 class="humanist-font"><small>+55 (55) 3220-8000</small></h4>
+						</div>
+					</div>
+					<div class="col-md-3 borda text-center">
+						<img src="<c:url value='/resources/img/footer-itec.png'/>">
+						<div class="footer-widget">
+							<h4 class="footer-widget-title" style="margin-top: 5%;">
+								<small style="color: black;">Grupo de Pesquisa em Inovação e Tecnologias Computacionais<small>
+							</h4>
+							<h4 class="humanist-font"><small>Av. Roraima nº 1000</small></h4>
+							<h4 class="humanist-font"><small>Cidade Universitária</small></h4>
+							<h4 class="humanist-font"><small>Bairro Camobi</small></h4>
+							<h4 class="humanist-font"><small>Santa Maria - RS</small></h4>
+							<h4 class="humanist-font"><small>CEP: 97105-900</small></h4>
+							<h4 class="humanist-font"><small>+55 (55) 3220-8000</small></h4>
+						</div>
+					</div>
+					<div class="col-md-3 text-center" style="margin-top: 3%">
+						<img src="<c:url value='/resources/img/footer-csi.png'/>">
+						<div class="footer-widget">
+							<h4 class="humanist-font" style="margin-top: 5%;">
+								<small style="color: black;">Curso Superior de Sistemas para Internet</small>
+							</h4>
+							<h4 class="humanist-font"><small>Av. Roraima nº 1000</small></h4>
+							<h4 class="humanist-font"><small>Cidade Universitária</small></h4>
+							<h4 class="humanist-font"><small>Bairro Camobi</small></h4>
+							<h4 class="humanist-font"><small>Santa Maria - RS</small></h4>
+							<h4 class="humanist-font"><small>CEP: 97105-900</small></h4>
+							<h4 class="humanist-font"><small>+55 (55) 3220-8000</small></h4>
+						</div>
+					</div>
 				</div>
+					
+				<div class="band transparent-subband mini-font-size">
+                    <div class="container semi-narrow">
+                    	<div class="row">
+                        	<div class="span12"> 
+                            	<span class="dimmed">
+                            		Solicitação de Materiais em Projetos - Vers&atilde;o 1.0.0
+                            		© 2016 Colegio Politecnico/UFSM. Todos os direitos reservados.
+                            	</span> 
+                            </div>
+                       </div>
+                   </div>
+               </div>
 			</div>
 		</footer>
-		 -->
-		 	
+		-->
 		<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 		<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
 	</body>

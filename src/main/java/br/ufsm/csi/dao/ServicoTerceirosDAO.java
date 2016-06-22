@@ -16,8 +16,8 @@ public class ServicoTerceirosDAO {
 	private String query;
 	
 	public boolean adicionar(ServicoTerceiros servicoTerceiros, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (?,?,?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
+				+ " VALUES (default, ?,?,?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);
 			
@@ -48,7 +48,8 @@ public class ServicoTerceirosDAO {
 		ArrayList<ServicoTerceiros> servicoTerceiros = new ArrayList<ServicoTerceiros>();
 		
 		try{
-			this.query = " SELECT descricao, valorunitario, quantidade"
+			this.query = " SELECT id, descricao, valorunitario, quantidade, unidademedida,"
+					+ " periodo, justificativa"
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
 				+ " AND material.codigodemanda = 1 "
@@ -62,9 +63,14 @@ public class ServicoTerceirosDAO {
 			while(rs.next()){
 				ServicoTerceiros servicoTerceiro = new ServicoTerceiros();
 				
+				servicoTerceiro.setId(rs.getInt("id"));
 				servicoTerceiro.setDescricao(rs.getString("descricao"));
 				servicoTerceiro.setValorUnitario(rs.getFloat("valorunitario"));
 				servicoTerceiro.setQuantidade(rs.getInt("quantidade"));
+				servicoTerceiro.setUnidadeMedida(rs.getString("unidademedida"));
+				servicoTerceiro.setPeriodo(rs.getString("periodo"));
+				servicoTerceiro.setJustificativa(rs.getString("justificativa"));
+				servicoTerceiro.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				
 				servicoTerceiros.add(servicoTerceiro);
 			}
@@ -77,28 +83,25 @@ public class ServicoTerceirosDAO {
 		return servicoTerceiros;
 	}
 
-	public ArrayList<ServicoTerceiros> getServicoTerceiros(long numeroProjeto, float valorTotal) {
+	public ArrayList<ServicoTerceiros> getServicoTerceiros(int id) {
 		
 		ArrayList<ServicoTerceiros> servicosTerceiros = new ArrayList<ServicoTerceiros>();
 		
 		try{
-			this.query = " SELECT descricao, unidademedida, valorunitario, quantidade, periodo, justificativa "
+			this.query = " SELECT id, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa "
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND material.codigodemanda = 1 "
-				+ " AND (valorunitario * quantidade) = ?"
-				+ " AND numeroprojeto = ? "
-				+ " LIMIT 1; ";
+				+ " AND id = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setFloat(1, valorTotal);
-			stmt.setLong(2, numeroProjeto);
+			stmt.setInt(1, id);
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				ServicoTerceiros servicoTerceiros = new ServicoTerceiros();
 				
+				servicoTerceiros.setId(rs.getInt("id"));
 				servicoTerceiros.setDescricao(rs.getString("descricao"));
 				servicoTerceiros.setValorUnitario(rs.getFloat("valorunitario"));
 				servicoTerceiros.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
@@ -118,17 +121,13 @@ public class ServicoTerceirosDAO {
 		return servicosTerceiros;
 	}
 
-	public boolean remover(long numeroProjeto, float valorTotal) throws SQLException {
+	public boolean remover(int id) throws SQLException {
 		this.query = " DELETE FROM itens "
-				+ " WHERE numeroProjeto = ? "
-				+ " AND codigomaterial = ?"
-				+ " AND (valorunitario * quantidade) = ?; ";
+				+ " WHERE id = ?;";
 		
 		stmt = conn.prepareStatement(this.query);
 			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, "1");
-		stmt.setFloat(3, valorTotal);
+		stmt.setInt(1, id);
 
 		try{
 			stmt.execute();
@@ -143,13 +142,11 @@ public class ServicoTerceirosDAO {
 		return autenticado;
 	}
 
-	public boolean alterar(ServicoTerceiros servicoTerceiros, long numeroProjeto, float valorTotal) throws SQLException {
+	public boolean alterar(ServicoTerceiros servicoTerceiros, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET descricao = ?, unidademedida = ?, valorunitario = ?, "
 			+ " quantidade = ?, periodo = ?, justificativa = ? "
-			+ " WHERE numeroProjeto = ? "
-			+ " AND codigomaterial = ? "
-			+ " AND (valorunitario * quantidade) = ?; ";
+			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
 			
@@ -159,9 +156,7 @@ public class ServicoTerceirosDAO {
 		stmt.setInt(4, servicoTerceiros.getQuantidade());
 		stmt.setString(5, servicoTerceiros.getPeriodo());
 		stmt.setString(6, servicoTerceiros.getJustificativa());
-		stmt.setLong(7, numeroProjeto);
-		stmt.setString(8, "1");
-		stmt.setFloat(9, valorTotal);
+		stmt.setInt(7, id);
 
 		try{
 			stmt.execute();

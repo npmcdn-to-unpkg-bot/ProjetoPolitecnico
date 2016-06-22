@@ -2,6 +2,7 @@ package br.ufsm.csi.model;
 
 public class Passagens {
 	
+	private int id;
 	private String codigoDemanda;
 	private String descricao;
 	private float valorUnitario;
@@ -9,7 +10,6 @@ public class Passagens {
 	private float valorTotal;
 	private String periodo;
 	private String justificativa;
-	private String unidadeMedida;
 	
 	public String getCodigoDemanda() {
 		return codigoDemanda;
@@ -53,11 +53,11 @@ public class Passagens {
 	public void setJustificativa(String justificativa) {
 		this.justificativa = justificativa;
 	}
-	public String getUnidadeMedida() {
-		return unidadeMedida;
+	public int getId() {
+		return id;
 	}
-	public void setUnidadeMedida(String unidadeMedida) {
-		this.unidadeMedida = unidadeMedida;
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

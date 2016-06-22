@@ -11,6 +11,7 @@
     <title>Passagens</title>
 
 	<link type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
+	<link rel="stylesheet" href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/>">
 	
 	<script src="<c:url value='/resources/angular/angular.js'/>"></script>
 	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
@@ -23,7 +24,7 @@
 	<div class="container" id="conteudo" style="margin-top: 1%;">
 		<div class="row">
     		<div class="col-md-10">
-    			<h1 class="text-muted"> <span class="glyphicon glyphicon-copy"></span> Passagens</h1>
+    			<h1 class="text-muted"> <span class="fa fa-ticket"></span> Passagens</h1>
     		</div>
     		<div class="col-md-2">
     			<h4 class="text-muted pull-right">
@@ -42,38 +43,28 @@
     		</div>
     	</div>
 		
-		<ul class="nav nav-tabs" style="margin-top: 3%;" id="menu">
+		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
 			<li role="presentation"><a href="redirecionaModificarPassagens?numeroProjeto=${projeto.numeroProjeto}">Modificar Passagens</a></li>
 			<li role="presentation" class="active"><a href="#">Alterar Passagens</a></li>			
 		</ul>
 		
-		<ol class="breadcrumb" style="margin-top: 2%;">
+		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
 	  		<li class="active">Alterar Passagens</li>
 		</ol>
-						
-		<nav>
-			<ul class="pager">
-				<li class="previous">
-					<a href="cadastro">
-						<span aria-hidden="true">&larr;</span> Solicitar outras Demandas
-					</a>
-				</li>
-			</ul>
-		</nav>
 		
-		<div class="row" style="margin-top:2%;">
+		<div class="row" style="margin-top:3%;">
 			<c:forEach var="passagem" items="${passagens}">
-			<form action="alterarPassagens?numeroProjeto=${projeto.numeroProjeto}&&codigoMaterial=${passagem.codigoDemanda}&&valorTotal=${passagem.valorTotal}" method="post">
+			<form action="alterarPassagens?numeroProjeto=${projeto.numeroProjeto}&&id=${passagem.id}" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
 						<div class="col-md-8">
 							<div class="form-group">
-								<label for="descricao">Descrição</label>
+								<label for="descricao">Trecho</label>
 								<textarea class="form-control" rows="2" name="descricao" placeholder="${passagem.descricao}" ng-model="item.descricao"></textarea required>
 							</div>
 						</div>
@@ -144,7 +135,14 @@
 			</form>
 			</c:forEach>
 		</div>
-		<hr style="margin-top: 3%;">
+		
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>

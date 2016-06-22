@@ -2,6 +2,7 @@ package br.ufsm.csi.model;
 
 public class MaterialConsumo {
 	
+	private int id;
 	private String codigoDemanda;
 	private String descricao;
 	private String unidadeMedida;
@@ -71,5 +72,11 @@ public class MaterialConsumo {
 	}
 	public void setValorTotal(float valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

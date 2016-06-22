@@ -2,6 +2,7 @@ package br.ufsm.csi.model;
 
 public class ServicoTerceiros {
 	
+	private int id;
 	private String codigoDemanda;
 	private String descricao;
 	private String unidadeMedida;
@@ -65,5 +66,11 @@ public class ServicoTerceiros {
 	}
 	public void setJustificativa(String justificativa) {
 		this.justificativa = justificativa;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

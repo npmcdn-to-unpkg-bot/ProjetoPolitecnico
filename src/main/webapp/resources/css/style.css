@@ -1,11 +1,10 @@
-h1.text-muted{
-margin-top: 4%; margin-left: 3%; font-size: 45px;
-}
+
 
 footer{
-	background: #eee;
+	 background: #eee;
 }
 
 .borda{
 	border-right: 1px solid #dbd1cd;
+	margin-top: 3%;
 }

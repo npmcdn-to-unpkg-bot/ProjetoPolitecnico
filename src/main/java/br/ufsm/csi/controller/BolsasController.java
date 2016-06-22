@@ -48,16 +48,16 @@ public class BolsasController {
 	}
 	
 	@RequestMapping("redirecionaAlterarBolsas")
-	public String redirecionaAlterar (long numeroProjeto, float valorTotal, Model model){
+	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
-		model.addAttribute("bolsas", new BolsasDAO().getBolsas(numeroProjeto, valorTotal));
+		model.addAttribute("bolsas", new BolsasDAO().getBolsas(id));
 		
 		return "bolsas/alterar-bolsas";
 	}
 	
 	@RequestMapping("removerBolsas")
-	public String removerBolsas (long numeroProjeto, float valorTotal, RedirectAttributes redirectAttributes) throws Exception{
-		this.retorno = new BolsasDAO().remover(numeroProjeto, valorTotal);
+	public String removerBolsas (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+		this.retorno = new BolsasDAO().remover(id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "removeBolsas");
@@ -68,8 +68,8 @@ public class BolsasController {
 	}
 	
 	@RequestMapping("alterarBolsas")
-	public String alterarBolsas (Bolsas bolsas, long numeroProjeto, float valorTotal, RedirectAttributes redirectAttributes) throws SQLException{
-		this.retorno = new BolsasDAO().alterar(bolsas, numeroProjeto, valorTotal);
+	public String alterarBolsas (Bolsas bolsas, long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
+		this.retorno = new BolsasDAO().alterar(bolsas, id);
 
 		if(retorno){
 			redirectAttributes.addFlashAttribute("status", "alterarBolsas");

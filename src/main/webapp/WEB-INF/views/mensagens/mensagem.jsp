@@ -131,126 +131,126 @@
     <c:if test="${status == 'cadastroBolsas'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Cadastrado com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Bolsa Cadastrada com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_cadastroBolsas'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Cadastrado.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Bolsa não Cadastrada.</strong> 
         </div>
     </c:if> 
     
     <c:if test="${status == 'removeBolsas'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Removido com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Bolsa Removida com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_removeBolsas'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Removido.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Bolsa não Removida.</strong> 
         </div>
     </c:if> 
     
     <c:if test="${status == 'alterarBolsas'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Alterado com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Bolsa Alterada com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_alterarBolsas'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Alterado.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Bolsa não Alterada.</strong> 
         </div>
     </c:if> 
 
 	<c:if test="${status == 'cadastroPassagens'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Cadastrado com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Passagem Cadastrada com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_cadastroPassagens'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Cadastrado.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Passagem não Cadastrada.</strong> 
         </div>
     </c:if> 
     
     <c:if test="${status == 'removePassagens'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Removido com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Passagem Removida com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_removePassagens'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Removido.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Passagem não Removida.</strong> 
         </div>
     </c:if> 
     
     <c:if test="${status == 'alterarPassagens'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Alterado com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Passagem Alterada com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_alterarMaPassagens'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Alterado.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Passagem não Alterada.</strong> 
         </div>
     </c:if> 
 
 	<c:if test="${status == 'cadastroDiarias'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Cadastrado com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Diária Cadastrada com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_cadastroDiarias'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Cadastrado.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Diária não Cadastrada.</strong> 
         </div>
     </c:if> 
     
     <c:if test="${status == 'removeDiarias'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Removido com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Diária Removida com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_removeDiarias'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Removido.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Diária não Removida.</strong> 
         </div>
     </c:if> 
     
     <c:if test="${status == 'alterarDiarias'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Material Alterado com Sucesso.</strong> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Diária Alterada com Sucesso.</strong> 
         </div>
     </c:if>
     
     <c:if test="${status == 'erro_alterarDiarias'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Material não Alterado.</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Diária não Alterada.</strong> 
         </div>
     </c:if> 
 

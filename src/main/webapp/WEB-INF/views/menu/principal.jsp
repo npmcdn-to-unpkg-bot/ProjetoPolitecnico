@@ -41,7 +41,13 @@
     		</div>
     	</div>
     	<hr>
-		
+
+		<ol class="breadcrumb">
+	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
+	  		<li class="active">Solicitar Demandas no Projeto</li>
+	  		<li></li>	
+		</ol>
+				
 		<c:if test="${status == 'cadastroProjeto'}">
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
@@ -57,12 +63,6 @@
 		<c:if test="${status == 'erro_removeProjeto'}">
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
-		
-		<ol class="breadcrumb">
-	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
-	  		<li class="active">Solicitar Demandas no Projeto</li>
-	  		<li></li>	
-		</ol>
 		
 		<div class="row" style="margin-top: 2%;">	
 			<div class="col-md-7">
@@ -126,7 +126,6 @@
 	 							<th class="text-center">#</th>
 	 							<th>Ítem</th>
 	 							<th class="text-center">Valor do Ítem</th>
-	 							<th class="text-center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
 	 						</tr>
 	 					</thead>
 	 					<tbody>
@@ -142,10 +141,9 @@
 	 							<c:if test="${demanda.quantidade <= 0}">
 									<td> ${demanda.demanda} </td>
 	 							</c:if>
-	 							<td class="text-center" width="25%"><strong>R$</strong> ${demanda.valorTotal}</td>
-	 							<th class="text-center" width="13%"></th>
+	 							<td class="text-center" width="30%"><strong>R$</strong> ${demanda.valorTotal}</td>
 	 						</tr>
-	 						<c:set var="soma" value="${soma + demanda.valorTotal}"/>
+	 						<c:set var="soma" value="${soma + demanda.valorTotal}"/>						
 	 						</c:forEach>
 	 					</tbody>
 	 					<tfooter>
@@ -153,8 +151,6 @@
 	 							<td class="text-center"><strong>...</strong></td>
 	 							<td class="text-center"><strong>...</strong></td>
 	 							<td class="text-center"><strong>Total R$</strong> ${soma}</td>
-	 							<td class="text-center"><strong>...</strong></td>
-	
 	 						</tr>
 	 					</tfooter>
 	 				</table>
@@ -165,10 +161,17 @@
 		
 		<hr style="margin-top: 3%">		
 		<button class="btn btn-primary" type="submit"> <span class="glyphicon glyphicon-ok"></span> Finalizar</button>
-		<hr style="margin-top: 2%">
+
+		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
+			<hr>
+        	<h4>
+        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small> Todos os direitos reservados. </small>
+        	</h4>
+        </footer>
 	</div>
 	
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
-	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/bootstrap.js'/>"></script>
   </body>
 </html>
