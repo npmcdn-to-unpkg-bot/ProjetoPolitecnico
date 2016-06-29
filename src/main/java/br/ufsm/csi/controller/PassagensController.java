@@ -72,7 +72,7 @@ public class PassagensController {
 		this.retorno = new PassagensDAO().alterar(passagens, id);
 
 		if(retorno){
-			redirectAttributes.addFlashAttribute("status", "alterarPassagenso");
+			redirectAttributes.addFlashAttribute("status", "alterarPassagens");
 		}else{
 			redirectAttributes.addFlashAttribute("status", "erro_alterarPassagens");
 		}

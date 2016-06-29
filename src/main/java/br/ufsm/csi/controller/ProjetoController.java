@@ -1,7 +1,6 @@
 package br.ufsm.csi.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,18 +8,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufsm.csi.dao.ProjetoDAO;
 import br.ufsm.csi.model.Projeto;
-import br.ufsm.csi.model.Usuario;
 
 @Controller
 @SessionAttributes("projeto")
 public class ProjetoController {
 	
-	private ModelAndView modelAndView;
 	private boolean retorno = false;
 	
 	@RequestMapping("projetoExistente")
@@ -123,6 +119,24 @@ public class ProjetoController {
 			redirectAttributes.addFlashAttribute("status", "erro_removeProjeto");
 			redirectAttributes.addFlashAttribute("projeto", new ProjetoDAO().listaProjeto(projeto.getNumeroProjeto()));
 			return "menu/principal";
+		}
+	}
+	
+	@RequestMapping("finalizar")
+	public String finalizar (long numeroProjeto, long siape, RedirectAttributes redirectAttributes) throws Exception{
+		this.retorno = new ProjetoDAO().finalizar(numeroProjeto);
+
+		if(retorno){
+			redirectAttributes.addFlashAttribute("projetos", new ProjetoDAO().getProjetos(siape));
+			redirectAttributes.addFlashAttribute("status", "finalizado");
+			
+			return "redirect:projetoExistente?siape="+siape;
+		}else{
+			redirectAttributes.addFlashAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
+			redirectAttributes.addFlashAttribute("demandas", new ProjetoDAO().getDemandas(numeroProjeto));
+			redirectAttributes.addFlashAttribute("status", "erro_removeProjeto");
+			
+			return "redirect:acessoProjetoExistente="+numeroProjeto;
 		}
 	}
 }

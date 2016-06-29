@@ -16,10 +16,9 @@ public class BolsasDAO {
 	
 	public boolean adicionar(Bolsas bolsas, long numeroProjeto) throws SQLException {
 		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (default, ?,?,?,?,?,?);";
+			  + " VALUES (default, ?,?,?,?,?,?);";
 			
-		stmt = conn.prepareStatement(query);
-			
+		stmt = conn.prepareStatement(query);			
 		stmt.setLong(1, numeroProjeto);
 		stmt.setString(2, "5");
 		stmt.setFloat(3, bolsas.getValorUnitario());
@@ -114,11 +113,9 @@ public class BolsasDAO {
 	}
 
 	public boolean remover(int id) throws SQLException {
-		this.query = " DELETE FROM itens "
-				+ " WHERE id = ?; ";
+		this.query = " DELETE FROM itens WHERE id = ?; ";
 		
-		stmt = conn.prepareStatement(this.query);
-			
+		stmt = conn.prepareStatement(this.query);			
 		stmt.setInt(1, id);
 
 		try{

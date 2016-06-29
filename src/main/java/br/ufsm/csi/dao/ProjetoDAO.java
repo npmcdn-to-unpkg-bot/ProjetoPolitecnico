@@ -41,8 +41,7 @@ public class ProjetoDAO {
 	public boolean adicionar (Projeto projeto) throws Exception{		
 		query = "INSERT INTO projeto VALUES (?,?,?,?, CURRENT_DATE, false);";
 		
-		stmt = conn.prepareStatement(query);
-		
+		stmt = conn.prepareStatement(query);		
 		stmt.setLong(1, projeto.getSiape());
 		stmt.setString(2, projeto.getProponente());
 		stmt.setString(3, projeto.getNomeProjeto());
@@ -86,12 +85,11 @@ public class ProjetoDAO {
 	public boolean remover (long numeroProjeto) throws Exception{
 		
 		this.query = " BEGIN; "
-				+ " DELETE FROM itens WHERE numeroProjeto = ?; "
-				+ " DELETE FROM projeto WHERE numeroProjeto = ?; "
-				+ " COMMIT; ";
+			+ " DELETE FROM itens WHERE numeroProjeto = ?; "
+			+ " DELETE FROM projeto WHERE numeroProjeto = ?; "
+			+ " COMMIT; ";
 			
-		stmt = conn.prepareStatement(this.query);
-			
+		stmt = conn.prepareStatement(this.query);		
 		stmt.setLong(1, numeroProjeto);
 		stmt.setLong(2, numeroProjeto);
 
@@ -139,18 +137,16 @@ public class ProjetoDAO {
 	public ArrayList<Projeto> getProjetos (long siape){
 		
 		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
-
+		
 		try{
-			this.query = " SELECT projeto.numeroprojeto, nomeprojeto, datacriacao, finalizado, sum(valorunitario * quantidade)"
-				+ " FROM projeto LEFT JOIN itens "
-				+ " ON siape = ? "
-				+ " AND itens.numeroprojeto = projeto.numeroprojeto"
-				+ " GROUP BY projeto.numeroprojeto, nomeprojeto, datacriacao, finalizado "
+			this.query = " SELECT projeto.numeroprojeto, nomeprojeto, datacriacao, finalizado"
+				+ " FROM projeto"
+				+ " WHERE siape = ? "
 				+ " ORDER BY dataCriacao, finalizado; ";
 			
 			stmt = conn.prepareStatement(this.query);
 			stmt.setLong(1, siape);
-			
+
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
@@ -160,7 +156,6 @@ public class ProjetoDAO {
 				projeto.setNomeProjeto(rs.getString("nomeProjeto"));
 				projeto.setDataCriacao(rs.getDate("dataCriacao"));
 				projeto.setFinalizado(rs.getBoolean("finalizado"));
-				projeto.setValorTotal(rs.getFloat("sum"));
 				
 				projetos.add(projeto);
 			}
@@ -209,5 +204,25 @@ public ArrayList<Demanda> getDemandas (long numeroProjeto){
 		}
 		
 		return demandas;
+	}
+
+	public boolean finalizar (long numeroProjeto) throws Exception{
+	
+		this.query = " UPDATE projeto SET finalizado = true WHERE numeroProjeto = ? ;";
+	
+		stmt = conn.prepareStatement(this.query);	
+		stmt.setLong(1, numeroProjeto);
+
+		try{
+			stmt.execute();
+			stmt.close();
+			conn.close();
+
+			autenticado = true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return autenticado;
 	}
 }

@@ -16,10 +16,9 @@ public class DiariasDAO {
 	
 	public boolean adicionar(Diarias diarias, long numeroProjeto) throws SQLException {
 		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (default, ?,?,?,?,?,?,?);";
+			  + " VALUES (default, ?,?,?,?,?,?,?);";
 			
-		stmt = conn.prepareStatement(query);
-			
+		stmt = conn.prepareStatement(query);			
 		stmt.setLong(1, numeroProjeto);
 		stmt.setString(2, "6");
 		stmt.setString(3, diarias.getDescricao());
@@ -113,11 +112,9 @@ public class DiariasDAO {
 	}
 
 	public boolean remover(int id) throws SQLException {
-		this.query = " DELETE FROM itens "
-				+ " WHERE id = ?; ";
+		this.query = " DELETE FROM itens WHERE id = ?; ";
 		
-		stmt = conn.prepareStatement(this.query);
-			
+		stmt = conn.prepareStatement(this.query);			
 		stmt.setInt(1, id);
 
 		try{

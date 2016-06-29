@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="pt-BR" />
 
 <!DOCTYPE html>
 <html lang="pt-br" ng-app="form">
@@ -16,8 +18,10 @@
 	<script src="<c:url value='/resources/angular/angular.js'/>"></script>
 	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
 	<script src="<c:url value='/resources/js/app.js'/>"></script>
+	<script src="<c:url value='/resources/js/angular-locale_pt-br.js'/>"></script>
 	<script src="<c:url value='/resources/js/controllers/formCtrl.js'/>"></script>
 	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
+	<script src="<c:url value='/resources/js/directives/ng-currency.js'/>"></script>
   </head>
   <body ng-controller="formCtrl">
 	
@@ -85,7 +89,8 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
-								<input type="text" class="form-control" name="valorUnitario" placeholder="${passagem.valorUnitario}" ng-model="item.valorUnit" ui-number>
+								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="<fmt:formatNumber value="${passagem.valorUnitario}" type="currency"/>"/>
+								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -98,7 +103,7 @@
 							<div ng-if="item.quantidade && item.valorUnit">
 								<div class="form-group">
 									<label for="total">Valor Total <strong>R$</strong></label>
-									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit}}" disabled>
+									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit | currency}}" disabled>
 								</div>
 							</div>
 						</div>
@@ -139,7 +144,7 @@
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>

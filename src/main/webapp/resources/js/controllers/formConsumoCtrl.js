@@ -1,6 +1,6 @@
 ﻿angular.module("form").controller("formConsumoCtrl", function ($scope, MaterialConsumoAPI){
 		$scope.items = [];
-			
+
 		$scope.meses = [
 			'Jan','Fev','Mar',
 			'Abr','Mai','Jun',

@@ -2,6 +2,13 @@
 
 <link type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 
+	<c:if test="${status == 'erro_login'}"> 
+        <div class="alert alert-danger" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Siape ou Senha incorreto(s).</strong> 
+        </div>
+    </c:if> 
+
     <c:if test="${status == 'cadastroProjeto'}"> 
         <div class="alert alert-success" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

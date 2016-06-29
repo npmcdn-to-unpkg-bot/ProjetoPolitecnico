@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="pt-BR" />
 
 <!DOCTYPE html>
 <html lang="pt-br" ng-app="form">
@@ -12,12 +14,6 @@
 
 	<link type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 	<link rel="stylesheet" href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/>">
-	
-	<script src="<c:url value='/resources/angular/angular.js'/>"></script>
-	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
-	<script src="<c:url value='/resources/js/app.js'/>"></script>
-	<script src="<c:url value='/resources/js/controllers/formCtrl.js'/>"></script>
-	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
   </head>
   <body ng-controller="formCtrl">
 	
@@ -98,7 +94,7 @@
 	 				<tbody>
 	 					<c:forEach var="passagem" items="${passagens}">
 	 						<tr>
-	 							<td class="text-center text-muted" width="5%">${passagem.id}</td>
+	 							<td class="text-center text-info" width="5%">${passagem.id}</td>
 	 							<td>${passagem.descricao}</td>
 	 							<c:if test="${passagem.codigoDemanda == '2.2'}">
 	 								<td class="text-center" width="10%">Aéria</td>
@@ -106,9 +102,9 @@
 	 							<c:if test="${passagem.codigoDemanda == '2.1'}">
 	 								<td class="text-center" width="12%">Terrestre</td>
 	 							</c:if>
-	 							<td class="text-center text-muted" width="10%"><strong>R$</strong> ${passagem.valorUnitario}</td>
+	 							<td class="text-center text-muted" width="10%"><fmt:formatNumber value="${passagem.valorUnitario}" type="currency"/></td>
 	 							<td class="text-center text-muted" width="6%">${passagem.quantidade}</td>
-	 							<td class="text-center text-muted" width="13%"><strong>R$</strong> ${passagem.quantidade * passagem.valorUnitario}</td>
+	 							<td class="text-center text-muted" width="13%"><fmt:formatNumber value="${passagem.valorUnitario * passagem.quantidade}" type="currency"/></td>
 	 							<td class="text-center" width="14%">
 	 								<button class="btn btn-default btn-sm" type="button" title="Visualizar" data-toggle="modal" data-target="#modal_${passagem.id}">
 	 									<span class="glyphicon glyphicon-eye-open text-info"></span>
@@ -143,13 +139,13 @@
 											<div class="row" style="margin-top:3%">
 												<div class="col-md-1"></div>
 												<div class="col-md-4">
-													<h4><strong><i class="fa fa-money" aria-hidden="true"></i> Valor Unitário R$</strong> ${p.valorUnitario}</h4>
+													<h4><strong><i class="fa fa-money" aria-hidden="true"></i> Valor Unitário <fmt:formatNumber value="${p.valorUnitario}" type="currency"/></h4>
 												</div>
 												<div class="col-md-3">
 													<h4><strong><i class="fa fa-asterisk" aria-hidden="true"></i> Quantidade:</strong> ${p.quantidade}</h4>
 												</div>
 												<div class="col-md-4">
-													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total R$</strong> ${p.valorTotal}</h4>
+													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total <fmt:formatNumber value="${p.valorUnitario * p.quantidade}" type="currency"/></h4>
 												</div>
 											</div>
 											<hr>
@@ -169,7 +165,7 @@
 	 				<tfooter>
  						<tr>
  							<td class="text-center"><strong>...</strong></td>
- 							<td class="text-center"><strong>Total R$ ${soma}</strong></td>
+ 							<td class="text-center"><strong>Total <fmt:formatNumber value="${soma}" type="currency"/></strong></td>
  							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>...</strong></td>
  							<td class="text-center"><strong>...</strong></td>
@@ -180,7 +176,7 @@
 				</table>
 				</c:if>
 				<c:if test="${empty passagens}">
-					<h3 class="text-muted text-center">Não há Passagens cadastrados.</h3>
+					<h3 class="text-muted text-center">Não há Passagens cadastradas.</h3>
 				</c:if>
 			</div>
 			<div class="col-md-1"></div>
@@ -189,7 +185,7 @@
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>

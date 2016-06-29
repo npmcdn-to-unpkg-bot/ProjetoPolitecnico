@@ -17,10 +17,9 @@ public class ServicoTerceirosDAO {
 	
 	public boolean adicionar(ServicoTerceiros servicoTerceiros, long numeroProjeto) throws SQLException {
 		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (default, ?,?,?,?,?,?,?,?);";
+			  + " VALUES (default, ?,?,?,?,?,?,?,?);";
 			
-		stmt = conn.prepareStatement(query);
-			
+		stmt = conn.prepareStatement(query);		
 		stmt.setLong(1, numeroProjeto);
 		stmt.setString(2, "1");
 		stmt.setString(3, servicoTerceiros.getDescricao());
@@ -49,7 +48,7 @@ public class ServicoTerceirosDAO {
 		
 		try{
 			this.query = " SELECT id, descricao, valorunitario, quantidade, unidademedida,"
-					+ " periodo, justificativa"
+				+ " periodo, justificativa"
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
 				+ " AND material.codigodemanda = 1 "
@@ -122,11 +121,9 @@ public class ServicoTerceirosDAO {
 	}
 
 	public boolean remover(int id) throws SQLException {
-		this.query = " DELETE FROM itens "
-				+ " WHERE id = ?;";
+		this.query = " DELETE FROM itens WHERE id = ?;";
 		
-		stmt = conn.prepareStatement(this.query);
-			
+		stmt = conn.prepareStatement(this.query);			
 		stmt.setInt(1, id);
 
 		try{
@@ -148,8 +145,7 @@ public class ServicoTerceirosDAO {
 			+ " quantidade = ?, periodo = ?, justificativa = ? "
 			+ " WHERE id = ?; ";
 
-		stmt = conn.prepareStatement(this.query);
-			
+		stmt = conn.prepareStatement(this.query);		
 		stmt.setString(1, servicoTerceiros.getDescricao());
 		stmt.setString(2, servicoTerceiros.getUnidadeMedida());
 		stmt.setFloat(3, servicoTerceiros.getValorUnitario());

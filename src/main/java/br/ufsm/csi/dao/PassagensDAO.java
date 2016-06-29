@@ -16,10 +16,9 @@ public class PassagensDAO {
 	
 	public boolean adicionar(Passagens passagens, long numeroProjeto) throws SQLException {
 		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
-				+ " VALUES (default, ?,?,?,?,?,?,?);";
+			+ " VALUES (default, ?,?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
-		
 		stmt.setLong(1, numeroProjeto);
 		stmt.setString(2, passagens.getCodigoDemanda());
 		stmt.setString(3, passagens.getDescricao());
@@ -47,10 +46,10 @@ public class PassagensDAO {
 		
 		try{
 			this.query = " SELECT id, itens.codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa"
-					+ " FROM itens, material "
-					+ " WHERE itens.codigomaterial = material.codigomaterial "
-					+ " AND material.codigodemanda = 2 "
-					+ " AND numeroprojeto = ?; ";
+				+ " FROM itens, material "
+				+ " WHERE itens.codigomaterial = material.codigomaterial "
+				+ " AND material.codigodemanda = 2 "
+				+ " AND numeroprojeto = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
 			stmt.setLong(1, numeroProjeto);

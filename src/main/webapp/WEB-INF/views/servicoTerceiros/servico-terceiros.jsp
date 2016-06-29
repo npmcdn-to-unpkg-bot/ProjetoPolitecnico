@@ -18,6 +18,8 @@
 	<script src="<c:url value='/resources/js/app.js'/>"></script>
 	<script src="<c:url value='/resources/js/controllers/formCtrl.js'/>"></script>
 	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
+	<script src="<c:url value='/resources/js/directives/ng-currency.js'/>"></script>
+	<script src="<c:url value='/resources/js/angular-locale_pt-br.js'/>"></script>	
   </head>
   <body ng-controller="formCtrl">
 	
@@ -94,7 +96,8 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
-								<input type="text" class="form-control" name="valorUnitario" placeholder="Valor Unitário" value="0" ng-model="item.valorUnit" ui-number>
+								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="Valor Unitário"/>
+								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>								
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -107,7 +110,7 @@
 							<div ng-if="item.quantidade && item.valorUnit">
 								<div class="form-group">
 									<label for="total">Valor Total <strong>R$</strong></label>
-									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit}}" disabled>
+									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit | currency}}" disabled>
 								</div>
 							</div>
 						</div>
@@ -147,7 +150,7 @@
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>

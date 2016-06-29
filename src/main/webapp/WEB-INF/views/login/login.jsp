@@ -21,7 +21,9 @@
         <script src="<c:url value='/resources/angular/angular.js'/>"></script>
 		<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
 		<script src="<c:url value='/resources/js/app.js'/>"></script>
+			<script src="<c:url value='/resources/js/controllers/formCtrl.js'/>"></script>
 		<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
+		<script src="<c:url value='/resources/js/directives/ng-currency.js'/>"></script>
         
         <style> 
             .themed-band { background-color: #12416B; background: url('<c:url value='/resources/img/UFSM-banner-bg.jpg'/>') top left repeat-x; }
@@ -32,7 +34,7 @@
             .container.semi-narrow { padding-top: .5em; padding-bottom: .5em; }
         </style>              
     </head>
-    <body>
+    <body ng-controller="formCtrl">
         <div class="table-layout-wrapper">
                 <div class="band expansible">
                     <div class="band themed-band shadowed">
@@ -44,6 +46,7 @@
                                 </a> 
                             </div>
                         </div>
+                        
                         <div class="band form-subband">
                             <div class="container no-padding-v">
                                 <div class="row">
@@ -64,12 +67,17 @@
                                                 <div class="row">
                                                     <div class="span12 padding-top"> 
                                                         <label for="senha" class="label" style="font-size: 15px;">Senha</label> 
-                                                        <input id="text" name="senha" type="password" class="textfield" required/> 
+                                                        <input id="text" name="senha" ng-model="senha" type="password" class="textfield" required/> 
                                                     </div>
                                                 </div>
-                                                <div class="row">                                                    
+                                                <div class="row">  
+                                                	<c:if test="${status == 'erro_login'}">
+                                                        <h2 class="text-center" style="  border-radius: 10px ; border-color: firebrick; color: firebrick  ;font-family: arial; font-size: 15px;background-color: rgb(246,221,219); border-bottom-color: rgb(221,122,117);">
+                                                        	Acesso negado! Siape ou senha invalido(s).
+                                                        </h2>
+                                                    </c:if>                                                 
                                                 	<div class="span12 text-center"> 
-                                                        <button type="submit" name="opcao" value="logar" class="btn primary "> Entrar <i class="glyphicon glyphicon-lock"></i></button>  
+                                                        <button type="submit" name="opcao" value="logar" ng-disabled="!siape || !senha" class="btn primary "> Entrar <i class="glyphicon glyphicon-lock"></i></button>  
                                                     </div>
                                                 </div>
                                             </form>

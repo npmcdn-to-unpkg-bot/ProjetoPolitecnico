@@ -149,31 +149,30 @@ public class MaterialPermanenteDAO {
 
 	public boolean alterar(MaterialPermanente materialPermanente, int id) throws SQLException {
 		this.query = " UPDATE itens "
-				+ " SET descricao = ?, unidademedida = ?, valorunitario = ?, "
-				+ " quantidade = ?, periodo = ?, justificativa = ? "
-				+ " WHERE id = ?; ";
+			+ " SET descricao = ?, unidademedida = ?, valorunitario = ?, "
+			+ " quantidade = ?, periodo = ?, justificativa = ? "
+			+ " WHERE id = ?; ";
 
-			stmt = conn.prepareStatement(this.query);
-				
-			stmt.setString(1, materialPermanente.getDescricao());
-			stmt.setString(2, materialPermanente.getUnidadeMedida());
-			stmt.setFloat(3, materialPermanente.getValorUnitario());
-			stmt.setInt(4, materialPermanente.getQuantidade());
-			stmt.setString(5, materialPermanente.getPeriodo());
-			stmt.setString(6, materialPermanente.getJustificativa());
-			stmt.setLong(7, id);
+		stmt = conn.prepareStatement(this.query);	
+		stmt.setString(1, materialPermanente.getDescricao());
+		stmt.setString(2, materialPermanente.getUnidadeMedida());
+		stmt.setFloat(3, materialPermanente.getValorUnitario());
+		stmt.setInt(4, materialPermanente.getQuantidade());
+		stmt.setString(5, materialPermanente.getPeriodo());
+		stmt.setString(6, materialPermanente.getJustificativa());
+		stmt.setLong(7, id);
 
-			try{
-				stmt.execute();
-				stmt.close();
-				conn.close();
+		try{
+			stmt.execute();
+			stmt.close();
+			conn.close();
 
-				autenticado = true;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			autenticado = true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
-			return autenticado;
+		return autenticado;
 	}
 
 }

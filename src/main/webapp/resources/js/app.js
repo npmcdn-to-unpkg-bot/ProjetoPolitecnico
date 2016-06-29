@@ -1,1 +1,1 @@
-﻿angular.module("form", ["checklist-model"]);
+﻿angular.module("form", ["checklist-model", 'ng-currency']);

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -101,7 +103,7 @@
 		
 		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation" class="active"><a href="#">Orçamentos</a></li>
-			<li role="presentation"><a href="materialConsumo?numeroProjeto=${projeto.numeroProjeto}">Materia de Consumo</a></li>
+			<li role="presentation"><a href="materialConsumo?numeroProjeto=${projeto.numeroProjeto}">Material de Consumo</a></li>
 			<li role="presentation"><a href="servicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Serviços de Terceiros</a></li>
 			<li role="presentation"><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
 			<li role="presentation"><a href="diarias?numeroProjeto=${projeto.numeroProjeto}">Diárias</a></li>
@@ -116,7 +118,7 @@
 					<h1 class="text-muted"> <span class="fa fa-calculator"></span> Orçamento Total</h1>
 					<hr>
 					
-					<table class="table table-bordered">
+<table class="table table-bordered">
 	 					<thead>
 	 						<tr>
 	 							<th class="text-center">#</th>
@@ -137,7 +139,7 @@
 	 							<c:if test="${demanda.quantidade <= 0}">
 									<td> ${demanda.demanda} </td>
 	 							</c:if>
-	 							<td class="text-center" width="30%"><strong>R$</strong> ${demanda.valorTotal}</td>
+	 							<td class="text-center text-muted" width="30%"><fmt:formatNumber value="${demanda.valorTotal}" type="currency"/></td>
 	 						</tr>
 	 						<c:set var="soma" value="${soma + demanda.valorTotal}"/>						
 	 						</c:forEach>
@@ -146,7 +148,7 @@
 	 						<tr>
 	 							<td class="text-center"><strong>...</strong></td>
 	 							<td class="text-center"><strong>...</strong></td>
-	 							<td class="text-center"><strong>Total R$</strong> ${soma}</td>
+	 							<td class="text-center"><strong>Total <fmt:formatNumber value="${soma}" type="currency"/></strong></td>
 	 						</tr>
 	 					</tfooter>
 	 				</table>
@@ -156,12 +158,12 @@
 		</div>
 		
 		<hr style="margin-top: 3%">		
-		<button class="btn btn-primary" type="submit"> <span class="glyphicon glyphicon-ok"></span> Finalizar</button>
+		<button class="btn btn-primary" type="submit" disabled> <span class="glyphicon glyphicon-ok"></span> Finalizar</button>
 		
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>

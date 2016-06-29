@@ -16,9 +16,12 @@
 	<script src="<c:url value='/resources/angular/angular.js'/>"></script>
 	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
 	<script src="<c:url value='/resources/js/app.js'/>"></script>
+	<script src="<c:url value='/resources/js/angular-locale_pt-br.js'/>"></script>
 	<script src="<c:url value='/resources/js/controllers/formConsumoCtrl.js'/>"></script>
 	<script src="<c:url value='/resources/js/service/MaterialConsumoService.js'/>"></script>
 	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
+	<script src="<c:url value='/resources/js/directives/ng-currency.js'/>"></script>
+
   </head>
   <body ng-controller="formConsumoCtrl">
 	
@@ -110,20 +113,21 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
-								<input type="text" class="form-control" name="valorUnitario" placeholder="Valor Unitário" value="0" ng-model="item.valorUnit" ui-number>
+								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="Valor Unitário"/>
+								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
 								<label for="quantidade">Quantidade</label>
-								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="Quantidade" ng-model="item.quantidade" ui-number>
+								<input type="text" class="form-control" maxlength="10" id="quantidade" name="quantidade" placeholder="Quantidade" ng-model="item.quantidade" ui-number>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div ng-if="item.quantidade && item.valorUnit">
 								<div class="form-group">
 									<label for="total">Valor Total <strong>R$</strong></label>
-									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit}}" disabled>
+									<input type="text" id="total" class="form-control" name="total" placeholder="Valor Total" value="{{item.valorUnit * item.quantidade | currency}}" disabled>
 								</div>
 							</div>
 						</div>
@@ -152,7 +156,7 @@
 					</div>
 			
 					<button class="btn btn-primary" type="submit" 
-						ng-disabled="!item.descricao || !unidadeMedida || !item.valorUnit || !item.quantidade || !item.justificativa">
+						ng-disabled="!item.materialConsumo || !item.descricao || !unidadeMedida || !item.valorUnit || !item.quantidade || !item.justificativa">
 						<span class="glyphicon glyphicon-ok"></span> Cadastrar
 					</button>		
 				</div>
@@ -163,13 +167,14 @@
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>
 	</div>
-
+	
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+	
   </body>
 </html>

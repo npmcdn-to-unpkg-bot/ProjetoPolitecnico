@@ -15,7 +15,6 @@ import br.ufsm.csi.model.MaterialConsumo;
 @Controller
 public class MaterialConsumoController {
 
-	private ModelAndView modelAndView;
 	private boolean retorno = false;
 	
 	@RequestMapping("materialConsumo")
@@ -27,7 +26,7 @@ public class MaterialConsumoController {
 	@RequestMapping("cadastrarMaterialConsumo")
 	public String cadastrarMaterialConsumo (long numeroProjeto, MaterialConsumo materialConsumo, 
 			RedirectAttributes redirectAttributes) throws SQLException{
-		
+		System.out.println(materialConsumo.getValorUnitario());
 		this.retorno = new MaterialConsumoDAO().adicionar(materialConsumo, numeroProjeto);
 
 		if(retorno){

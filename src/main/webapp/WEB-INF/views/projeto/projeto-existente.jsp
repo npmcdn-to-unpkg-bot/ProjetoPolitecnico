@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="pt-BR" />
 
 <!DOCTYPE html>
-<html lang="pt-br" ng-app="form">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,11 +14,6 @@
 	
 	<link type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 	<link rel="stylesheet" href="<c:url value='/resources/font-awesome/css/font-awesome.min.css'/>">
-	
-	<script src="<c:url value='/resources/angular/angular.js'/>"></script>
-	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
-	<script src="<c:url value='/resources/js/app.js'/>"></script>
-	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
 </head>
 <body>
 	<div class="container" style="margin-top: 1%;">
@@ -43,7 +39,7 @@
     	</div>
     	<hr>
 	
-		<ol class="breadcrumb">
+		<ol class="breadcrumb" style="margin-top: 2%;">
 	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li class="active">Projeto Existente</li>
 	  		<li></li>	
@@ -57,7 +53,7 @@
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
 		
-		<div class="row" style="margin-top: 2%;">
+		<div class="row" style="margin-top: 3%;">
 			<div class="col-md-12">
 				<c:if test="${not empty projetos}">
 				<table class="table table-bordered">
@@ -66,7 +62,6 @@
  							<th class="text-center">Nº Projeto</th>
  							<th>Nome</th>
  							<th class="text-center">Criação</th>
- 							<th class="text-center">Valor Total</th>
  							<th class="text-center">Status</th>
  							<th class="text-center"><i class="fa fa-cogs" aria-hidden="true"></i></th>
  						</tr>
@@ -77,7 +72,6 @@
  							<td class="text-center text-info" width="9%">${projeto.numeroProjeto}</td>
  							<td>${projeto.nomeProjeto}</td>
  							<td class="text-center text-muted" width="9%"> <fmt:formatDate type="date" dateStyle="medium" value="${projeto.dataCriacao}" /> </td>
- 							<td class="text-center text-muted" width="10%"><strong>R$</strong> ${projeto.valorTotal}</td>
  							<c:if test="${projeto.finalizado eq true}">
  								<td width="10%" class="text-center">
  									<h4><span class="label label-success">Finalizado</span></h4>
@@ -91,10 +85,35 @@
  							<td class="text-center" width="10%">
  							<c:if test="${projeto.finalizado eq false}">
  								<a href="acessoProjetoExistente?numeroProjeto=${projeto.numeroProjeto}" class="btn btn-default btn-sm" title="Acessar"><span class="glyphicon glyphicon-check text-info"></span></a>
- 								<a href="removerProjetoExistente?numeroProjeto=${projeto.numeroProjeto}&&siape=${usuarioLogado.siape}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
+ 								<button class="btn btn-default btn-sm" type="button" title="Remover" data-toggle="modal" data-target="#remover_${projeto.numeroProjeto}">
+	 								<span class="glyphicon glyphicon-remove text-danger"></span>
+	 							</button>								
  							</c:if>
  							</td>
  						</tr>
+ 						
+ 						<div class="modal fade" id="remover_${projeto.numeroProjeto}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			            	<div class="modal-dialog" role="document">
+			                	<div class="modal-content">
+			                    	<div class="modal-header text-center">
+			                       		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                        	<h4 class="modal-title text-muted" id="myModalLabel">
+			                        		<i class="fa fa-trash" aria-hidden="true"></i> Remover Projeto: ${projeto.numeroProjeto}
+			                        	</h4>
+			                    	</div>
+			                    	<div class="modal-body text-center">
+										<h4 class="modal-title" id="myModalLabel"><strong>Tem certeza que deseja remover este Projeto?</strong></h4>
+									</div>
+									<div class="modal-footer">
+										<a href="removerProjetoExistente?numeroProjeto=${projeto.numeroProjeto}&&siape=${usuarioLogado.siape}" class="btn btn-primary" title="Remover">
+											<span class="glyphicon glyphicon-ok"></span> Confirmar
+										</a>
+                    					<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Cancelar</button>
+                   					</div>
+			                    </div>
+                        	</div>
+                    	</div>	
+ 						
  						</c:forEach>
  					</tbody>
 				</table>
@@ -108,13 +127,13 @@
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>
 	</div>
 	
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
-	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/bootstrap.js'/>"></script>
 </body>
 </html>

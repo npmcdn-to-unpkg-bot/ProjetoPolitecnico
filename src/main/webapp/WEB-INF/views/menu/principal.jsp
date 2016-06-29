@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="pt-BR" />
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -82,11 +84,34 @@
 				</div>
 					
 				<a class="btn btn-default" href="redirecionaModificar?numeroProjeto=${projeto.numeroProjeto}" style="margin-top: 2%; margin-right: 1%; margin-bottom: 1%;"> 
-					<span class="glyphicon glyphicon-wrench text-success"></span> <span class="text-success">Alterar Projeto</span></strong>
-				</a>			
-				<a class="btn btn-default" href="removerProjeto" style="margin-top: 2%; margin-bottom: 1%;"> 
-					<span class="glyphicon glyphicon-remove text-danger"></span> <span class="text-danger">Remover Projeto</span>
-				</a>	  
+					<span class="glyphicon glyphicon-wrench text-success"></span> <span class="text-success">Modificar Projeto</span></strong>
+				</a>
+				<a class="btn btn-default" title="Remover" data-toggle="modal" style="margin-top: 2%; margin-right: 1%; margin-bottom: 1%;" href="#remover">
+	 				<span class="glyphicon glyphicon-remove text-danger"></span> <span class="text-danger">Remover Projeto</span>
+	 			</a>
+				
+ 				<div class="modal fade" id="remover" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			    	<div class="modal-dialog" role="document">
+			        	<div class="modal-content">
+			            	<div class="modal-header text-center">
+			                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                     <h4 class="modal-title text-muted" id="myModalLabel">
+			                     	<i class="fa fa-trash" aria-hidden="true"></i> Remover Projeto: ${projeto.numeroProjeto}
+			                     </h4>
+			                </div>
+			                <div class="modal-body text-center">
+								<h4 class="modal-title" id="myModalLabel"><strong>Tem certeza que deseja remover este Projeto?</strong></h4>
+							</div>
+							<div class="modal-footer">
+								<a href="removerProjeto" class="btn btn-primary" title="Remover">
+									<span class="glyphicon glyphicon-ok"></span> Confirmar
+								</a>
+                    			<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Cancelar</button>
+                   			</div>
+			        	</div>
+                	</div>
+                </div>	
+					  
 			</div>
 			<div class="col-md-5">
 				<div class="alert alert-info" role="alert">
@@ -105,7 +130,7 @@
 		
 		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation" class="active"><a href="#">Orçamentos</a></li>
-			<li role="presentation"><a href="materialConsumo?numeroProjeto=${projeto.numeroProjeto}">Materia de Consumo</a></li>
+			<li role="presentation"><a href="materialConsumo?numeroProjeto=${projeto.numeroProjeto}">Material de Consumo</a></li>
 			<li role="presentation"><a href="servicoTerceiros?numeroProjeto=${projeto.numeroProjeto}">Serviços de Terceiros</a></li>
 			<li role="presentation"><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
 			<li role="presentation"><a href="diarias?numeroProjeto=${projeto.numeroProjeto}">Diárias</a></li>
@@ -141,7 +166,7 @@
 	 							<c:if test="${demanda.quantidade <= 0}">
 									<td> ${demanda.demanda} </td>
 	 							</c:if>
-	 							<td class="text-center" width="30%"><strong>R$</strong> ${demanda.valorTotal}</td>
+	 							<td class="text-center text-muted" width="30%"><fmt:formatNumber value="${demanda.valorTotal}" type="currency"/></td>
 	 						</tr>
 	 						<c:set var="soma" value="${soma + demanda.valorTotal}"/>						
 	 						</c:forEach>
@@ -150,7 +175,7 @@
 	 						<tr>
 	 							<td class="text-center"><strong>...</strong></td>
 	 							<td class="text-center"><strong>...</strong></td>
-	 							<td class="text-center"><strong>Total R$</strong> ${soma}</td>
+	 							<td class="text-center"><strong>Total <fmt:formatNumber value="${soma}" type="currency"/></strong></td>
 	 						</tr>
 	 					</tfooter>
 	 				</table>
@@ -159,18 +184,53 @@
 			<div class="col-md-1"></div>
 		</div>
 		
-		<hr style="margin-top: 3%">		
-		<button class="btn btn-primary" type="submit"> <span class="glyphicon glyphicon-ok"></span> Finalizar</button>
-
+		<hr style="margin-top: 3%">
+		<c:if test="${soma <= 0}">
+			<a class="btn btn-primary" title="Finalizar" data-toggle="modal" href="#finalizar" disabled>
+	 			<span class="glyphicon glyphicon-ok"></span> Finalizar
+	 		</a>
+		</c:if>
+		<c:if test="${soma > 0}">
+			<a class="btn btn-primary" title="Finalizar" data-toggle="modal" href="#finalizar">
+	 			<span class="glyphicon glyphicon-ok"></span> Finalizar
+	 		</a>
+		</c:if>		
+		
+		
+		<div class="modal fade" id="finalizar" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+			    	<div class="modal-header text-center">
+			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			            <h4 class="modal-title text-muted" id="myModalLabel">
+			            	<span class="fa fa-calendar-check-o"></span> Finalizar Projeto: ${projeto.numeroProjeto}
+			            </h4>
+			        </div>
+			        <div class="modal-body text-center">
+						<h4 class="modal-title" id="myModalLabel">
+							<strong> Tem certeza que deseja finalizar este Projeto? </strong>  </br></br>
+							Lembre-se que ao finalizar, não será mais possível solicitar novas demandas.						
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<a href="finalizar?numeroProjeto=${projeto.numeroProjeto}&&siape=${usuarioLogado.siape}" class="btn btn-primary" title="Remover">
+							<span class="glyphicon glyphicon-ok"></span> Confirmar
+						</a>
+                    	<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Cancelar</button>
+                   	</div>
+			   </div>
+           </div>
+        </div>	
+		
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>
 	</div>
-	
+
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 	<script src="<c:url value='/resources/js/bootstrap.js'/>"></script>
   </body>

@@ -17,6 +17,7 @@
 	<script src="<c:url value='/resources/angular/checklist-model.js'/>"></script>
 	<script src="<c:url value='/resources/js/app.js'/>"></script>
 	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
+	<script src="<c:url value='/resources/js/directives/ng-currency.js'/>"></script>
 </head>
 <body>
 	<div class="container" style="margin-top: 1%;">
@@ -42,9 +43,9 @@
     	</div>
     	<hr>
 
-		<ol class="breadcrumb">
+		<ol class="breadcrumb" style="margin-top: 2%;">
 	  		<li><a href="redirecionaInicio">Pagina Inicial</a></li>
-	  		<li class="active">Cadastrar Projeto</li>
+	  		<li class="active">Novo Projeto</li>
 	  		<li></li>	
 		</ol>
 			
@@ -52,7 +53,7 @@
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
 		
-		<div class="row" style="margin-top: 2%;">	
+		<div class="row" style="margin-top: 3%;">	
 			<div class="col-md-7">
 				<form action="cadastrarProjeto" method="post">
 					<div class="form-group">
@@ -73,7 +74,7 @@
 					</div>	
 					
 					<button class="btn btn-primary" type="submit" ng-disabled="!projeto.nome || !projeto.numero" style="margin-top: 3%; margin-bottom: 1%;">
-						<span class="glyphicon glyphicon-ok"></span> Confirmar 
+						<span class="glyphicon glyphicon-ok"></span> Cadastrar 
 					</button>	  
 				</form>
 			</div>
@@ -93,7 +94,7 @@
 		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
 			<hr>
         	<h4>
-        		<small class="text-info"> © 2016 Colegio Politecnico/UFSM. </small>
+        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
         		<small> Todos os direitos reservados. </small>
         	</h4>
         </footer>
