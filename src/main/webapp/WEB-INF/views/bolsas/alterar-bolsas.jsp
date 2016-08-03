@@ -28,7 +28,7 @@
 	<div class="container" id="conteudo" style="margin-top: 1%;">
 		<div class="row">
     		<div class="col-md-10">
-    			<h1 class="text-muted"> <span class="fa fa-user-times"></span> Bolsas</h1>
+    			<h1 class="text-muted"> <span class="fa fa-user-plus"></span> Bolsas</h1>
     		</div>
     		<div class="col-md-2">
     			<h4 class="text-muted pull-right">

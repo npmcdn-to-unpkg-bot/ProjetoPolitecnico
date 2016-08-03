@@ -39,13 +39,14 @@ public class ProjetoDAO {
 	}
 	
 	public boolean adicionar (Projeto projeto) throws Exception{		
-		query = "INSERT INTO projeto VALUES (?,?,?,?, CURRENT_DATE, false);";
+		query = "INSERT INTO projeto VALUES (?,?,?, CURRENT_DATE, false, ?,?);";
 		
 		stmt = conn.prepareStatement(query);		
 		stmt.setLong(1, projeto.getSiape());
-		stmt.setString(2, projeto.getProponente());
-		stmt.setString(3, projeto.getNomeProjeto());
-		stmt.setLong(4, projeto.getNumeroProjeto());
+		stmt.setString(2, projeto.getNomeProjeto());
+		stmt.setString(3, projeto.getNumeroProjeto());
+		stmt.setString(4, projeto.getJustificativa());
+		stmt.setString(5, projeto.getModalidade());
 
 		try{
 			stmt.execute();
@@ -62,12 +63,16 @@ public class ProjetoDAO {
 	
 	public boolean modificar (Projeto projeto) throws Exception{
 		
-		this.query = " UPDATE projeto SET nomeProjeto = ? WHERE numeroProjeto = ? ;";
+		this.query = " UPDATE projeto SET nomeProjeto = ?, "
+			+ " modalidade = ?, justificativa = ? "
+			+ " WHERE numeroProjeto = ? ; ";
 			
 		stmt = conn.prepareStatement(this.query);
 			
 		stmt.setString(1, projeto.getNomeProjeto());
-		stmt.setLong(2, projeto.getNumeroProjeto());
+		stmt.setString(2, projeto.getModalidade());
+		stmt.setString(3, projeto.getJustificativa());
+		stmt.setString(4, projeto.getNumeroProjeto());
 
 		try{
 			stmt.execute();
@@ -82,7 +87,7 @@ public class ProjetoDAO {
 		return autenticado;
 	}
 	
-	public boolean remover (long numeroProjeto) throws Exception{
+	public boolean remover (String numeroProjeto) throws Exception{
 		
 		this.query = " BEGIN; "
 			+ " DELETE FROM itens WHERE numeroProjeto = ?; "
@@ -90,8 +95,8 @@ public class ProjetoDAO {
 			+ " COMMIT; ";
 			
 		stmt = conn.prepareStatement(this.query);		
-		stmt.setLong(1, numeroProjeto);
-		stmt.setLong(2, numeroProjeto);
+		stmt.setString(1, numeroProjeto);
+		stmt.setString(2, numeroProjeto);
 
 		try{
 			stmt.execute();
@@ -106,24 +111,29 @@ public class ProjetoDAO {
 		return autenticado;
 	}
 	
-	public Projeto listaProjeto (long numeroProjeto){
+	public Projeto listaProjeto (String numeroProjeto){
 		
 		Projeto projeto = new Projeto();
 		
 		try{
-			this.query = " SELECT * FROM projeto "
+			this.query = " SELECT nomeprojeto, numeroprojeto, "
+				+ " justificativa, modalidade, nome AS proponente "
+				+ " FROM projeto, usuario "
 				+ " WHERE numeroProjeto = ? "
+				+ " AND projeto.siape = usuario.siape "
 				+ " AND finalizado = false; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				projeto.setProponente(rs.getString("proponente"));
 				projeto.setNomeProjeto(rs.getString("nomeProjeto"));
-				projeto.setNumeroProjeto(rs.getLong("numeroProjeto"));
+				projeto.setNumeroProjeto(rs.getString("numeroProjeto"));
+				projeto.setJustificativa(rs.getString("justificativa"));
+				projeto.setModalidade(rs.getString("modalidade"));
 			}
 			stmt.close();
 			conn.close();
@@ -152,7 +162,7 @@ public class ProjetoDAO {
 			while(rs.next()){
 				Projeto projeto = new Projeto();
 				
-				projeto.setNumeroProjeto(rs.getLong("numeroProjeto"));
+				projeto.setNumeroProjeto(rs.getString("numeroProjeto"));
 				projeto.setNomeProjeto(rs.getString("nomeProjeto"));
 				projeto.setDataCriacao(rs.getDate("dataCriacao"));
 				projeto.setFinalizado(rs.getBoolean("finalizado"));
@@ -168,7 +178,7 @@ public class ProjetoDAO {
 		return projetos;
 	}
 	
-public ArrayList<Demanda> getDemandas (long numeroProjeto){
+public ArrayList<Demanda> getDemandas (String numeroProjeto){
 		
 		ArrayList<Demanda> demandas = new ArrayList<Demanda>();
 
@@ -179,11 +189,12 @@ public ArrayList<Demanda> getDemandas (long numeroProjeto){
 				+ " RIGHT JOIN demanda "
 				+ " ON demanda.codigodemanda = material.codigodemanda "
 				+ " AND numeroprojeto = ? "
+				+ " WHERE demanda.codigodemanda != 6 "
 				+ " GROUP BY demanda.codigodemanda, natureza "
 				+ " ORDER BY demanda.codigodemanda; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -206,12 +217,12 @@ public ArrayList<Demanda> getDemandas (long numeroProjeto){
 		return demandas;
 	}
 
-	public boolean finalizar (long numeroProjeto) throws Exception{
+	public boolean finalizar (String numeroProjeto) throws Exception{
 	
 		this.query = " UPDATE projeto SET finalizado = true WHERE numeroProjeto = ? ;";
 	
 		stmt = conn.prepareStatement(this.query);	
-		stmt.setLong(1, numeroProjeto);
+		stmt.setString(1, numeroProjeto);
 
 		try{
 			stmt.execute();

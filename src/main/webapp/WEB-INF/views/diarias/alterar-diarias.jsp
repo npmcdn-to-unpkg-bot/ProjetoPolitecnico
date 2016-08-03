@@ -116,13 +116,8 @@
 					</div>
 					<hr>
 			
-					<div class="form-group">
-						<label for="total">Justificativa</label>
-						<textarea class="form-control" name="justificativa" placeholder="${diaria.justificativa}" rows="3" ng-model="item.justificativa"></textarea>
-					</div>
-			
 					<button class="btn btn-primary" type="submit" 
-						ng-disabled="!item.valorUnit || !item.quantidade || !item.justificativa">
+						ng-disabled="!item.valorUnit || !item.quantidade">
 						<span class="glyphicon glyphicon-ok"></span> Alterar
 					</button>		
 				</div>

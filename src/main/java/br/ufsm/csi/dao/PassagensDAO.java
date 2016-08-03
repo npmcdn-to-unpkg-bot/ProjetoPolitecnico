@@ -14,18 +14,17 @@ public class PassagensDAO {
 	private boolean autenticado = false;
 	private String query;
 	
-	public boolean adicionar(Passagens passagens, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
-			+ " VALUES (default, ?,?,?,?,?,?,?);";
+	public boolean adicionar(Passagens passagens, String numeroProjeto) throws SQLException {
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo)"
+			+ " VALUES (default, ?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
-		stmt.setLong(1, numeroProjeto);
+		stmt.setString(1, numeroProjeto);
 		stmt.setString(2, passagens.getCodigoDemanda());
 		stmt.setString(3, passagens.getDescricao());
 		stmt.setFloat(4, passagens.getValorUnitario());
 		stmt.setInt(5, passagens.getQuantidade());
 		stmt.setString(6, passagens.getPeriodo());
-		stmt.setString(7, passagens.getJustificativa());
 		
 		try{
 			stmt.execute();
@@ -40,7 +39,7 @@ public class PassagensDAO {
 		return autenticado;
 	}
 	
-	public ArrayList<Passagens> lista (long numeroProjeto){
+	public ArrayList<Passagens> lista (String numeroProjeto){
 		
 		ArrayList<Passagens> passagens = new ArrayList<Passagens>();
 		
@@ -52,7 +51,7 @@ public class PassagensDAO {
 				+ " AND numeroprojeto = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -139,7 +138,7 @@ public class PassagensDAO {
 	public boolean alterar(Passagens passagens, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET descricao = ?, valorunitario = ?, codigomaterial = ?, "
-			+ " quantidade = ?, periodo = ?, justificativa = ? "
+			+ " quantidade = ?, periodo = ?"
 			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
@@ -149,8 +148,7 @@ public class PassagensDAO {
 		stmt.setString(3, passagens.getCodigoDemanda());
 		stmt.setInt(4, passagens.getQuantidade());
 		stmt.setString(5, passagens.getPeriodo());
-		stmt.setString(6, passagens.getJustificativa());
-		stmt.setInt(7, id);
+		stmt.setInt(6, id);
 
 		try{
 			stmt.execute();

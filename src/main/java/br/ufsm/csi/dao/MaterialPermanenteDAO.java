@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import br.ufsm.csi.model.MaterialConsumo;
 import br.ufsm.csi.model.MaterialPermanente;
 
 public class MaterialPermanenteDAO {
@@ -15,13 +14,13 @@ public class MaterialPermanenteDAO {
 	private boolean autenticado = false;
 	private String query;
 	
-	public boolean adicionar(MaterialPermanente materialPermanente, long numeroProjeto) throws SQLException {
+	public boolean adicionar(MaterialPermanente materialPermanente, String numeroProjeto) throws SQLException {
 		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
 			+ " VALUES (default, ?,?,?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
 		
-		stmt.setLong(1, numeroProjeto);
+		stmt.setString(1, numeroProjeto);
 		stmt.setString(2, materialPermanente.getSubItem());
 		stmt.setString(3, materialPermanente.getDescricao());
 		stmt.setString(4, materialPermanente.getUnidadeMedida());
@@ -43,7 +42,7 @@ public class MaterialPermanenteDAO {
 		return autenticado;
 	}
 
-	public ArrayList<MaterialPermanente> lista(long numeroProjeto) {
+	public ArrayList<MaterialPermanente> lista(String numeroProjeto) {
 		
 		ArrayList<MaterialPermanente> materiaisPermanente = new ArrayList<MaterialPermanente>();
 		
@@ -56,7 +55,7 @@ public class MaterialPermanenteDAO {
 				+ " AND numeroprojeto = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
 			

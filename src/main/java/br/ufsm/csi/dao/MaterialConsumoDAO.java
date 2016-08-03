@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.ufsm.csi.model.MaterialConsumo;
-import br.ufsm.csi.model.Projeto;
 
 public class MaterialConsumoDAO {
 	private Connection conn = (Connection) PostgreSQLFactory.getConexao();
@@ -15,20 +14,19 @@ public class MaterialConsumoDAO {
 	private boolean autenticado = false;
 	private String query;
 	
-	public boolean adicionar(MaterialConsumo materialConsumo, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
-			+ " VALUES (default, ?,?,?,?,?,?,?,?);";
+	public boolean adicionar(MaterialConsumo materialConsumo, String numeroProjeto) throws SQLException {
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo)"
+			+ " VALUES (default, ?,?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
 		
-		stmt.setLong(1, numeroProjeto);
+		stmt.setString(1, numeroProjeto);
 		stmt.setString(2, materialConsumo.getSubItem());
 		stmt.setString(3, materialConsumo.getDescricao());
 		stmt.setString(4, materialConsumo.getUnidadeMedida());
 		stmt.setFloat(5, materialConsumo.getValorUnitario());
 		stmt.setInt(6, materialConsumo.getQuantidade());
 		stmt.setString(7, materialConsumo.getPeriodo());
-		stmt.setString(8, materialConsumo.getJustificativa());
 		
 		try{
 			stmt.execute();
@@ -43,7 +41,7 @@ public class MaterialConsumoDAO {
 		return autenticado;
 	}
 	
-	public ArrayList<MaterialConsumo> lista (long numeroProjeto){
+	public ArrayList<MaterialConsumo> lista (String numeroProjeto){
 		
 		ArrayList<MaterialConsumo> materiaisConsumo = new ArrayList<MaterialConsumo>();
 		
@@ -56,7 +54,7 @@ public class MaterialConsumoDAO {
 				+ " AND numeroprojeto = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -147,7 +145,7 @@ public class MaterialConsumoDAO {
 	public boolean alterar(MaterialConsumo materialConsumo, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET descricao = ?, unidademedida = ?, valorunitario = ?, "
-			+ " quantidade = ?, periodo = ?, justificativa = ? "
+			+ " quantidade = ?, periodo = ? "
 			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
@@ -156,8 +154,7 @@ public class MaterialConsumoDAO {
 		stmt.setFloat(3, materialConsumo.getValorUnitario());
 		stmt.setInt(4, materialConsumo.getQuantidade());
 		stmt.setString(5, materialConsumo.getPeriodo());
-		stmt.setString(6, materialConsumo.getJustificativa());
-		stmt.setInt(7, id);
+		stmt.setInt(6, id);
 
 		try{
 			stmt.execute();

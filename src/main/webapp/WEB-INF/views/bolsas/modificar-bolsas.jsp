@@ -20,7 +20,7 @@
 	<div class="container" id="conteudo" style="margin-top: 1%;">
 		<div class="row">
     		<div class="col-md-10">
-    			<h1 class="text-muted"> <span class="fa fa-user-times"></span> Bolsas</h1>
+    			<h1 class="text-muted"> <span class="fa fa-user-plus"></span> Bolsas</h1>
     		</div>
     		<div class="col-md-2">
     			<h4 class="text-muted pull-right">
@@ -97,7 +97,7 @@
 	 							<td>${bolsa.periodo}</td>
 	 							<td class="text-center text-muted" width="13%"><fmt:formatNumber value="${bolsa.valorUnitario}" type="currency"/></td>
 	 							<td class="text-center text-muted" width="7%">${bolsa.quantidade}</td>
-	 							<td class="text-center text-muted" width="15%"><fmt:formatNumber value="${bolsa.valorUnitario * bolsa.quantidade}" type="currency"/></td>
+	 							<td class="text-center text-muted" width="15%"><fmt:formatNumber value="${(bolsa.valorUnitario * bolsa.meses) * bolsa.quantidade}" type="currency"/></td>
 	 							<td class="text-center" width="14%">
 	 								<button class="btn btn-default btn-sm" type="button" title="Visualizar" data-toggle="modal" data-target="#modal_${bolsa.id}">
 	 									<span class="glyphicon glyphicon-eye-open text-info"></span>
@@ -115,7 +115,7 @@
 			                				<c:if test="${bolsa.id == b.id}">
 			                    		<div class="modal-header">
 			                       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			                        		<h3 class="modal-title text-center text-muted" id="myModalLabel"> <span class="fa fa-user-times"></span> <strong>${b.id} - Bolsa</strong> </h3>
+			                        		<h3 class="modal-title text-center text-muted" id="myModalLabel"> <span class="fa fa-user-plus"></span> <strong>${b.id} - Bolsa</strong> </h3>
 			                    		</div>
 			                    		<div class="modal-body">
 											<div class="row">
@@ -135,7 +135,7 @@
 													<h4><strong><i class="fa fa-asterisk" aria-hidden="true"></i> Quantidade:</strong> ${b.quantidade}</h4>
 												</div>
 												<div class="col-md-4">
-													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total <fmt:formatNumber value="${b.valorTotal}" type="currency"/></h4>
+													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total <fmt:formatNumber value="${(bolsa.valorUnitario * bolsa.meses) * bolsa.quantidade}" type="currency"/></h4>
 												</div>
 											</div>
 											<hr>

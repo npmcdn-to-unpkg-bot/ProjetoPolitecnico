@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import br.ufsm.csi.model.MaterialConsumo;
 import br.ufsm.csi.model.ServicoTerceiros;
 
 public class ServicoTerceirosDAO {
@@ -15,19 +14,18 @@ public class ServicoTerceirosDAO {
 	private boolean autenticado = false;
 	private String query;
 	
-	public boolean adicionar(ServicoTerceiros servicoTerceiros, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
-			  + " VALUES (default, ?,?,?,?,?,?,?,?);";
+	public boolean adicionar(ServicoTerceiros servicoTerceiros, String numeroProjeto) throws SQLException {
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo)"
+			  + " VALUES (default, ?,?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);		
-		stmt.setLong(1, numeroProjeto);
+		stmt.setString(1, numeroProjeto);
 		stmt.setString(2, "1");
 		stmt.setString(3, servicoTerceiros.getDescricao());
 		stmt.setString(4, servicoTerceiros.getUnidadeMedida());
 		stmt.setFloat(5, servicoTerceiros.getValorUnitario());
 		stmt.setInt(6, servicoTerceiros.getQuantidade());
 		stmt.setString(7, servicoTerceiros.getPeriodo());
-		stmt.setString(8, servicoTerceiros.getJustificativa());
 			
 		try{
 			stmt.execute();
@@ -42,7 +40,7 @@ public class ServicoTerceirosDAO {
 		return autenticado;
 	}
 
-	public ArrayList<ServicoTerceiros> lista (long numeroProjeto){
+	public ArrayList<ServicoTerceiros> lista (String numeroProjeto){
 		
 		ArrayList<ServicoTerceiros> servicoTerceiros = new ArrayList<ServicoTerceiros>();
 		
@@ -55,7 +53,7 @@ public class ServicoTerceirosDAO {
 				+ " AND numeroprojeto = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -142,7 +140,7 @@ public class ServicoTerceirosDAO {
 	public boolean alterar(ServicoTerceiros servicoTerceiros, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET descricao = ?, unidademedida = ?, valorunitario = ?, "
-			+ " quantidade = ?, periodo = ?, justificativa = ? "
+			+ " quantidade = ?, periodo = ?"
 			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);		
@@ -151,8 +149,7 @@ public class ServicoTerceirosDAO {
 		stmt.setFloat(3, servicoTerceiros.getValorUnitario());
 		stmt.setInt(4, servicoTerceiros.getQuantidade());
 		stmt.setString(5, servicoTerceiros.getPeriodo());
-		stmt.setString(6, servicoTerceiros.getJustificativa());
-		stmt.setInt(7, id);
+		stmt.setInt(6, id);
 
 		try{
 			stmt.execute();

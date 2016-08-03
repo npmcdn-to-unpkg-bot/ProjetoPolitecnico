@@ -14,18 +14,17 @@ public class DiariasDAO {
 	private boolean autenticado = false;
 	private String query;
 	
-	public boolean adicionar(Diarias diarias, long numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, justificativa)"
-			  + " VALUES (default, ?,?,?,?,?,?,?);";
+	public boolean adicionar(Diarias diarias, String numeroProjeto) throws SQLException {
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo)"
+			  + " VALUES (default, ?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, "6");
+		stmt.setString(1, numeroProjeto);
+		stmt.setString(2, "5");
 		stmt.setString(3, diarias.getDescricao());
 		stmt.setFloat(4, diarias.getValorUnitario());
 		stmt.setInt(5, diarias.getQuantidade());
 		stmt.setString(6, diarias.getPeriodo());
-		stmt.setString(7, diarias.getJustificativa());
 			
 		try{
 			stmt.execute();
@@ -39,7 +38,7 @@ public class DiariasDAO {
 		return autenticado;
 	}
 
-	public ArrayList<Diarias> lista (long numeroProjeto){
+	public ArrayList<Diarias> lista (String numeroProjeto){
 		
 		ArrayList<Diarias> diarias = new ArrayList<Diarias>();
 		
@@ -47,11 +46,11 @@ public class DiariasDAO {
 			this.query = " SELECT id, descricao, valorunitario, quantidade, periodo, justificativa"
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND material.codigodemanda = 6 "
+				+ " AND material.codigodemanda = 5 "
 				+ " AND numeroprojeto = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -132,7 +131,7 @@ public class DiariasDAO {
 	public boolean alterar(Diarias diarias, int id) throws SQLException {
 		this.query = " UPDATE itens "
 			+ " SET descricao = ?, valorunitario = ?, "
-			+ " quantidade = ?, periodo = ?, justificativa = ? "
+			+ " quantidade = ?, periodo = ?"
 			+ " WHERE id = ?; ";
 
 		stmt = conn.prepareStatement(this.query);
@@ -141,8 +140,7 @@ public class DiariasDAO {
 		stmt.setFloat(2, diarias.getValorUnitario());
 		stmt.setInt(3, diarias.getQuantidade());
 		stmt.setString(4, diarias.getPeriodo());
-		stmt.setString(5, diarias.getJustificativa());
-		stmt.setInt(6, id);
+		stmt.setInt(5, id);
 
 		try{
 			stmt.execute();

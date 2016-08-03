@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufsm.csi.dao.MaterialConsumoDAO;
@@ -18,15 +17,14 @@ public class MaterialConsumoController {
 	private boolean retorno = false;
 	
 	@RequestMapping("materialConsumo")
-	public String materialConsumo (long numeroProjeto, Model model){
+	public String materialConsumo (String numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		return "materialConsumo/material-consumo";
 	}
 	
 	@RequestMapping("cadastrarMaterialConsumo")
-	public String cadastrarMaterialConsumo (long numeroProjeto, MaterialConsumo materialConsumo, 
+	public String cadastrarMaterialConsumo (String numeroProjeto, MaterialConsumo materialConsumo, 
 			RedirectAttributes redirectAttributes) throws SQLException{
-		System.out.println(materialConsumo.getValorUnitario());
 		this.retorno = new MaterialConsumoDAO().adicionar(materialConsumo, numeroProjeto);
 
 		if(retorno){
@@ -39,7 +37,7 @@ public class MaterialConsumoController {
 	}
 	
 	@RequestMapping("redirecionaModificarMaterialConsumo")
-	public String redirecionaModificar (long numeroProjeto, Model model){
+	public String redirecionaModificar (String numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("materaisConsumo", new MaterialConsumoDAO().lista(numeroProjeto));
 		
@@ -47,7 +45,7 @@ public class MaterialConsumoController {
 	}
 	
 	@RequestMapping("redirecionaAlterarMaterialConsumo")
-	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
+	public String redirecionaAlterar (String numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("materialConsumo", new MaterialConsumoDAO().getMaterialConsumo(id));
 		
@@ -55,7 +53,7 @@ public class MaterialConsumoController {
 	}
 	
 	@RequestMapping("removerMaterialConsumo")
-	public String removerMaterialConsumo (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+	public String removerMaterialConsumo (String numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
 		this.retorno = new MaterialConsumoDAO().remover(id);
 
 		if(retorno){
@@ -67,7 +65,7 @@ public class MaterialConsumoController {
 	}
 	
 	@RequestMapping("alterarMaterialConsumo")
-	public String alterarMaterialConsumo (MaterialConsumo materialConsumo, long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
+	public String alterarMaterialConsumo (MaterialConsumo materialConsumo, String numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
 		this.retorno = new MaterialConsumoDAO().alterar(materialConsumo, id);
 
 		if(retorno){

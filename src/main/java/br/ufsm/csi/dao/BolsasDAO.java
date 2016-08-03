@@ -14,13 +14,13 @@ public class BolsasDAO {
 	private boolean autenticado = false;
 	private String query;
 	
-	public boolean adicionar(Bolsas bolsas, long numeroProjeto) throws SQLException {
+	public boolean adicionar(Bolsas bolsas, String numeroProjeto) throws SQLException {
 		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, valorunitario, quantidade, periodo, justificativa)"
 			  + " VALUES (default, ?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);			
-		stmt.setLong(1, numeroProjeto);
-		stmt.setString(2, "5");
+		stmt.setString(1, numeroProjeto);
+		stmt.setString(2, "6");
 		stmt.setFloat(3, bolsas.getValorUnitario());
 		stmt.setInt(4, bolsas.getQuantidade());
 		stmt.setString(5, bolsas.getPeriodo());
@@ -39,7 +39,7 @@ public class BolsasDAO {
 		return autenticado;
 	}
 
-	public ArrayList<Bolsas> lista (long numeroProjeto){
+	public ArrayList<Bolsas> lista (String numeroProjeto){
 		
 		ArrayList<Bolsas> bolsas = new ArrayList<Bolsas>();
 		
@@ -47,13 +47,16 @@ public class BolsasDAO {
 			this.query = " SELECT id, valorunitario, quantidade, periodo, justificativa"
 				+ " FROM itens, material "
 				+ " WHERE itens.codigomaterial = material.codigomaterial "
-				+ " AND material.codigodemanda = 5 "
+				+ " AND material.codigodemanda = 6 "
 				+ " AND numeroprojeto = ?; ";
 			
 			stmt = conn.prepareStatement(this.query);
-			stmt.setLong(1, numeroProjeto);
+			stmt.setString(1, numeroProjeto);
 			
 			ResultSet rs = stmt.executeQuery();
+			
+			String[] meses;
+			String periodo;
 			
 			while(rs.next()){
 				Bolsas bolsa = new Bolsas();
@@ -64,6 +67,10 @@ public class BolsasDAO {
 				bolsa.setPeriodo(rs.getString("periodo"));
 				bolsa.setJustificativa(rs.getString("justificativa"));
 				bolsa.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
+				
+				periodo = rs.getString("periodo");
+				meses = periodo.split(",");
+				bolsa.setMeses(meses.length);
 				
 				bolsas.add(bolsa);
 			}

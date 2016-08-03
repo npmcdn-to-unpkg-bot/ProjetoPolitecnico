@@ -54,6 +54,9 @@
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li class="active">Passagens</li>
+	  		<div class="pull-right active">
+			  	<input type="checkbox" ng-model="passagem.ajuda"> Ajuda ?
+	  		</div>
 		</ol>
 					
 		<c:if test="${status == 'cadastroPassagens'}">
@@ -68,25 +71,44 @@
 			</div>
 		</c:if>
 		
+		<div class="alert alert-warning" ng-if="passagem.ajuda" role="alert">
+			<span class="fa fa-info-circle"></span>
+			Nesta versão de ajuda vôce terá o detalhamento das informações esperadas em cada campo e também um exemplo de preenchimento deste formulário.
+
+			<a class="pull-right" data-toggle="modal" href="#exemplo"> 
+				<span class="glyphicon glyphicon-eye-open text-info"></span> <span class="text-info">Exemplo</span>
+			</a>			
+		</div>
+		
 		<div class="row" style="margin-top:3%;">
-			<form action="cadastrarPassagens?numeroProjeto=${projeto.numeroProjeto}" method="post">
+			<form action="cadastrarPassagens?numeroProjeto=${projeto.numeroProjeto}" autocomplete="off" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
 						<div class="col-md-8">
 							<div class="form-group">
+								<span ng-if="passagem.ajuda && !item.descricao" class="text-danger fa fa-close"></span>
+								<span ng-if="passagem.ajuda && item.descricao" class="text-success fa fa-check-circle"></span>
 								<label for="descricao">Trecho</label>
-								<textarea class="form-control" rows="2" name="descricao" ng-model="item.descricao"></textarea required>
+								<textarea class="form-control" rows="2" minlength="5" name="descricao" ng-model="item.descricao" required></textarea>
+								<small class="text-danger" ng-if="passagem.ajuda && !item.descricao" style="margin-left: 1%;">
+									*campo obrigatorio, mínimo de 5 caracteres.
+								</small>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
+								<span ng-if="passagem.ajuda && !item.modalidade" class="text-danger fa fa-close"></span>
+								<span ng-if="passagem.ajuda && item.modalidade" class="text-success fa fa-check-circle"></span>
 								<label for="unid-medida">Modalidade</label>
-								<select class="form-control"  name="codigoDemanda">
-									<option value="2.1"> --- Selecione uma Modalidade --- </option>
+								<select class="form-control" ng-model="item.modalidade" name="codigoDemanda" required>
+									<option value=""> --- Selecione uma Modalidade --- </option>
 									<option value="2.2"> Aéria </option>
 									<option value="2.1"> Terrestre </option>
 								</select>
+								<small class="text-danger" ng-if="passagem.ajuda && !item.modalidade" style="margin-left: 3%;">
+									*campo obrigatório.
+								</small>
 							</div>
 						</div>
 					</div>		
@@ -95,20 +117,40 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
+								<span ng-if="passagem.ajuda && !item.valorUnit || item.valorUnit > 999999999 || item.valorUnit <= 0" class="text-danger fa fa-close"></span>
+								<span ng-if="passagem.ajuda && item.valorUnit > 0 && item.valorUnit <= 999999999" class="text-success fa fa-check-circle"></span>
 								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
 								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="Valor Unitário"/>
-								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>							
+								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number required/>
+								<small class="text-danger" ng-if="passagem.ajuda && !item.valorUnit" style="margin-left: 3%;">
+									*campo obrigatório, apenas caracteres numéricos.
+								</small>
+								<small class="text-danger" ng-if="item.valorUnit > 999999999" style="margin-left: 3%">
+									*valor muito alto (máximo R$ 999.999.999,00).
+								</small>
+								<small class="text-danger" ng-if="item.valorUnit <= 0" style="margin-left: 3%">
+									*valor inválido.
+								</small>						
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
+								<span ng-if="passagem.ajuda && !item.quantidade || item.quantidade == 0" class="text-danger fa fa-close"></span>
+								<span ng-if="passagem.ajuda && item.quantidade > 0" class="text-success fa fa-check-circle"></span>
 								<label for="quantidade">Quantidade</label>
-								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="Quantidade" ng-model="item.quantidade" ui-number>
+								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="Quantidade" ng-model="item.quantidade" ui-number required>
+								<small class="text-danger" ng-if="passagem.ajuda && !item.quantidade" style="margin-left: 3%;">
+									*campo obrigatório, apenas caracteres numéricos.
+								</small>
+								<small class="text-danger" ng-if="passagem.ajuda && item.quantidade == 0 && item.quantidade" style="margin-left: 3%;">
+									*campo obrigatório, quantidade inválida.
+								</small>
 							</div>
 						</div>
 						<div class="col-md-4">
-							<div ng-if="item.quantidade && item.valorUnit">
+							<div ng-if="item.quantidade > 0 && item.valorUnit">
 								<div class="form-group">
+									<span ng-if="diarias.ajuda" class="text-success fa fa-check-circle"></span>
 									<label for="total">Valor Total <strong>R$</strong></label>
 									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.valorUnit * item.quantidade | currency}}" disabled>
 								</div>
@@ -119,10 +161,18 @@
 					
 					<div class="row">
 						<div class="col-md-9">
+							<span ng-if="passagem.ajuda && user.meses.length <= 0" class="text-danger fa fa-close"></span>
+							<span ng-if="passagem.ajuda && user.meses.length > 0" class="text-success fa fa-check-circle"></span>
 							<label for="periodo">Periodo</label><br>
 							<label class="checkbox-inline" ng-repeat="mes in meses">
 			  					<input type="checkbox" name="periodo" checklist-model="user.meses" checklist-value="mes" value="{{mes}}"> {{mes}}
 							</label>
+							
+							<div ng-if="user.meses.length <= 0">
+								<small class="text-danger" style="margin-left: 1%;">
+									*campo obrigatório.
+								</small>
+							</div>
 						</div>
 						<div class="col-md-1">
 							<br><button class="btn btn-default" type="button" ng-click="todos()">Todos</button>
@@ -132,14 +182,8 @@
 						</div>
 					</div>
 					<hr>
-			
-					<div class="form-group">
-						<label for="total">Justificativa</label>
-						<textarea class="form-control" name="justificativa" rows="3" ng-model="item.justificativa"></textarea>
-					</div>
-			
 					<button class="btn btn-primary" type="submit" 
-						ng-disabled="!item.descricao || !item.valorUnit || !item.quantidade || !item.justificativa">
+						ng-disabled="user.meses.length <= 0 || item.valorUnit > 999999999 || item.quantidade == 0 || item.valorUnit <= 0">
 						<span class="glyphicon glyphicon-ok"></span> Cadastrar
 					</button>		
 				</div>

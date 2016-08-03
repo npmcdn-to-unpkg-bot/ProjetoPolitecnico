@@ -5,29 +5,25 @@ import java.sql.SQLException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.ufsm.csi.dao.MaterialConsumoDAO;
 import br.ufsm.csi.dao.ProjetoDAO;
 import br.ufsm.csi.dao.ServicoTerceirosDAO;
-import br.ufsm.csi.model.MaterialConsumo;
 import br.ufsm.csi.model.ServicoTerceiros;
 
 @Controller
 public class ServicoTerceirosController {
 
-	private ModelAndView modelAndView;
 	private boolean retorno = false;
 	
 	@RequestMapping("servicoTerceiros")
-	public String servicoTerceiros (long numeroProjeto, Model model){
+	public String servicoTerceiros (String numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		return "servicoTerceiros/servico-terceiros";
 	}
 	
 	@RequestMapping("cadastrarServicoTerceiros")
-	public String cadastrarServicoTerceiros (long numeroProjeto, ServicoTerceiros servicoTerceiros, 
+	public String cadastrarServicoTerceiros (String numeroProjeto, ServicoTerceiros servicoTerceiros, 
 			RedirectAttributes redirectAttributes) throws SQLException{
 		
 		this.retorno = new ServicoTerceirosDAO().adicionar(servicoTerceiros, numeroProjeto);
@@ -42,7 +38,7 @@ public class ServicoTerceirosController {
 	}
 	
 	@RequestMapping("redirecionaModificarServicoTerceiros")
-	public String redirecionaModificar (long numeroProjeto, Model model){
+	public String redirecionaModificar (String numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("servicoTerceiros", new ServicoTerceirosDAO().lista(numeroProjeto));
 		
@@ -50,7 +46,7 @@ public class ServicoTerceirosController {
 	}
 	
 	@RequestMapping("redirecionaAlterarServicoTerceiros")
-	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
+	public String redirecionaAlterar (String numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("servicoTerceiros", new ServicoTerceirosDAO().getServicoTerceiros(id));
 		
@@ -58,7 +54,7 @@ public class ServicoTerceirosController {
 	}
 	
 	@RequestMapping("removerServicoTerceiros")
-	public String removerServicoTerceiros (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+	public String removerServicoTerceiros (String numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
 		this.retorno = new ServicoTerceirosDAO().remover(id);
 
 		if(retorno){
@@ -70,7 +66,7 @@ public class ServicoTerceirosController {
 	}
 	
 	@RequestMapping("alterarServicoTerceiros")
-	public String alterarServicoTerceiros (ServicoTerceiros servicoTerceiros, long numeroProjeto, int id, 
+	public String alterarServicoTerceiros (ServicoTerceiros servicoTerceiros, String numeroProjeto, int id, 
 			RedirectAttributes redirectAttributes) throws SQLException{
 		
 		this.retorno = new ServicoTerceirosDAO().alterar(servicoTerceiros, id);

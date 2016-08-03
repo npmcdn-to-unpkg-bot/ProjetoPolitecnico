@@ -143,9 +143,6 @@
 													<h4><strong><i class="fa fa-calculator" aria-hidden="true"></i> Valor Total <fmt:formatNumber value="${serv.valorUnitario * serv.quantidade}" type="currency"/></h4>
 												</div>
 											</div>
-											<hr>
-											<h4><strong><i class="fa fa-info-circle" aria-hidden="true"></i> Justificativa:</strong></h4> 
-											<textarea class="form-control" rows="2" readonly>${serv.justificativa}</textarea> 
 			                    		</div>
                     					<div class="modal-footer">
                     						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>

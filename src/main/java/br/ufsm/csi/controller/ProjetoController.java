@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufsm.csi.dao.BolsasDAO;
 import br.ufsm.csi.dao.ProjetoDAO;
 import br.ufsm.csi.model.Projeto;
 
@@ -26,15 +27,16 @@ public class ProjetoController {
 	}
 	
 	@RequestMapping("acessoProjetoExistente")
-	public String acessoProjetoExistente (Model model, long numeroProjeto){
+	public String acessoProjetoExistente (Model model, String numeroProjeto){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("demandas", new ProjetoDAO().getDemandas(numeroProjeto));
+		model.addAttribute("bolsas", new BolsasDAO().lista(numeroProjeto));
 		
 		return "menu/principal";
 	}
 	
 	@RequestMapping("removerProjetoExistente")
-	public String removerProjetoExistente (long numeroProjeto, long siape, RedirectAttributes redirectAttributes) throws Exception{
+	public String removerProjetoExistente (String numeroProjeto, long siape, RedirectAttributes redirectAttributes) throws Exception{
 		this.retorno = new ProjetoDAO().remover(numeroProjeto);
 
 		if(retorno){
@@ -51,7 +53,7 @@ public class ProjetoController {
 	}
 	
 	@RequestMapping(value="/cadastrarProjeto", method = RequestMethod.POST)
-	public String cadastrarProjeto (Projeto projeto, RedirectAttributes redirectAttributes) throws Exception{  
+	public String cadastrarProjeto (Projeto projeto, RedirectAttributes redirectAttributes) throws Exception{	
 		this.retorno = new ProjetoDAO().adicionar(projeto);
 		
 		redirectAttributes.addFlashAttribute("projeto", projeto);
@@ -72,6 +74,7 @@ public class ProjetoController {
 	public String cadastroSucesso(Projeto projeto, Model model) {  
 		model.addAttribute("projeto", projeto);
 		model.addAttribute("demandas", new ProjetoDAO().getDemandas(projeto.getNumeroProjeto()));
+		model.addAttribute("bolsas", new BolsasDAO().lista(projeto.getNumeroProjeto()));
 		
 		return "menu/principal";
 	}
@@ -84,7 +87,7 @@ public class ProjetoController {
 	}
 	
 	@RequestMapping("redirecionaModificar")
-	public String redirecionaModificar (long numeroProjeto, Model model){
+	public String redirecionaModificar (String numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("demandas", new ProjetoDAO().getDemandas(numeroProjeto));
 		
@@ -123,7 +126,7 @@ public class ProjetoController {
 	}
 	
 	@RequestMapping("finalizar")
-	public String finalizar (long numeroProjeto, long siape, RedirectAttributes redirectAttributes) throws Exception{
+	public String finalizar (String numeroProjeto, long siape, RedirectAttributes redirectAttributes) throws Exception{
 		this.retorno = new ProjetoDAO().finalizar(numeroProjeto);
 
 		if(retorno){

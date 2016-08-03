@@ -77,14 +77,32 @@
 					<label for="titulo">Título do Projeto</label>
 					<input type="text" class="form-control" name="nomeProjeto" value="${projeto.nomeProjeto}" disabled>
 				</div>
-				  
-				<div class="form-group">
-					<label for="numero">Numero do Projeto</label>
-					<input type="text" class="form-control" name="numeroProjeto" value="${projeto.numeroProjeto}" disabled>
+				
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="numero">Numero do Projeto</label>
+							<input type="text" class="form-control" name="numeroProjeto" value="${projeto.numeroProjeto}" disabled>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="modalidade">Modalidade</label>
+							<input type="text" class="form-control" name="modalidade" value="${projeto.modalidade}" disabled>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="modalidade">Justificativa</label>
+							<button class="btn btn-default"  data-toggle="modal" href="#justificativa" style="margin-left: 20%;"> 
+								<span class="glyphicon glyphicon-eye-open text-info"></span>
+							</button>
+						</div>
+					</div>
 				</div>
 					
-				<a class="btn btn-default" href="redirecionaModificar?numeroProjeto=${projeto.numeroProjeto}" style="margin-top: 2%; margin-right: 1%; margin-bottom: 1%;"> 
-					<span class="glyphicon glyphicon-wrench text-success"></span> <span class="text-success">Modificar Projeto</span></strong>
+				<a class="btn btn-default" data-toggle="modal" href="#modificar" style="margin-top: 2%; margin-right: 1%; margin-bottom: 1%;"> 
+					<span class="glyphicon glyphicon-wrench text-success"></span> <span class="text-success">Modificar Projeto</span>
 				</a>
 				<a class="btn btn-default" title="Remover" data-toggle="modal" style="margin-top: 2%; margin-right: 1%; margin-bottom: 1%;" href="#remover">
 	 				<span class="glyphicon glyphicon-remove text-danger"></span> <span class="text-danger">Remover Projeto</span>
@@ -110,7 +128,86 @@
                    			</div>
 			        	</div>
                 	</div>
-                </div>	
+                </div>
+                
+                <div class="modal fade" id="justificativa" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			    	<div class="modal-dialog" role="document">
+			        	<div class="modal-content">
+			            	<div class="modal-header text-center">
+			                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                     <h4 class="modal-title text-muted" id="myModalLabel">
+			                     	<i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i> Caracterização ou Justificativa
+			                     </h4>
+			                </div>
+			                <div class="modal-body text-center">
+								<h4 class="modal-title" id="myModalLabel">
+									<textarea class="form-control" rows="18">${projeto.justificativa}</textarea disabled>
+								</h4>
+							</div>
+							<div class="modal-footer">
+                    			<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Fechar</button>
+                   			</div>
+			        	</div>
+                	</div>
+                </div>
+                
+                <div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			    	<div class="modal-dialog" role="document">
+			        	<div class="modal-content">
+			            	<div class="modal-header text-center">
+			                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                     <h4 class="modal-title text-muted" id="myModalLabel">
+			                     	<i class="glyphicon glyphicon-wrench" aria-hidden="true"></i> Modificar Projeto
+			                     </h4>
+			                </div>
+			                <div class="modal-body text-center">
+			                	<form action="modificarProjeto" method="post">
+									<div class="row">
+										<div class="col-md-5">
+											<div class="form-group">
+												<label for="numero">Numero do Projeto</label>
+												<input type="text" class="form-control" value="${projeto.numeroProjeto}" disabled>
+												<input type="hidden" class="form-control" name="numeroProjeto" value="${projeto.numeroProjeto}">		
+											</div>
+										</div>
+										<div class="col-md-7">
+											<div class="form-group">
+												<label for="modalidade">Modalidade</label>								
+												<select class="form-control" ng-model="projeto.modalidade" name="modalidade">
+													<option value="${projeto.modalidade}"> ${projeto.modalidade} </option>
+													<c:if test="${'Ensino' != projeto.modalidade}">
+														<option value="Ensino"> Ensino </option>
+													</c:if>
+													<c:if test="${'Pesquisa' != projeto.modalidade}">
+														<option value="Pesquisa"> Pesquisa </option>
+													</c:if>
+													<c:if test="${'Extensão' != projeto.modalidade}">
+														<option value="Extensão"> Extensão </option>
+													</c:if>
+												</select>
+											</div>
+										</div>							
+									</div>
+									<hr>
+									<div class="form-group">
+										<label for="titulo">Título do Projeto</label>
+										<input type="text" class="form-control" id="nomeProjeto" name="nome" value="${projeto.nomeProjeto}" required/>
+									</div>
+									<hr>
+									<div class="form-group">
+										<label for="justificativa">Caracterização ou Justificativa</label>
+										<textarea class="form-control" rows="10" name="justificativa" required>${projeto.justificativa}</textarea>
+									</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary" title="Alterar">
+									<span class="glyphicon glyphicon-ok"></span> Alterar
+								</button>
+                    			<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Fechar</button>
+                   			</div>
+			        	</div>
+                	</div>
+               </div>				
 					  
 			</div>
 			<div class="col-md-5">
@@ -170,12 +267,31 @@
 	 						</tr>
 	 						<c:set var="soma" value="${soma + demanda.valorTotal}"/>						
 	 						</c:forEach>
+	 						<c:forEach var="bolsa" items="${bolsas}">
+	 							<c:set var="somaBolsas" value="${somaBolsas + ((bolsa.valorUnitario * bolsa.meses) * bolsa.quantidade)}"/>
+	 						</c:forEach>
+	 						<tr>
+	 							<td class="text-center" width="6%"><strong>6</strong></td>
+	 							<c:if test="${bolsas.size() > 0}">
+									<td class="text-info">
+	 									Bolsas 
+	 									<span class="badge">${bolsas.size()}</span> 
+	 								</td>
+	 							</c:if>
+	 							<c:if test="${bolsas.size() <= 0}">
+									<td> Bolsas </td>
+	 							</c:if>
+	 							<c:if test="${bolsas.size() > 0}"> 
+	 								<td class="text-center text-muted" width="30%"><fmt:formatNumber value="${somaBolsas}" type="currency"/></td> 
+	 							</c:if>
+	 							<c:if test="${bolsas.size() <= 0}"> <td class="text-center text-muted" width="30%">R$ 0,00</td> </c:if>
+	 						</tr>
 	 					</tbody>
 	 					<tfooter>
 	 						<tr>
 	 							<td class="text-center"><strong>...</strong></td>
 	 							<td class="text-center"><strong>...</strong></td>
-	 							<td class="text-center"><strong>Total <fmt:formatNumber value="${soma}" type="currency"/></strong></td>
+	 							<td class="text-center"><strong>Total <fmt:formatNumber value="${soma + somaBolsas}" type="currency"/></strong></td>
 	 						</tr>
 	 					</tfooter>
 	 				</table>

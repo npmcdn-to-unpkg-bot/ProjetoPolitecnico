@@ -5,14 +5,11 @@ import java.sql.SQLException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufsm.csi.dao.DiariasDAO;
 import br.ufsm.csi.dao.ProjetoDAO;
-import br.ufsm.csi.dao.ServicoTerceirosDAO;
 import br.ufsm.csi.model.Diarias;
-import br.ufsm.csi.model.ServicoTerceiros;
 
 @Controller
 public class DiariasController {
@@ -20,13 +17,13 @@ public class DiariasController {
 	private boolean retorno = false;
 	
 	@RequestMapping("diarias")
-	public String diarias (long numeroProjeto, Model model){
+	public String diarias (String numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		return "diarias/diarias";
 	}
 	
 	@RequestMapping("cadastrarDiarias")
-	public String cadastrarDiarias (long numeroProjeto, Diarias diarias, RedirectAttributes redirectAttributes) throws SQLException{
+	public String cadastrarDiarias (String numeroProjeto, Diarias diarias, RedirectAttributes redirectAttributes) throws SQLException{
 		this.retorno = new DiariasDAO().adicionar(diarias, numeroProjeto);
 
 		if(retorno){
@@ -39,7 +36,7 @@ public class DiariasController {
 	}
 	
 	@RequestMapping("redirecionaModificarDiarias")
-	public String redirecionaModificar (long numeroProjeto, Model model){
+	public String redirecionaModificar (String numeroProjeto, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("diarias", new DiariasDAO().lista(numeroProjeto));
 		
@@ -47,7 +44,7 @@ public class DiariasController {
 	}
 	
 	@RequestMapping("redirecionaAlterarDiarias")
-	public String redirecionaAlterar (long numeroProjeto, int id, Model model){
+	public String redirecionaAlterar (String numeroProjeto, int id, Model model){
 		model.addAttribute("projeto", new ProjetoDAO().listaProjeto(numeroProjeto));
 		model.addAttribute("diarias", new DiariasDAO().getDiarias(id));
 		
@@ -55,7 +52,7 @@ public class DiariasController {
 	}
 	
 	@RequestMapping("removerDiarias")
-	public String removerDiarias (long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
+	public String removerDiarias (String numeroProjeto, int id, RedirectAttributes redirectAttributes) throws Exception{
 		this.retorno = new DiariasDAO().remover(id);
 
 		if(retorno){
@@ -67,7 +64,7 @@ public class DiariasController {
 	}
 	
 	@RequestMapping("alterarDiarias")
-	public String alterarDiarias (Diarias diarias, long numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
+	public String alterarDiarias (Diarias diarias, String numeroProjeto, int id, RedirectAttributes redirectAttributes) throws SQLException{
 		this.retorno = new DiariasDAO().alterar(diarias, id);
 
 		if(retorno){

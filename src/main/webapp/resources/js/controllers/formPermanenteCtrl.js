@@ -20,6 +20,13 @@
 		};
 		
 		$scope.unidadesMedida = [
+		    {nome: 'Unidade/unid.', categoria: 'Unidade de Medida Relativa'},
+		    {nome: 'Par', categoria: 'Unidade de Medida Relativa'},
+		    {nome: 'Dúzia', categoria: 'Unidade de Medida Relativa'},
+		    {nome: 'Dezena', categoria: 'Unidade de Medida Relativa'},
+		    {nome: 'Centena', categoria: 'Unidade de Medida Relativa'},
+		    {nome: 'Milhar', categoria: 'Unidade de Medida Relativa'},
+		                         
 		    {nome: 'Quilômetro/km', categoria: 'Unidade de Medida de Comprimento'},
 			{nome: 'Metro/m', categoria: 'Unidade de Medida de Comprimento'},
 			{nome: 'Centímetro/cm', categoria: 'Unidade de Medida de Comprimento'},

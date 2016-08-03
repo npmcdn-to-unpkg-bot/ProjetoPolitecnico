@@ -9,6 +9,7 @@ public class Bolsas {
 	private float valorTotal;
 	private String periodo;
 	private String justificativa;
+	private int meses;
 	
 	public String getCodigoDemanda() {
 		return codigoDemanda;
@@ -51,5 +52,11 @@ public class Bolsas {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getMeses() {
+		return meses;
+	}
+	public void setMeses(int meses) {
+		this.meses = meses;
 	}
 }

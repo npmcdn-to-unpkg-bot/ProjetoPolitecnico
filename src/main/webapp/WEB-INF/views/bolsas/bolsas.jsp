@@ -26,7 +26,7 @@
 	<div class="container" id="conteudo" style="margin-top: 1%;">
 		<div class="row">
     		<div class="col-md-10">
-    			<h1 class="text-muted"> <span class="fa fa-user-times"></span> Bolsas</h1>
+    			<h1 class="text-muted"> <span class="fa fa-user-plus"></span> Bolsas</h1>
     		</div>
     		<div class="col-md-2">
     			<h4 class="text-muted pull-right">
@@ -54,6 +54,10 @@
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li class="active">Bolsas</li>
+	  		<li></li>
+	  		<div class="pull-right active">
+			  	<input type="checkbox" ng-model="bolsa.ajuda"> Ajuda ?
+	  		</div>	
 		</ol>
 			
 		<c:if test="${status == 'cadastroBolsas'}">
@@ -68,29 +72,62 @@
 			</div>
 		</c:if>
 
+		<div class="alert alert-warning" ng-if="bolsa.ajuda" role="alert">
+			<span class="fa fa-info-circle"></span>
+			Nesta versão de ajuda vôce terá o detalhamento das informações esperadas em cada campo e também um exemplo de preenchimento deste formulário.
+
+			<a class="pull-right" data-toggle="modal" href="#exemplo"> 
+				<span class="glyphicon glyphicon-eye-open text-info"></span> <span class="text-info">Exemplo</span>
+			</a>			
+		</div>
+
 		<div class="row" style="margin-top:3%;">
-			<form action="cadastrarBolsas?numeroProjeto=${projeto.numeroProjeto}" method="post">
+			<form action="cadastrarBolsas?numeroProjeto=${projeto.numeroProjeto}" autocomplete="off" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
-								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="Valor Unitário"/>
-								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>								
+								<label for="precoUnit">
+									<span ng-if="bolsa.ajuda && !item.valorUnit || item.valorUnit > 999999999 || item.valorUnit <= 0" class="text-danger fa fa-close"></span>
+									<span ng-if="bolsa.ajuda && item.valorUnit > 0 && item.valorUnit <= 999999999" class="text-success fa fa-check-circle"></span>
+									Valor Unitário <strong>R$</strong>
+								</label>
+								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="Valor Unitário" required/>
+								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>
+								<small class="text-danger" ng-if="bolsa.ajuda && !item.valorUnit" style="margin-left: 3%;">
+									*campo obrigatório, apenas caracteres numéricos.
+								</small>
+								<small class="text-danger" ng-if="item.valorUnit > 999999999" style="margin-left: 3%">
+									*valor muito alto (máximo R$ 999.999.999,00).
+								</small>
+								<small class="text-danger" ng-if="item.valorUnit <= 0" style="margin-left: 3%">
+									*valor inválido.
+								</small>						
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="quantidade">Quantidade</label>
-								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="Quantidade" ng-model="item.quantidade" ui-number>
+								<label for="quantidade">
+									<span ng-if="bolsa.ajuda && !item.quantidade || item.quantidade == 0" class="text-danger fa fa-close"></span>			
+									<span ng-if="bolsa.ajuda && item.quantidade > 0" class="text-success fa fa-check-circle"></span>
+									Quantidade
+								</label>
+								<input type="text" class="form-control" maxlength="7" name="quantidade" placeholder="Quantidade" ng-model="item.quantidade" ui-number required>
+								<small class="text-danger" ng-if="bolsa.ajuda && !item.quantidade" style="margin-left: 3%;">
+									*campo obrigatório, apenas caracteres numéricos.
+								</small>
+								<small class="text-danger" ng-if="bolsa.ajuda && item.quantidade == 0" style="margin-left: 3%;">
+									*campo obrigatório, quantidade inválida.
+								</small>
 							</div>
 						</div>
 						<div class="col-md-4">
-							<div ng-if="item.quantidade && item.valorUnit">
+							<div ng-if="item.quantidade > 0 && item.valorUnit > 0 && user.meses.length > 0">
 								<div class="form-group">
+									<span ng-if="bolsa.ajuda" class="text-success fa fa-check-circle"></span>
 									<label for="total">Valor Total <strong>R$</strong></label>
-									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit | currency}}" disabled>
+									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{(item.quantidade * (item.valorUnit * user.meses.length)) | currency}}" disabled>
 								</div>
 							</div>
 						</div>
@@ -99,10 +136,20 @@
 					
 					<div class="row">
 						<div class="col-md-9">
-							<label for="periodo">Periodo</label><br>
+							<label for="periodo">
+								<span ng-if="bolsa.ajuda && user.meses.length <= 0" class="text-danger fa fa-close"></span>
+								<span ng-if="bolsa.ajuda && user.meses.length > 0" class="text-success fa fa-check-circle"></span>
+								Periodo
+							</label><br>
 							<label class="checkbox-inline" ng-repeat="mes in meses">
 			  					<input type="checkbox" name="periodo" checklist-model="user.meses" checklist-value="mes" value="{{mes}}"> {{mes}}
 							</label>
+	
+							<div ng-if="user.meses.length <= 0">
+								<small class="text-danger" style="margin-left: 1%;">
+									*campo obrigatório.
+								</small>
+							</div>
 						</div>
 						<div class="col-md-1">
 							<br><button class="btn btn-default" type="button" ng-click="todos()">Todos</button>
@@ -114,12 +161,18 @@
 					<hr>
 			
 					<div class="form-group">
-						<label for="total">Justificativa</label>
-						<textarea class="form-control" name="justificativa" rows="3" ng-model="item.justificativa"></textarea>
+						<label for="total">
+							<span ng-if="bolsa.ajuda && !item.justificativa" class="text-danger fa fa-close"></span>
+							<span ng-if="bolsa.ajuda && item.justificativa" class="text-success fa fa-check-circle"></span>
+							Justificativa
+						</label>
+						<textarea class="form-control" minlength="5" name="justificativa" rows="3" ng-model="item.justificativa" required></textarea>
+						<small class="text-danger" ng-if="bolsa.ajuda && !item.justificativa" style="margin-left: 1%;">
+							*campo obrigatorio, mínimo de 5 caracteres.
+						</small>
 					</div>
-			
-					<button class="btn btn-primary" type="submit" 
-						ng-disabled="!item.valorUnit || !item.quantidade || !item.justificativa">
+					<hr>
+					<button ng-disabled="user.meses.length <= 0 || item.valorUnit > 999999999 || item.quantidade == 0 || item.valorUnit <= 0" class="btn btn-primary" type="submit">
 						<span class="glyphicon glyphicon-ok"></span> Cadastrar
 					</button>		
 				</div>
@@ -134,6 +187,54 @@
         	</h4>
         </footer>
 	</div>
+
+	<div class="modal fade" id="exemplo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+			    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        	<h4 class="modal-title text-muted" id="myModalLabel"> 
+			        		<span class="fa fa-user-plus"></span> Exemplo de Bolsas 
+			        	</h4>
+				</div>
+				<div class="modal-body text-center">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="proponente">Valor Unitário R$</label>
+								<input type="text" class="form-control text-center" value="R$ 400,00" disabled>		
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="proponente">Quantidade</label>
+								<input type="text" class="form-control text-center" value="2" disabled>		
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="form-group">
+								<label for="proponente">Valor Total R$</label>
+								<input type="text" class="form-control text-center" value="R$ 8000,00" disabled>		
+							</div>
+						</div>
+					</div>
+					<hr>					
+					<div class="form-group">
+						<label for="proponente">Periodo</label> </br>
+						Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez		
+					</div>
+					<hr>
+					<div class="form-group">
+						<label for="justificativa">Justificativa</label>
+						<textarea class="form-control text-center" rows="2" name="justificativa" disabled>Bolsista de nível inicial para dar continuidade aos conceitos do projeto para o próximo ano</textarea>
+					</div>							
+				</div>
+				<div class="modal-footer">
+                	<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Fechar</button>
+                </div>
+			</div>
+         </div>
+    </div>	
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
