@@ -100,6 +100,9 @@ public class MaterialPermanenteDAO {
 			
 			ResultSet rs = stmt.executeQuery();
 			
+			String[] meses;
+			String periodo;
+			
 			while(rs.next()){
 				MaterialPermanente materialPermanente = new MaterialPermanente();
 				
@@ -110,9 +113,15 @@ public class MaterialPermanenteDAO {
 				materialPermanente.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				materialPermanente.setQuantidade(rs.getInt("quantidade"));
 				materialPermanente.setSubItem(rs.getString("subitem"));
-				materialPermanente.setPeriodo(rs.getString("periodo"));
 				materialPermanente.setJustificativa(rs.getString("justificativa"));
 				materialPermanente.setUnidadeMedida(rs.getString("unidademedida"));
+				
+				periodo = rs.getString("periodo");
+				meses = periodo.split(",");
+				periodo = "";
+				for(int i=0; i<meses.length; i++)
+					periodo += "'" +meses[i] + "',";			
+				materialPermanente.setPeriodo(periodo.substring(0, periodo.length()-1));
 				
 				materiaisPermanente.add(materialPermanente);
 			}

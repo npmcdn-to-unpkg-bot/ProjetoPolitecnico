@@ -106,7 +106,7 @@
 	 								<a href="removerBolsas?numeroProjeto=${projeto.numeroProjeto}&&id=${bolsa.id}" class="btn btn-default btn-sm" title="Remover" ><span class="glyphicon glyphicon-remove text-danger"></span></a>
 	 							</td>
 	 						</tr>
-	 						<c:set var="soma" value="${soma + (bolsa.quantidade * bolsa.valorUnitario)}"/>
+	 						<c:set var="soma" value="${soma + ((bolsa.valorUnitario * bolsa.meses) * bolsa.quantidade)}"/>
 	 						
 	 						<div class="modal fade" id="modal_${bolsa.id}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			            		<div class="modal-dialog modal-lg" role="document">

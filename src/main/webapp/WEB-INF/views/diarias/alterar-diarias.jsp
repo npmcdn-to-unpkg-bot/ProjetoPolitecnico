@@ -23,101 +23,74 @@
 	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
 	<script src="<c:url value='/resources/js/directives/ng-currency.js'/>"></script>
   </head>
-  <body ng-controller="formCtrl">
+  <body ng-controller="formCtrl" ng-cloak>
 	
 	<div class="container" id="conteudo" style="margin-top: 1%;">
+	
+		<!-- CABEÇALHO -->
 		<div class="row">
     		<div class="col-md-10">
     			<h1 class="text-muted"> <span class="fa fa-suitcase"></span> Diárias</h1>
     		</div>
     		<div class="col-md-2">
-    			<h4 class="text-muted pull-right">
-    				<ul class="nav nav-pillis">
-    					<li role="presentation" class="dropdown">
-    					 	<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" id="menu"  aria-haspopup="true" aria-expanded="false">
-    							<span class="glyphicon glyphicon-user"></span> ${projeto.proponente} <span class="caret"></span>
-    						</a> 
-    					
-    						<ul class="dropdown-menu">
-    							<li> <a href="logout"> <span class="glyphicon glyphicon-log-out"></span> Sair</a> </li>
-    						</ul>
-    					</li>
-    				</ul>
-    			</h4>
+				<jsp:include page="../formularios/sair.jsp"></jsp:include>
     		</div>
     	</div>
 		
+		<!-- MENU -->
 		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="diarias?numeroProjeto=${projeto.numeroProjeto}">Diárias</a></li>
 			<li role="presentation"><a href="redirecionaModificarDiarias?numeroProjeto=${projeto.numeroProjeto}">Modificar Diárias</a></li>
 			<li role="presentation" class="active"><a href="#">Alterar Diárias</a></li>			
 		</ul>
 		
+		<!-- CAMINHOS -->
 		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="diarias?numeroProjeto=${projeto.numeroProjeto}">Diárias</a></li>
 	  		<li class="active">Alterar Diárias</li>
+	  		<div class="pull-right active">
+			  	<input type="checkbox" ng-model="item.ajuda"> Ajuda ?
+	  		</div>	
 		</ol>
-
+	
+		<jsp:include page="../formularios/ajuda.jsp"></jsp:include>
+	
+		<!-- FORMULÁRIO -->
 		<div class="row" style="margin-top:3%;">
 			<c:forEach var="diaria" items="${diarias}">
-			<form action="alterarDiarias?numeroProjeto=${projeto.numeroProjeto}&&id=${diaria.id}" method="post">
+			<form action="alterarDiarias?numeroProjeto=${projeto.numeroProjeto}&&id=${diaria.id}" autocomplete="off" method="post">
 				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<label for="descricao">Descrição</label>
-								<textarea class="form-control" rows="2" name="descricao" placeholder="${diaria.descricao}" ng-model="item.descricao"></textarea required>
-							</div>
-						</div>
-					</div>		
+				<div class="col-md-10" ng-init="descricao='Destino'">
+					
+					<!-- DESTINO -->
+					<div ng-init="item.descricao='${diaria.descricao}'"></div>
+					<jsp:include page="../formularios/descricao-trecho-destino.jsp"></jsp:include>
+		
+					<!-- VALOR UNIÁRIO - QUANTIDADE - VALOR TOTAL -->	
 					<hr>	
-					
 					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
-								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="<fmt:formatNumber value="${diaria.valorUnitario}" type="currency"/>"/>
-								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>
-							</div>
+						<div class="col-md-4" ng-init="item.valorUnit='${diaria.valorUnitario}'">
+							<div ng-init="valorUnitario='Valor da Diária'"></div>
+							<jsp:include page="../formularios/valorUnitario.jsp"></jsp:include>
+						</div>
+						<div class="col-md-4" ng-init="quantidade='Nº de Dias'">
+							<div ng-init="item.quantidade='${diaria.quantidade}'"></div>
+							<jsp:include page="../formularios/quantidade.jsp"></jsp:include>
 						</div>
 						<div class="col-md-4">
-							<div class="form-group">
-								<label for="quantidade">Quantidade</label>
-								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="${diaria.quantidade}" ng-model="item.quantidade" ui-number>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div ng-if="item.quantidade && item.valorUnit">
-								<div class="form-group">
-									<label for="total">Valor Total <strong>R$</strong></label>
-									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit | currency}}" disabled>
-								</div>
-							</div>
+							<jsp:include page="../formularios/valorTotal.jsp"></jsp:include>
 						</div>
 					</div>
-					<hr>
 					
-					<div class="row">
-						<div class="col-md-9">
-							<label for="periodo">Periodo</label><br>
-							<label class="checkbox-inline" ng-repeat="mes in meses">
-			  					<input type="checkbox" name="periodo" checklist-model="user.meses" checklist-value="mes" value="{{mes}}"> {{mes}}
-							</label>
-						</div>
-						<div class="col-md-1">
-							<br><button class="btn btn-default" type="button" ng-click="todos()">Todos</button>
-						</div>
-						<div class="col-md-2">
-							<br><button class="btn btn-default" type="button" ng-click="limpar()">Limpar</button>
-						</div>
-					</div>
-					<hr>
+					<!-- PERIODO -->
+					<hr ng-init="user.meses=[${diaria.periodo}]">
+					<jsp:include page="../formularios/periodo.jsp"></jsp:include>
+					<hr>					
 			
 					<button class="btn btn-primary" type="submit" 
-						ng-disabled="!item.valorUnit || !item.quantidade">
+						ng-disabled="user.meses.length <= 0 || item.valorUnit > 999999999 || item.quantidade == 0 || item.valorUnit <= 0">
 						<span class="glyphicon glyphicon-ok"></span> Alterar
 					</button>		
 				</div>
@@ -134,7 +107,55 @@
         	</h4>
         </footer>
 	</div>
-
+	
+	<!-- EXEMPLO MODAL -->
+	<div class="modal fade" id="exemplo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+			    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        	<h4 class="modal-title text-muted" id="myModalLabel"> 
+			        		<span class="fa fa-suitcase"></span> Exemplo de Diárias
+			        	</h4>
+				</div>
+				<div class="modal-body text-center">
+					<div class="form-group">
+						<label for="proponente">Destino</label>
+						<input type="text" class="form-control text-center" value="Participação Congresso Brasileiro de Computação (Porto Alegre)" disabled>		
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="proponente">Valor da Diária R$</label>
+								<input type="text" class="form-control text-center" value="R$ 180,00" disabled>		
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="proponente">Nº de Dias</label>
+								<input type="text" class="form-control text-center" value="5" disabled>		
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="form-group">
+								<label for="proponente">Valor Total R$</label>
+								<input type="text" class="form-control text-center" value="R$ 800,00" disabled>		
+							</div>
+						</div>
+					</div>
+					<hr>					
+					<div class="form-group">
+						<label for="proponente">Periodo: </label> Ago 	
+					</div>						
+				</div>
+				<div class="modal-footer">
+                	<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Fechar</button>
+                </div>
+			</div>
+         </div>
+    </div>	
+	
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
   </body>

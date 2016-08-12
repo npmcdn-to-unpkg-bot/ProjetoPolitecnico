@@ -8,9 +8,17 @@
 			'Out','Nov','Dez'
 	    ];
 		
+		$scope.descricao = 'Descrição';
+		$scope.valorUnitario = 'Valor Unitário';
+		$scope.quantidade = 'Quantidade';
+		
 		$scope.user = {
 			meses: ['Jan']
 		}
+		
+		$scope.descricao = 'Descrição';
+		$scope.valorUnitario = 'Valor Unitário';
+		$scope.quantidade = 'Quantidade';
 		
 		$scope.todos = function() {
 		    $scope.user.meses = angular.copy($scope.meses);
@@ -57,20 +65,11 @@
 		
 		$scope.materiaisPermanente = MaterialPermanenteAPI.getMaterialPermanente();
 		
-		$scope.adicionar = function (item){
-			$scope.items.push(angular.copy(item));				
-			delete $scope.item;
+		$scope.procuraUnidade = function (nome){
+			for(var i=0; i<$scope.unidadesMedida.length; i++){
+				if($scope.unidadesMedida[i].nome == nome)
+					return i;
+			}
 		};
-			
-		$scope.apagar = function (items){
-			$scope.items = items.filter(function (item) {
-				if(!item.selecionado) return item;
-			});
-		};
-			
-		$scope.itemSelecionado = function (items){
-			return items.some(function (item) {
-				return item.selecionado;
-			});
-		};
+		
 });

@@ -89,6 +89,9 @@ public class DiariasDAO {
 			
 			ResultSet rs = stmt.executeQuery();
 			
+			String[] meses;
+			String periodo;
+			
 			while(rs.next()){
 				Diarias diaria = new Diarias();
 				
@@ -97,8 +100,14 @@ public class DiariasDAO {
 				diaria.setValorUnitario(rs.getFloat("valorunitario"));
 				diaria.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				diaria.setQuantidade(rs.getInt("quantidade"));
-				diaria.setPeriodo(rs.getString("periodo"));
 				diaria.setJustificativa(rs.getString("justificativa"));
+				
+				periodo = rs.getString("periodo");
+				meses = periodo.split(",");
+				periodo = "";
+				for(int i=0; i<meses.length; i++)
+					periodo += "'" +meses[i] + "',";			
+				diaria.setPeriodo(periodo.substring(0, periodo.length()-1));
 				
 				diarias.add(diaria);
 			}

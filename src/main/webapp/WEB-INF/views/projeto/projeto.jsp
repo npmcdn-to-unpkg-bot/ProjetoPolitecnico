@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
-<html lang="pt-br" ng-app="form">
+<html lang="pt-br" ng-app="form" ng-cloak>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,7 +48,7 @@
 	  		<li class="active">Novo Projeto</li>
 	  		<li></li>
 	  		<div class="pull-right active">
-			  	<input type="checkbox" ng-model="projeto.ajuda"> Ajuda ?
+			  	<input type="checkbox" ng-model="item.ajuda"> Ajuda ?
 	  		</div>	
 		</ol>
 			
@@ -56,7 +56,7 @@
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
 		
-		<div class="alert alert-warning" ng-if="projeto.ajuda" role="alert">
+		<div class="alert alert-warning" ng-if="item.ajuda" role="alert">
 			<span class="fa fa-info-circle"></span>
 			Nesta versão de ajuda vôce terá o detalhamento das informações esperadas em cada campo e também um exemplo de preenchimento deste formulário.
 
@@ -70,7 +70,7 @@
 				<div class="col-md-7">
 					<div class="form-group">
 						<label for="proponente">
-							<span ng-if="projeto.ajuda" class="text-success fa fa-check-circle"></span> Proponente
+							<span ng-if="item.ajuda" class="text-success fa fa-check-circle"></span> Proponente
 						</label>
 						<input type="hidden" name="proponente" value="${usuarioLogado.nome}">
 						<input type="hidden" name="siape" value="${usuarioLogado.siape}">
@@ -80,12 +80,12 @@
 				  	
 					<div class="form-group">
 						<label for="titulo">
-							<span ng-if="projeto.ajuda && !projeto.nome" class="text-danger fa fa-close"></span>
-							<span ng-if="projeto.ajuda && projeto.nome" class="text-success fa fa-check-circle"></span>
+							<span ng-if="item.ajuda && !projeto.nome" class="text-danger fa fa-close"></span>
+							<span ng-if="item.ajuda && projeto.nome" class="text-success fa fa-check-circle"></span>
 							Título do Projeto
 						</label>
 						<input type="text" class="form-control" minlength="5" name="nomeProjeto" placeholder="Titulo do Projeto" ng-model="projeto.nome" required/>
-						<div ng-if="projeto.ajuda && !projeto.nome" style="margin-left: 2%;">
+						<div ng-if="item.ajuda && !projeto.nome" style="margin-left: 2%;">
 							<div class="text-danger">
 								<small>*campo obrigatório, mínimo de 5 caracteres.</small>
 							</div>
@@ -96,13 +96,13 @@
 				  		<div class="col-md-6">
 							<div class="form-group">
 								<label for="numero">
-									<span ng-if="projeto.ajuda && !projeto.numero" class="text-danger fa fa-close"></span>
-									<span ng-if="projeto.ajuda && projeto.numero.length < 6" class="text-danger fa fa-close"></span>
-									<span ng-if="projeto.ajuda && projeto.numero.length == 6" class="text-success fa fa-check-circle"></span>
+									<span ng-if="item.ajuda && !projeto.numero" class="text-danger fa fa-close"></span>
+									<span ng-if="item.ajuda && projeto.numero.length < 6" class="text-danger fa fa-close"></span>
+									<span ng-if="item.ajuda && projeto.numero.length == 6" class="text-success fa fa-check-circle"></span>
 									Numero do Projeto
 								</label>
 								<input type="text" class="form-control" name="numeroProjeto" minlength="6" maxlength="6" placeholder="Numero do Projeto" ng-model="projeto.numero" required ui-number/>
-								<div ng-if="projeto.ajuda" style="margin-left: 3%;">
+								<div ng-if="item.ajuda" style="margin-left: 3%;">
 									<div ng-if="!projeto.numero">
 										<div class="text-danger">
 											<small>*campo obrigatório, 6 caracteres</small>
@@ -119,8 +119,8 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="modalidade">
-									<span ng-if="projeto.ajuda && !projeto.modalidade" class="text-danger fa fa-close"></span>
-									<span ng-if="projeto.ajuda && projeto.modalidade" class="text-success fa fa-check-circle"></span>
+									<span ng-if="item.ajuda && !projeto.modalidade" class="text-danger fa fa-close"></span>
+									<span ng-if="item.ajuda && projeto.modalidade" class="text-success fa fa-check-circle"></span>
 									Modalidade
 								</label>								
 								<select class="form-control" ng-model="projeto.modalidade" name="modalidade" required>
@@ -129,7 +129,7 @@
 									<option value="Pesquisa"> Pesquisa </option>
 									<option value="Extensão"> Extensão </option>
 								</select>
-								<div ng-if="projeto.ajuda && !projeto.modalidade" style="margin-left: 3%;">
+								<div ng-if="item.ajuda && !projeto.modalidade" style="margin-left: 3%;">
 									<div class="text-danger">
 										<small>*campo obrigatório.</small>
 									</div>
@@ -155,12 +155,12 @@
 				<div class="col-md-12">
 					<div class="form-group">
 						<label for="justificativa">
-							<span ng-if="projeto.ajuda && !projeto.justificativa" class="text-danger fa fa-close"></span>
-							<span ng-if="projeto.ajuda && projeto.justificativa" class="text-success fa fa-check-circle"></span>
+							<span ng-if="item.ajuda && !projeto.justificativa" class="text-danger fa fa-close"></span>
+							<span ng-if="item.ajuda && projeto.justificativa" class="text-success fa fa-check-circle"></span>
 							Caracterização ou Justificativa
 						</label>
 						<textarea class="form-control" rows="4" minlength="5" name="justificativa" ng-model="projeto.justificativa" required></textarea>
-						<div ng-if="projeto.ajuda && !projeto.justificativa" style="margin-left: 1%;">
+						<div ng-if="item.ajuda && !projeto.justificativa" style="margin-left: 1%;">
 							<div class="text-danger">
 								<small>
 									*A justificativa se faz necessária para suporte a tramitação do Projeto nas estâncias administrativas e financeiras. Mínimo de 5 caracteres.

@@ -8,6 +8,10 @@
 			'Out','Nov','Dez'
 	    ];
 		
+		$scope.descricao = 'Descrição';
+		$scope.valorUnitario = 'Valor Unitário';
+		$scope.quantidade = 'Quantidade';
+		
 		$scope.unidadesMedida = [
 		     {nome: 'Unidade/unid.', categoria: 'Unidade de Medida Relativa'},
 		     {nome: 'Par', categoria: 'Unidade de Medida Relativa'},
@@ -59,8 +63,16 @@
 		    {nome: "Aéria"}, {nome: "Terrestre"}
 		];
 		
+		$scope.procuraUnidade = function (nome){
+			for(var i=0; i<$scope.unidadesMedida.length; i++){
+				if($scope.unidadesMedida[i].nome == nome)
+					return i;
+			}
+		};
+		
 		$scope.adicionar = function (item){
-			$scope.items.push(angular.copy(item));				
+			$scope.items.push(angular.copy(item));	
+			
 			delete $scope.item;
 		};
 			

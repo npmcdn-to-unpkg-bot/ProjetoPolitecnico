@@ -112,6 +112,9 @@ public class PassagensDAO {
 			
 			ResultSet rs = stmt.executeQuery();
 			
+			String[] meses;
+			String periodo;
+			
 			while(rs.next()){
 				Passagens passagem = new Passagens();
 				
@@ -121,8 +124,14 @@ public class PassagensDAO {
 				passagem.setValorUnitario(rs.getFloat("valorunitario"));
 				passagem.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				passagem.setQuantidade(rs.getInt("quantidade"));
-				passagem.setPeriodo(rs.getString("periodo"));
 				passagem.setJustificativa(rs.getString("justificativa"));
+				
+				periodo = rs.getString("periodo");
+				meses = periodo.split(",");
+				periodo = "";
+				for(int i=0; i<meses.length; i++)
+					periodo += "'" +meses[i] + "',";			
+				passagem.setPeriodo(periodo.substring(0, periodo.length()-1));
 				
 				passagens.add(passagem);
 			}

@@ -8,6 +8,10 @@
 			'Out','Nov','Dez'
 	    ];
 		
+		$scope.descricao = 'Descrição';
+		$scope.valorUnitario = 'Valor Unitário';
+		$scope.quantidade = 'Quantidade';
+		
 		$scope.unidadesMedida = [
 			{nome: 'Unidade/unid.', categoria: 'Unidade de Medida Relativa'},
 			{nome: 'Par', categoria: 'Unidade de Medida Relativa'},
@@ -54,20 +58,11 @@
 		
 		$scope.materiaisConsumo = MaterialConsumoAPI.getMaterialConsumo();
 		
-		$scope.adicionar = function (item){
-			$scope.items.push(angular.copy(item));				
-			delete $scope.item;
+		$scope.procuraUnidade = function (nome){
+			for(var i=0; i<$scope.unidadesMedida.length; i++){
+				if($scope.unidadesMedida[i].nome == nome)
+					return i;
+			}
 		};
-			
-		$scope.apagar = function (items){
-			$scope.items = items.filter(function (item) {
-				if(!item.selecionado) return item;
-			});
-		};
-			
-		$scope.itemSelecionado = function (items){
-			return items.some(function (item) {
-				return item.selecionado;
-			});
-		};
+		
 });

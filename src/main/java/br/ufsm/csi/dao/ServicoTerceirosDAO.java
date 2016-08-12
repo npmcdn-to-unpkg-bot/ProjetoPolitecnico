@@ -95,6 +95,9 @@ public class ServicoTerceirosDAO {
 			
 			ResultSet rs = stmt.executeQuery();
 			
+			String[] meses;
+			String periodo;
+			
 			while(rs.next()){
 				ServicoTerceiros servicoTerceiros = new ServicoTerceiros();
 				
@@ -103,9 +106,15 @@ public class ServicoTerceirosDAO {
 				servicoTerceiros.setValorUnitario(rs.getFloat("valorunitario"));
 				servicoTerceiros.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				servicoTerceiros.setQuantidade(rs.getInt("quantidade"));
-				servicoTerceiros.setPeriodo(rs.getString("periodo"));
 				servicoTerceiros.setJustificativa(rs.getString("justificativa"));
 				servicoTerceiros.setUnidadeMedida(rs.getString("unidademedida"));
+				
+				periodo = rs.getString("periodo");
+				meses = periodo.split(",");
+				periodo = "";
+				for(int i=0; i<meses.length; i++)
+					periodo += "'" +meses[i] + "',";			
+				servicoTerceiros.setPeriodo(periodo.substring(0, periodo.length()-1));
 				
 				servicosTerceiros.add(servicoTerceiros);
 			}

@@ -117,6 +117,9 @@ public class MaterialConsumoDAO {
 			
 			ResultSet rs = stmt.executeQuery();
 			
+			String[] meses;
+			String periodo;
+			
 			while(rs.next()){
 				MaterialConsumo materialConsumo = new MaterialConsumo();
 				
@@ -127,9 +130,15 @@ public class MaterialConsumoDAO {
 				materialConsumo.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				materialConsumo.setQuantidade(rs.getInt("quantidade"));
 				materialConsumo.setSubItem(rs.getString("subitem"));
-				materialConsumo.setPeriodo(rs.getString("periodo"));
 				materialConsumo.setJustificativa(rs.getString("justificativa"));
 				materialConsumo.setUnidadeMedida(rs.getString("unidademedida"));
+				
+				periodo = rs.getString("periodo");
+				meses = periodo.split(",");
+				periodo = "";
+				for(int i=0; i<meses.length; i++)
+					periodo += "'" +meses[i] + "',";			
+				materialConsumo.setPeriodo(periodo.substring(0, periodo.length()-1));
 				
 				materiaisConsumo.add(materialConsumo);
 			}

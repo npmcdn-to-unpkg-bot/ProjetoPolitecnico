@@ -71,7 +71,7 @@ public class BolsasDAO {
 				periodo = rs.getString("periodo");
 				meses = periodo.split(",");
 				bolsa.setMeses(meses.length);
-				
+
 				bolsas.add(bolsa);
 			}
 			stmt.close();
@@ -98,6 +98,9 @@ public class BolsasDAO {
 			
 			ResultSet rs = stmt.executeQuery();
 			
+			String[] meses;
+			String periodo;
+			
 			while(rs.next()){
 				Bolsas bolsa = new Bolsas();
 				
@@ -105,8 +108,14 @@ public class BolsasDAO {
 				bolsa.setValorUnitario(rs.getFloat("valorunitario"));
 				bolsa.setValorTotal(rs.getFloat("valorunitario") * rs.getInt("quantidade"));
 				bolsa.setQuantidade(rs.getInt("quantidade"));
-				bolsa.setPeriodo(rs.getString("periodo"));
 				bolsa.setJustificativa(rs.getString("justificativa"));
+				
+				periodo = rs.getString("periodo");
+				meses = periodo.split(",");
+				periodo = "";
+				for(int i=0; i<meses.length; i++)
+					periodo += "'" +meses[i] + "',";			
+				bolsa.setPeriodo(periodo.substring(0, periodo.length()-1));
 				
 				bolsas.add(bolsa);
 			}

@@ -83,7 +83,7 @@
 	 				<thead>
 	 					<tr>
 	 						<th class="text-center">#</th>
-	 						<th>Trecho</th>
+	 						<th>Destino</th>
 	 						<th class="text-center">Valor Diária</th>
 	 						<th class="text-center">Nº Dias</th>
 	 						<th class="text-center">Valor Total</th>

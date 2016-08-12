@@ -23,111 +23,92 @@
 	<script src="<c:url value='/resources/js/directives/uiDirectives.js'/>"></script>
 	<script src="<c:url value='/resources/js/directives/ng-currency.js'/>"></script>
   </head>
-  <body ng-controller="formCtrl">
+  <body ng-controller="formCtrl" ng-cloak>
 	
 	<div class="container" id="conteudo" style="margin-top: 1%;">
+	
+		<!-- CABEÇALHO -->
 		<div class="row">
     		<div class="col-md-10">
     			<h1 class="text-muted"> <span class="fa fa-ticket"></span> Passagens</h1>
     		</div>
     		<div class="col-md-2">
-    			<h4 class="text-muted pull-right">
-    				<ul class="nav nav-pillis">
-    					<li role="presentation" class="dropdown">
-    					 	<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" id="menu"  aria-haspopup="true" aria-expanded="false">
-    							<span class="glyphicon glyphicon-user"></span> ${projeto.proponente} <span class="caret"></span>
-    						</a> 
-    					
-    						<ul class="dropdown-menu">
-    							<li> <a href="logout"> <span class="glyphicon glyphicon-log-out"></span> Sair</a> </li>
-    						</ul>
-    					</li>
-    				</ul>
-    			</h4>
+				<jsp:include page="../formularios/sair.jsp"></jsp:include>
     		</div>
     	</div>
 		
+		<!-- MENU -->
 		<ul class="nav nav-tabs" style="margin-top: 2%;" id="menu">
 			<li role="presentation"><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
 			<li role="presentation"><a href="redirecionaModificarPassagens?numeroProjeto=${projeto.numeroProjeto}">Modificar Passagens</a></li>
 			<li role="presentation" class="active"><a href="#">Alterar Passagens</a></li>			
 		</ul>
 		
+		<!-- CAMINHOS -->
 		<ol class="breadcrumb" style="margin-top: 3%;">
 			<li><a href="redirecionaInicio">Pagina Inicial</a></li>
 	  		<li><a href="cadastro">Solicitar Demandas no Projeto</a></li>
 	  		<li><a href="passagens?numeroProjeto=${projeto.numeroProjeto}">Passagens</a></li>
 	  		<li class="active">Alterar Passagens</li>
+	  		<div class="pull-right active">
+			  	<input type="checkbox" ng-model="item.ajuda"> Ajuda ?
+	  		</div>
 		</ol>
 		
+		<jsp:include page="../formularios/ajuda.jsp"></jsp:include>
+		
+		<!-- FORMULÁRIO -->
 		<div class="row" style="margin-top:3%;">
 			<c:forEach var="passagem" items="${passagens}">
-			<form action="alterarPassagens?numeroProjeto=${projeto.numeroProjeto}&&id=${passagem.id}" method="post">
+			<form action="alterarPassagens?numeroProjeto=${projeto.numeroProjeto}&&id=${passagem.id}" autocomplete="off" method="post">
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<div class="row">
-						<div class="col-md-8">
-							<div class="form-group">
-								<label for="descricao">Trecho</label>
-								<textarea class="form-control" rows="2" name="descricao" placeholder="${passagem.descricao}" ng-model="item.descricao"></textarea required>
-							</div>
+						<!-- TRECHO -->
+						<div class="col-md-8" ng-init="descricao='Trecho'">
+							<div ng-init="item.descricao='${passagem.descricao}'"></div>
+							<jsp:include page="../formularios/descricao-trecho-destino.jsp"></jsp:include>
 						</div>
+						<!-- MODALIDADE -->
 						<div class="col-md-4">
 							<div class="form-group">
+								<span ng-if="item.ajuda" class="text-success fa fa-check-circle"></span>
 								<label for="unid-medida">Modalidade</label>
-								<select class="form-control"  name="codigoDemanda">
-									<option value=""> --- Selecione uma Modalidade --- </option>
-									<option value="2.2"> Aéria </option>
-									<option value="2.1"> Terrestre </option>
+								<select class="form-control"  name="codigoDemanda" required>
+									<c:if test="${'2.2' == passagem.codigoDemanda}">
+										<option value="2.2"> Aéria </option>
+										<option value="2.1"> Terrestre </option>
+									</c:if>
+									<c:if test="${'2.1' == passagem.codigoDemanda}">
+										<option value="2.1"> Terrestre </option>
+										<option value="2.2"> Aéria </option>
+									</c:if>
 								</select>
 							</div>
 						</div>
-					</div>		
+					</div>	
+					
+					<!-- VALOR UNIÁRIO - QUANTIDADE - VALOR TOTAL -->	
 					<hr>	
-					
 					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="precoUnit">Valor Unitário <strong>R$</strong></label>
-								<input type="text" class="form-control" name="valorUnit" ng-model="item.valorUnit" ng-currency placeholder="<fmt:formatNumber value="${passagem.valorUnitario}" type="currency"/>"/>
-								<input type="hidden" name="valorUnitario" value="{{item.valorUnit}}" ng-model="item.valorUnitario" ui-number/>
-							</div>
+						<div class="col-md-4" ng-init="item.valorUnit='${passagem.valorUnitario}'">
+							<jsp:include page="../formularios/valorUnitario.jsp"></jsp:include>
+						</div>
+						<div class="col-md-4" ng-init="item.quantidade='${passagem.quantidade}'">
+							<jsp:include page="../formularios/quantidade.jsp"></jsp:include>
 						</div>
 						<div class="col-md-4">
-							<div class="form-group">
-								<label for="quantidade">Quantidade</label>
-								<input type="text" class="form-control" maxlength="10" name="quantidade" placeholder="${passagem.quantidade}" ng-model="item.quantidade" ui-number>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div ng-if="item.quantidade && item.valorUnit">
-								<div class="form-group">
-									<label for="total">Valor Total <strong>R$</strong></label>
-									<input type="text" class="form-control" name="total" placeholder="Valor Total" value="{{item.quantidade * item.valorUnit | currency}}" disabled>
-								</div>
-							</div>
+							<jsp:include page="../formularios/valorTotal.jsp"></jsp:include>
 						</div>
 					</div>
-					<hr>
 					
-					<div class="row">
-						<div class="col-md-9">
-							<label for="periodo">Periodo</label><br>
-							<label class="checkbox-inline" ng-repeat="mes in meses">
-			  					<input type="checkbox" name="periodo" checklist-model="user.meses" checklist-value="mes" value="{{mes}}"> {{mes}}
-							</label>
-						</div>
-						<div class="col-md-1">
-							<br><button class="btn btn-default" type="button" ng-click="todos()">Todos</button>
-						</div>
-						<div class="col-md-2">
-							<br><button class="btn btn-default" type="button" ng-click="limpar()">Limpar</button>
-						</div>
-					</div>
+					<!-- PERIODO -->
+					<hr ng-init="user.meses=[${passagem.periodo}]">
+					<jsp:include page="../formularios/periodo.jsp"></jsp:include>
 					<hr>
 			
 					<button class="btn btn-primary" type="submit" 
-						ng-disabled="!item.descricao || !item.valorUnit || !item.quantidade">
+						ng-disabled="user.meses.length <= 0 || item.valorUnit > 999999999 || item.quantidade == 0 || item.valorUnit <= 0">
 						<span class="glyphicon glyphicon-ok"></span> Alterar
 					</button>		
 				</div>
@@ -136,14 +117,67 @@
 			</c:forEach>
 		</div>
 		
-		<footer style="margin-top: 10%; margin-bottom: 2%;" class="footer text-center">
-			<hr>
-        	<h4>
-        		<small class="text-info"> © 2016 Colégio Politécnico/UFSM. </small>
-        		<small> Todos os direitos reservados. </small>
-        	</h4>
-        </footer>
+		<!-- RODAPE -->
+		<jsp:include page="../menu/rodape.jsp"></jsp:include>
 	</div>
+
+	<!-- EXEMPLO MODAL -->
+	<div class="modal fade" id="exemplo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+			    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        	<h4 class="modal-title text-muted" id="myModalLabel"> 
+			        		<span class="fa fa-ticket"></span> Exemplo de Passagens
+			        	</h4>
+				</div>
+				<div class="modal-body text-center">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="form-group">
+								<label for="proponente">Trecho</label>
+								<input type="text" class="form-control text-center" value="Santa Maria - Porto Alegre" disabled>		
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="proponente">Modalidade</label>
+								<input type="text" class="form-control text-center" value="Terrestre" disabled>		
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="proponente">Valor Unitário R$</label>
+								<input type="text" class="form-control text-center" value="R$ 150,00" disabled>		
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="proponente">Quantidade</label>
+								<input type="text" class="form-control text-center" value="2" disabled>		
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="form-group">
+								<label for="proponente">Valor Total R$</label>
+								<input type="text" class="form-control text-center" value="R$ 300,00" disabled>		
+							</div>
+						</div>
+					</div>
+					<hr>					
+					<div class="form-group">
+						<label for="proponente">Periodo: </label> Dez 	
+					</div>						
+				</div>
+				<div class="modal-footer">
+                	<button type="button" class="btn btn-default" data-dismiss="modal"> <span class="fa fa-close"></span> Fechar</button>
+                </div>
+			</div>
+         </div>
+    </div>	
 
 	<script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 	<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
