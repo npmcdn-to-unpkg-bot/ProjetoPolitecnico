@@ -3,6 +3,7 @@ package br.ufsm.csi.model;
 public class MaterialPermanente {
 	
 	private int id;
+	private String demanda;
 	private String codigoDemanda;
 	private String descricao;
 	private String unidadeMedida;
@@ -78,5 +79,12 @@ public class MaterialPermanente {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getDemanda() {
+		return demanda;
+	}
+	public void setDemanda(String demanda) {
+		this.demanda = demanda;
 	}
 }

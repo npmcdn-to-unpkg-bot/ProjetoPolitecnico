@@ -1,7 +1,18 @@
 package br.ufsm.csi.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufsm.csi.apachePOI.CriaExcel;
 import br.ufsm.csi.dao.BolsasDAO;
 import br.ufsm.csi.dao.ProjetoDAO;
+import br.ufsm.csi.model.Demanda;
 import br.ufsm.csi.model.Projeto;
 
 @Controller
@@ -127,8 +140,13 @@ public class ProjetoController {
 	
 	@RequestMapping("finalizar")
 	public String finalizar (String numeroProjeto, long siape, RedirectAttributes redirectAttributes) throws Exception{
+		
+		Projeto projeto = new ProjetoDAO().projetoFinalizado(numeroProjeto);
+		ArrayList<Demanda> itens = new ProjetoDAO().Itens(numeroProjeto);
+		
+		new CriaExcel().criar(projeto, itens);
 		this.retorno = new ProjetoDAO().finalizar(numeroProjeto);
-
+		
 		if(retorno){
 			redirectAttributes.addFlashAttribute("projetos", new ProjetoDAO().getProjetos(siape));
 			redirectAttributes.addFlashAttribute("status", "finalizado");
@@ -142,4 +160,54 @@ public class ProjetoController {
 			return "redirect:acessoProjetoExistente="+numeroProjeto;
 		}
 	}
+
+	@RequestMapping("download")
+	public void download (String numeroProjeto, String proponente, HttpServletResponse response) throws IOException, Exception{
+
+		File arquivo = new File("/C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos\\"
+			 +numeroProjeto +" - " +proponente +".xlsx");
+			
+		if(!arquivo.exists() || arquivo.length() == 0){  // se o arquivo não existe ou vazio, cria
+			Projeto projeto = new ProjetoDAO().projetoFinalizado(numeroProjeto);
+			ArrayList<Demanda> itens = new ProjetoDAO().Itens(numeroProjeto);
+			
+			new CriaExcel().criar(projeto, itens);
+		}
+
+		String nome = numeroProjeto +" - " +proponente +".xlsx";
+		int tamanho = (int) arquivo.length();
+
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"); // tipo do conteúdo
+		response.setContentLength(tamanho); 
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + nome + "\"");
+
+		OutputStream output = response.getOutputStream();
+		Files.copy(arquivo.toPath(), output);
+	}
+	/*
+	@RequestMapping(value="/download", method = RequestMethod.GET)
+    public HttpEntity<byte[]> download(String numeroProjeto, String proponente) throws IOException {
+    	
+    	File arquivo = new File("/C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos\\"
+   			 +numeroProjeto +" - " +proponente +".xlsx");
+    	
+        int len = (int)arquivo.length();  
+        byte[] fileByte = new byte[len];
+        FileInputStream inFile  = null;
+        
+        try {
+           inFile = new FileInputStream(arquivo);         
+           inFile.read(fileByte, 0, len);  
+        } catch (FileNotFoundException fnfex) {} 
+    	
+        String nome = numeroProjeto +" - " +proponente +".xlsx";
+		int tamanho = (int) arquivo.length();
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Content-Disposition", "attachment; filename=\""+nome+"\"");
+		HttpEntity<byte[]> entity = new HttpEntity<byte[]>(fileByte, httpHeaders);
+		
+		return entity;
+    }
+    */
 }

@@ -6,9 +6,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 	<title>Projeto</title>
 	
@@ -89,6 +87,11 @@
 	 								<span class="glyphicon glyphicon-remove text-danger"></span>
 	 							</button>								
  							</c:if>
+ 							
+ 							<c:if test="${projeto.finalizado eq true}">
+ 								<a href="download?numeroProjeto=${projeto.numeroProjeto}&&proponente=${usuarioLogado.nome}" class="btn btn-default btn-sm" title="Download"><span class="glyphicon glyphicon-download-alt text-success"></span></a>							
+ 							</c:if>
+ 							
  							</td>
  						</tr>
  						

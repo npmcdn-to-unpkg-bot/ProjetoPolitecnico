@@ -1,10 +1,15 @@
 package br.ufsm.csi.model;
 
 public class Demanda {
-	private int codigoDemanda;
+	private String codigoDemanda;
 	private String demanda;
 	private float valorTotal;
 	private int quantidade;
+	private String descricao;
+	private String unidadeMedida;
+	private float valorUnitario;
+	private String periodo;
+	private String justificativa;
 	
 	public String getDemanda() {
 		return demanda;
@@ -26,10 +31,46 @@ public class Demanda {
 	public void setValorTotal(float valorTotal) {
 		this.valorTotal = valorTotal;
 	}
-	public int getCodigoDemanda() {
+	
+	public String getCodigoDemanda() {
 		return codigoDemanda;
 	}
-	public void setCodigoDemanda(int codigoDemanda) {
+	public void setCodigoDemanda(String codigoDemanda) {
 		this.codigoDemanda = codigoDemanda;
+	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	public String getUnidadeMedida() {
+		return unidadeMedida;
+	}
+	public void setUnidadeMedida(String unidadeMedida) {
+		this.unidadeMedida = unidadeMedida;
+	}
+	
+	public float getValorUnitario() {
+		return valorUnitario;
+	}
+	public void setValorUnitario(float valorUnitario) {
+		this.valorUnitario = valorUnitario;
+	}
+	
+	public String getPeriodo() {
+		return periodo;
+	}
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+	
+	public String getJustificativa() {
+		return justificativa;
+	}
+	public void setJustificativa(String justificativa) {
+		this.justificativa = justificativa;
 	}
 }

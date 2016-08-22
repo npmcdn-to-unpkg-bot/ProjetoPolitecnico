@@ -178,7 +178,7 @@ public class ProjetoDAO {
 		return projetos;
 	}
 	
-public ArrayList<Demanda> getDemandas (String numeroProjeto){
+	public ArrayList<Demanda> getDemandas (String numeroProjeto){
 		
 		ArrayList<Demanda> demandas = new ArrayList<Demanda>();
 
@@ -201,7 +201,7 @@ public ArrayList<Demanda> getDemandas (String numeroProjeto){
 			while(rs.next()){
 				Demanda demanda = new Demanda();
 				
-				demanda.setCodigoDemanda(rs.getInt("codigodemanda"));
+				demanda.setCodigoDemanda(rs.getString("codigodemanda"));
 				demanda.setDemanda(rs.getString("natureza"));
 				demanda.setValorTotal(rs.getFloat("sum"));
 				demanda.setQuantidade(rs.getInt("count"));
@@ -216,7 +216,96 @@ public ArrayList<Demanda> getDemandas (String numeroProjeto){
 		
 		return demandas;
 	}
+	
+	public Projeto projetoFinalizado (String numeroProjeto) throws Exception{
+		
+		Projeto projeto = new Projeto();
 
+		try{
+			this.query = " SELECT projeto.siape, nome, modalidade, numeroprojeto, nomeprojeto "
+				+ " FROM usuario, projeto "
+				+ " WHERE usuario.siape = projeto.siape "
+				+ " AND numeroprojeto = ? ";
+			
+			stmt = conn.prepareStatement(this.query);
+			stmt.setString(1, numeroProjeto);
+
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				projeto.setSiape(rs.getLong("siape"));
+				projeto.setProponente(rs.getString("nome"));
+				projeto.setModalidade(rs.getString("modalidade"));
+				projeto.setNumeroProjeto(rs.getString("numeroprojeto"));
+				projeto.setNomeProjeto(rs.getString("nomeprojeto"));
+			}
+			stmt.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return projeto;
+	}
+
+	public ArrayList<Demanda> Itens (String numeroProjeto) throws Exception{
+
+		ArrayList<Demanda> itens = new ArrayList<Demanda>();
+
+		try{
+			this.query = " SELECT natureza, material.codigomaterial, descricao, unidademedida, valorunitario, quantidade, "
+				+ " valorunitario * quantidade AS total, periodo, justificativa "
+				+ " FROM demanda, material, itens "
+				+ " WHERE demanda.codigodemanda = material.codigodemanda "
+				+ " AND material.codigomaterial = itens.codigomaterial "
+				+ " AND numeroprojeto = ? "
+				+ " ORDER BY natureza; ";
+			
+			stmt = conn.prepareStatement(this.query);
+			stmt.setString(1, numeroProjeto);
+
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				Demanda item = new Demanda();
+				
+				if(rs.getString("codigomaterial").length() > 1){
+					if(rs.getString("codigomaterial").equals("2.1")){
+						item.setCodigoDemanda("Passagem/Terrestre");
+					}else if(rs.getString("codigomaterial").equals("2.2")){
+						item.setCodigoDemanda("Passagem/Aéria");
+					}else
+						item.setCodigoDemanda(rs.getString("codigomaterial"));
+				}else
+					item.setCodigoDemanda("-");
+				
+				item.setDemanda(rs.getString("natureza"));
+				item.setDescricao(rs.getString("descricao"));
+				item.setUnidadeMedida(rs.getString("unidademedida"));
+				item.setValorUnitario(rs.getFloat("valorunitario"));				
+				item.setQuantidade(rs.getInt("quantidade"));
+				item.setPeriodo(rs.getString("periodo"));
+				item.setJustificativa(rs.getString("justificativa"));
+
+				if(item.getDemanda().equals("Bolsas")){
+					String[] meses = rs.getString("periodo").split(",");
+					item.setValorTotal(
+						(rs.getFloat("valorunitario") * meses.length) * rs.getInt("quantidade")
+					);
+				}else
+					item.setValorTotal(rs.getFloat("total"));
+				
+				itens.add(item);
+			}
+			stmt.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return itens;	
+	}
+	
 	public boolean finalizar (String numeroProjeto) throws Exception{
 	
 		this.query = " UPDATE projeto SET finalizado = true WHERE numeroProjeto = ? ;";

@@ -15,8 +15,8 @@ public class BolsasDAO {
 	private String query;
 	
 	public boolean adicionar(Bolsas bolsas, String numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, valorunitario, quantidade, periodo, justificativa)"
-			  + " VALUES (default, ?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, valorunitario, quantidade, periodo, justificativa, descricao, unidademedida)"
+			  + " VALUES (default, ?,?,?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);			
 		stmt.setString(1, numeroProjeto);
@@ -25,6 +25,8 @@ public class BolsasDAO {
 		stmt.setInt(4, bolsas.getQuantidade());
 		stmt.setString(5, bolsas.getPeriodo());
 		stmt.setString(6, bolsas.getJustificativa());
+		stmt.setString(7, "-");
+		stmt.setString(8, "-");
 			
 		try{
 			stmt.execute();

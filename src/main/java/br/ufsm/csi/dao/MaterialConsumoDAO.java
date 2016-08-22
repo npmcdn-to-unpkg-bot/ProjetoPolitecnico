@@ -15,8 +15,8 @@ public class MaterialConsumoDAO {
 	private String query;
 	
 	public boolean adicionar(MaterialConsumo materialConsumo, String numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo)"
-			+ " VALUES (default, ?,?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, unidademedida, valorunitario, quantidade, periodo, justificativa)"
+			+ " VALUES (default, ?,?,?,?,?,?,?,?);";
 		
 		stmt = conn.prepareStatement(query);
 		
@@ -27,6 +27,7 @@ public class MaterialConsumoDAO {
 		stmt.setFloat(5, materialConsumo.getValorUnitario());
 		stmt.setInt(6, materialConsumo.getQuantidade());
 		stmt.setString(7, materialConsumo.getPeriodo());
+		stmt.setString(8, "-");
 		
 		try{
 			stmt.execute();

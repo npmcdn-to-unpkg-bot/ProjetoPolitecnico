@@ -15,8 +15,8 @@ public class DiariasDAO {
 	private String query;
 	
 	public boolean adicionar(Diarias diarias, String numeroProjeto) throws SQLException {
-		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo)"
-			  + " VALUES (default, ?,?,?,?,?,?);";
+		query = "INSERT INTO itens (id, numeroprojeto, codigomaterial, descricao, valorunitario, quantidade, periodo, unidademedida, justificativa)"
+			  + " VALUES (default, ?,?,?,?,?,?,?,?);";
 			
 		stmt = conn.prepareStatement(query);			
 		stmt.setString(1, numeroProjeto);
@@ -25,6 +25,8 @@ public class DiariasDAO {
 		stmt.setFloat(4, diarias.getValorUnitario());
 		stmt.setInt(5, diarias.getQuantidade());
 		stmt.setString(6, diarias.getPeriodo());
+		stmt.setString(7, "-");
+		stmt.setString(8, "-");
 			
 		try{
 			stmt.execute();
