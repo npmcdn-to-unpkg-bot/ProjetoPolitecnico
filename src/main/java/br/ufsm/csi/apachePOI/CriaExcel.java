@@ -21,11 +21,15 @@ public class CriaExcel {
 	XSSFWorkbook workbook = new XSSFWorkbook();
 	XSSFCell cell;
 	NumberFormat nf = NumberFormat.getCurrencyInstance();
+	boolean status = false;
 	
-	public void criar (Projeto projeto, ArrayList<Demanda> itens){
+	public boolean criar (Projeto projeto, ArrayList<Demanda> itens){
 		
-		String diretorio = "C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos";
-		diretorio += "\\" +projeto.getNumeroProjeto() +" - " +projeto.getProponente() +".xlsx";		
+		// "//opt//tomcat//webapps//ProjetoPolitecnico//WEB-INF//classes//projetos"
+		// "C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos"
+		String diretorio = "//opt//tomcat//webapps//ProjetoPolitecnico//WEB-INF//classes//projetos";
+		// "\\" +"Projeto " +projeto.getModalidade() +" - " +projeto.getNumeroProjeto() +".xlsx"
+		diretorio += "//" +"Projeto " +projeto.getModalidade() +" - " +projeto.getNumeroProjeto() +".xlsx";
 
 		FileOutputStream file = null;
 
@@ -42,10 +46,14 @@ public class CriaExcel {
 			try {
 				file.flush();
 				file.close();
+				
+				status = true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		
+		return status;
 	}
 	
 	private void abaDemanda(ArrayList<Demanda> itens) {

@@ -149,7 +149,7 @@ public class ProjetoDAO {
 		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
 		
 		try{
-			this.query = " SELECT projeto.numeroprojeto, nomeprojeto, datacriacao, finalizado"
+			this.query = " SELECT projeto.numeroprojeto, nomeprojeto, datacriacao, finalizado, modalidade"
 				+ " FROM projeto"
 				+ " WHERE siape = ? "
 				+ " ORDER BY dataCriacao, finalizado; ";
@@ -166,6 +166,7 @@ public class ProjetoDAO {
 				projeto.setNomeProjeto(rs.getString("nomeProjeto"));
 				projeto.setDataCriacao(rs.getDate("dataCriacao"));
 				projeto.setFinalizado(rs.getBoolean("finalizado"));
+				projeto.setModalidade(rs.getString("modalidade"));
 				
 				projetos.add(projeto);
 			}
@@ -308,10 +309,15 @@ public class ProjetoDAO {
 	
 	public boolean finalizar (String numeroProjeto) throws Exception{
 	
-		this.query = " UPDATE projeto SET finalizado = true WHERE numeroProjeto = ? ;";
+		this.query = " BEGIN; "
+			+ " UPDATE projeto SET finalizado = true WHERE numeroProjeto = ?; "
+			+ " INSERT INTO projetofinalizado VALUES (?, CURRENT_DATE, ?); "
+			+ " COMMIT; ";
 	
 		stmt = conn.prepareStatement(this.query);	
 		stmt.setString(1, numeroProjeto);
+		stmt.setString(2, numeroProjeto);
+		stmt.setString(3, "1234");
 
 		try{
 			stmt.execute();

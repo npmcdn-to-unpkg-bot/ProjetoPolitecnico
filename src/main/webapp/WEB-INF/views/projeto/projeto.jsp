@@ -127,7 +127,7 @@
 									<option value=""> --- Selecione uma Modalidade --- </option>
 									<option value="Ensino"> Ensino </option>
 									<option value="Pesquisa"> Pesquisa </option>
-									<option value="Extensão"> Extensão </option>
+									<option value="Extensao"> Extensão </option>
 								</select>
 								<div ng-if="item.ajuda && !projeto.modalidade" style="margin-left: 3%;">
 									<div class="text-danger">
@@ -169,7 +169,8 @@
 				  		</div>
 					</div>
 					
-					<button class="btn btn-primary" type="submit" style="margin-top: 2%; margin-bottom: 1%;">
+					<hr style="margin-top: 2%;">
+					<button class="btn btn-primary" type="submit" margin-bottom: 1%;">
 						<span class="glyphicon glyphicon-ok"></span> Cadastrar 
 					</button>	  
 				</div>

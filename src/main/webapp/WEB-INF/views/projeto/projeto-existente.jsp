@@ -51,6 +51,23 @@
 			<c:import url="../mensagens/mensagem.jsp" />
 		</c:if>
 		
+		<c:if test="${status == 'finalizado'}">
+			<c:import url="../mensagens/mensagem.jsp" />
+		</c:if>
+		
+		<c:if test="${status == 'erro_finalizado'}">
+			<c:import url="../mensagens/mensagem.jsp" />
+		</c:if>
+
+		<div class="alert alert-info" role="alert">
+			Para projetos com status de  <span class="text-danger"><strong>Não finalizado</strong></span>, você terá duas opções: <strong>acessar</strong> <span class="glyphicon glyphicon-check text-info"></span> 
+			para solicitar novas demandas em um projeto criado anteriormente; ou <strong>remover</strong> o projeto <span class="glyphicon glyphicon-remove text-danger"></span>
+			<br><br>
+			Já projetos com status de <span class="text-success"><strong>Finalizado</strong></span>, você poderá fazer o <strong>download</strong> <span class="glyphicon glyphicon-download-alt text-success"></span>
+			do arquivo do seu projeto para anexar nas estâncias administrativas; lembramos que após finalizado não poderá mais ser alterado. <br><br> Caso queira <strong>relatar algum problema</strong>, mudança ou cancelamento
+			do projeto, você poderá solicitar enviando uma mensagem clicando em <span class="fa fa-commenting text-info"></span>.
+		</div>
+		
 		<div class="row" style="margin-top: 3%;">
 			<div class="col-md-12">
 				<c:if test="${not empty projetos}">
@@ -67,7 +84,7 @@
  					<tbody>
  						<c:forEach var="projeto" items="${projetos}">
  						<tr>
- 							<td class="text-center text-info" width="9%">${projeto.numeroProjeto}</td>
+ 							<td class="text-center text-info" width="8%">${projeto.numeroProjeto}</td>
  							<td>${projeto.nomeProjeto}</td>
  							<td class="text-center text-muted" width="9%"> <fmt:formatDate type="date" dateStyle="medium" value="${projeto.dataCriacao}" /> </td>
  							<c:if test="${projeto.finalizado eq true}">
@@ -82,14 +99,20 @@
  							</c:if>
  							<td class="text-center" width="10%">
  							<c:if test="${projeto.finalizado eq false}">
- 								<a href="acessoProjetoExistente?numeroProjeto=${projeto.numeroProjeto}" class="btn btn-default btn-sm" title="Acessar"><span class="glyphicon glyphicon-check text-info"></span></a>
- 								<button class="btn btn-default btn-sm" type="button" title="Remover" data-toggle="modal" data-target="#remover_${projeto.numeroProjeto}">
+ 								<a href="acessoProjetoExistente?numeroProjeto=${projeto.numeroProjeto}" class="btn btn-default btn-md" title="Acessar"><span class="glyphicon glyphicon-check text-info"></span></a>
+ 								<button class="btn btn-default btn-md" type="button" title="Remover" data-toggle="modal" data-target="#remover_${projeto.numeroProjeto}">
 	 								<span class="glyphicon glyphicon-remove text-danger"></span>
 	 							</button>								
  							</c:if>
  							
  							<c:if test="${projeto.finalizado eq true}">
- 								<a href="download?numeroProjeto=${projeto.numeroProjeto}&&proponente=${usuarioLogado.nome}" class="btn btn-default btn-sm" title="Download"><span class="glyphicon glyphicon-download-alt text-success"></span></a>							
+ 								<a href="download?numeroProjeto=${projeto.numeroProjeto}&&modalidade=${projeto.modalidade}" class="btn btn-default btn-md" title="Download">
+ 									<span class="glyphicon glyphicon-download-alt text-success"></span>
+ 								</a>
+ 								
+ 								<a href="" class="btn btn-default btn-md" title="Relatar um problema">
+ 									<span class="fa fa-commenting text-info"></span>
+ 								</a>													
  							</c:if>
  							
  							</td>

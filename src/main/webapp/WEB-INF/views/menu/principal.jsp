@@ -218,7 +218,8 @@
 					
 					Todo sistema esta programado para efetuar a totalização dos itens lançados. Para lançar um novo ítem você deve selecionar, nas abas abaixo,
 					a modalidade de custo no qual ele se enquadra, preenchendo todos os campos solitados. Após todas as demandas do projeto cadastradas, clique em 
-					<strong>finalizar</strong> para eviar seu projeto á avaliação.<br><br>
+					<strong>finalizar</strong> para gerar o seu projeto em arquivo .xlsx (Microsoft Excel, LibreOffice Calc). Para baixar seu projeto finalizado em
+					formato .xslx, basta acessar a opção <strong>Projeto existente</strong> e clicar no ícone de download. <br><br>
 					
 					Lembramos que a descrição dos itens e valores são de inteira responsabilidade do proponente do projeto.
 				</div>

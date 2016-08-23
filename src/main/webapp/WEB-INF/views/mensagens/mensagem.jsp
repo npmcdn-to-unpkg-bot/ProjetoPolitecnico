@@ -261,4 +261,18 @@
         </div>
     </c:if> 
 
+	 <c:if test="${status == 'finalizado'}"> 
+        <div class="alert alert-success" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Projeto Finalizado com Sucesso.</strong> 
+        </div>
+    </c:if>
+    
+    <c:if test="${status == 'erro_finalizado'}"> 
+        <div class="alert alert-danger" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Projeto não Finalizado.</strong> 
+        </div>
+    </c:if> 
+
 <c:set var="status" value="vazio" scope="page" />
