@@ -180,7 +180,7 @@ public class ProjetoController {
 	@RequestMapping("download")
 	public void download (String numeroProjeto, String modalidade, HttpServletResponse response) throws IOException, Exception{
 		// "/C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos\\"
-		File arquivo = new File("//opt//tomcat//webapps//ProjetoPolitecnico//WEB-INF//classes//projetos//"
+		File arquivo = new File("/C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos\\"
 			 +"Projeto " +modalidade +" - " +numeroProjeto +".xlsx");
 		//opt//tomcat//webapps//ProjetoPolitecnico//WEB-INF//classes//projetos//	
 		if(!arquivo.exists() || arquivo.length() == 0){  // se o arquivo não existe ou vazio, cria

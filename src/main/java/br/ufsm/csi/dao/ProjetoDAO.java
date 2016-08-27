@@ -16,6 +16,7 @@ public class ProjetoDAO {
 	private String query;
 	
 	public Usuario altenticarUsuario (Usuario usuario) throws Exception{
+		
 		this.query = " SELECT nome FROM usuario WHERE siape = ? AND senha = ? ; ";
 		
 		try{
@@ -38,7 +39,8 @@ public class ProjetoDAO {
 		return null;
 	}
 	
-	public boolean adicionar (Projeto projeto) throws Exception{		
+	public boolean adicionar (Projeto projeto) throws Exception{
+		
 		query = "INSERT INTO projeto VALUES (?,?,?, CURRENT_DATE, false, ?,?);";
 		
 		stmt = conn.prepareStatement(query);		

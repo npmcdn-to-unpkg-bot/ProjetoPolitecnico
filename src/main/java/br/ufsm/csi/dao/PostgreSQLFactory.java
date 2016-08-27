@@ -9,10 +9,10 @@ public class PostgreSQLFactory {
 
 		Connection conn = null;
 		
-		String host = "192.168.90.103";
+		String host = "localhost";
 		String database = "dbadm";
 		String user = "postgres";
-		String password = "1234";
+		String password = "201421269";
 		
 		String url = "jdbc:postgresql://" +host +":5432/" +database;
 

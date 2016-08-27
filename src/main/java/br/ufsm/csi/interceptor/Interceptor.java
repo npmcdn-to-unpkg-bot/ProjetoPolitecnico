@@ -12,7 +12,7 @@ public class Interceptor extends HandlerInterceptorAdapter{
 			  HttpServletResponse response, Object controller) throws Exception {
 
 		String uri = request.getRequestURI();
-	    if(uri.endsWith("login") || uri.endsWith("loginCtrl") ||uri.contains("resources")){
+	    if(uri.endsWith("login") || uri.endsWith("loginCtrl") || uri.contains("resources")){
 	        return true;
 	    }
 

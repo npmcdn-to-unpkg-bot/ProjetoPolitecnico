@@ -25,11 +25,10 @@ public class CriaExcel {
 	
 	public boolean criar (Projeto projeto, ArrayList<Demanda> itens){
 		
-		// "//opt//tomcat//webapps//ProjetoPolitecnico//WEB-INF//classes//projetos"
-		// "C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos"
-		String diretorio = "//opt//tomcat//webapps//ProjetoPolitecnico//WEB-INF//classes//projetos";
-		// "\\" +"Projeto " +projeto.getModalidade() +" - " +projeto.getNumeroProjeto() +".xlsx"
-		diretorio += "//" +"Projeto " +projeto.getModalidade() +" - " +projeto.getNumeroProjeto() +".xlsx";
+		// "//opt//tomcat//webapps//ProjetoPolitecnico//WEB-INF//classes//projetos//"
+		// "C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos\\"
+		String diretorio = "C:\\Users\\Jr\\workspace\\ProjetoPolitecnico\\src\\main\\resources\\projetos\\";
+		diretorio += "Projeto " +projeto.getModalidade() +" - " +projeto.getNumeroProjeto() +".xlsx";
 
 		FileOutputStream file = null;
 
