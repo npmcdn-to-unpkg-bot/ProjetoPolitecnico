@@ -23,7 +23,7 @@
     						<img src="<c:url value='/resources/img/logopoli1.png'/>">	
     					</div>
    						<div class="col-md-10">
-   							<h1 class="text-muted" style="margin-top: 4%; margin-left: 3%; font-size:45px;">Bem Vindo, ${usuarioLogado.nome}</h1>
+   							<h1 class="text-muted" style="margin-top: 4%; margin-left: 3%; font-size:45px;">Bem Vindo, ${usuarioLogado.nomeCompleto}</h1>
    						</div>
     				</div>
     			</div>
@@ -32,7 +32,7 @@
     					<ul class="nav nav-pillis">
     						<li role="presentation" class="dropdown">
     					 		<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" id="menu" aria-haspopup="true" aria-expanded="false">
-    								<span class="glyphicon glyphicon-user"></span> ${usuarioLogado.nome} <span class="caret"></span>
+    								<span class="glyphicon glyphicon-user"></span> ${usuarioLogado.nomeCompleto} <span class="caret"></span>
     							</a> 
     					
     							<ul class="dropdown-menu">

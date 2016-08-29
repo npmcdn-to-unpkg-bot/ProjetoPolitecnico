@@ -5,7 +5,7 @@
 	<c:if test="${status == 'erro_login'}"> 
         <div class="alert alert-danger" role="alert"> 
         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Siape ou Senha incorreto(s).</strong> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa!</strong> Siape ou Senha incorreto(s). 
         </div>
     </c:if> 
 
@@ -274,5 +274,230 @@
         	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Projeto não Finalizado.</strong> 
         </div>
     </c:if> 
+	
+	<c:if test="${status == 'removerConta'}"> 
+        <div class="alert alert-success" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Conta removida com Sucesso.</strong> 
+        </div>
+    </c:if>
+    <c:if test="${status == 'erro_removerConta'}"> 
+        <div class="alert alert-danger" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Conta não removida.</strong> 
+        </div>
+    </c:if> 
+    
+    <c:if test="${status == 'recuperarSenha'}"> 
+        <div class="alert alert-success" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! A senha da sua conta foi enviada para seu email .</strong> 
+        </div>
+    </c:if>
+    <c:if test="${status == 'erro_recuperarSenha'}"> 
+        <div class="alert alert-danger" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Email ou siape incorretos.</strong> 
+        </div>
+    </c:if> 
+    
+    <c:if test="${status == 'emailReenviado'}"> 
+        <div class="alert alert-success" role="alert"> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! O código de confirmação enviado novamente.</strong>
+        	Para acessar sua conta você precisa validar seu email, um código de 4 digitos foi enviado para <strong>${usuario.email}</strong><br><br>
+        	
+        	<div class="row">
+        		<div class="col-md-1"></div>
+        		<div class="col-md-5">
+        			<form action="autenticarConta?siape=${usuario.siape}" method="post" class="form-inline">
+		  				<div class="form-group">
+		    				<label for="Código">Insira seu código</label>
+		    				<input type="text" class="form-control" minlength="4" autocomplete="off" maxlength="4" name="codigo" placeholder="Código" ng-model="codigo" required ui-number>
+		  				</div>
+		  				
+		  				<button type="submit" class="btn btn-default">
+		  					<span class="glyphicon glyphicon-ok text-primary"></span> <span class="text-primary">Confirmar</span>
+		  				</button>
+					</form>
+        		</div>
+        		<div class="col-md-5">
+        			Caso não tenha recebido o código por email, 
+        			<a data-toggle="modal" href="#reenviarEmail"> 
+						<span class="fa fa-envelope"></span> Clique Aqui
+					</a>
+        		</div>
+        		<div class="col-md-1"></div>
+        	</div> <br>
+        	<div class="text-center">
+        		Para alterar seu cadastro ou cancelar sua conta,
+        		<a data-toggle="modal" href="#alterarCadastro"> 
+					<span class="glyphicon glyphicon-wrench"></span> Clique Aqui
+				</a>
+        	</div>
+        </div>
+    </c:if>  
+	    <c:if test="${status == 'erro_emailReenviado'}"> 
+        <div class="alert alert-danger" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Tente novamente mais tarde.</strong> 
+        </div>
+    </c:if> 
+	
+	<c:if test="${status == 'cadastroUsuario'}"> 
+        <div class="alert alert-success" role="alert"> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Conta criada com Sucesso.</strong>
+        	Para acessar sua conta você precisa validar seu email, um código de 4 digitos foi enviado para <strong>${usuario.email}</strong><br><br>
+        	
+        	<div class="row">
+        		<div class="col-md-1"></div>
+        		<div class="col-md-5">
+        			<form action="autenticarConta?siape=${usuario.siape}" method="post" class="form-inline">
+		  				<div class="form-group">
+		    				<label for="Código">Insira seu código</label>
+		    				<input type="text" class="form-control" minlength="4" autocomplete="off" maxlength="4" name="codigo" placeholder="Código" ng-model="codigo" required ui-number>
+		  				</div>
+		  				
+		  				<button type="submit" class="btn btn-default">
+		  					<span class="glyphicon glyphicon-ok text-primary"></span> <span class="text-primary">Confirmar</span>
+		  				</button>
+					</form>
+        		</div>
+        		<div class="col-md-5">
+        			Caso não tenha recebido o código por email, 
+        			<a data-toggle="modal" href="#reenviarEmail"> 
+						<span class="fa fa-envelope"></span> Clique Aqui
+					</a>
+        		</div>
+        		<div class="col-md-1"></div>
+        	</div> <br>
+        	<div class="text-center">
+        		Para alterar seu cadastro ou cancelar sua conta,
+        		<a data-toggle="modal" href="#alterarCadastro"> 
+					<span class="glyphicon glyphicon-wrench"></span> Clique Aqui
+				</a>
+        	</div>
+        </div>
+    </c:if>  
+    
+    <c:if test="${status == 'erro_cadastroUsuario'}"> 
+        <div class="alert alert-danger" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Já possui usuário com este siape.</strong> 
+        </div>
+    </c:if> 
 
+	<c:if test="${status == 'cadastroInvalidado'}"> 
+        <div class="alert alert-warning" role="alert"> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Sua conta ainda não foi validada.</strong>
+        	Para acessar sua conta você precisa validar seu email, um código de 4 digitos foi enviado para <strong>${usuario.email}</strong> <br><br>
+        	
+        	<div class="row">
+        		<div class="col-md-1"></div>
+        		<div class="col-md-5">
+        			<form action="autenticarConta?siape=${usuario.siape}" method="post" class="form-inline">
+		  				<div class="form-group">
+		    				<label for="Código">Insira seu código</label>
+		    				<input type="text" class="form-control" minlength="4" maxlength="4" autocomplete="off" name="codigo" placeholder="Código" ng-model="codigo" required ui-number>
+		  				</div>
+		  				
+		  				<button type="submit" class="btn btn-default">
+		  					<span class="glyphicon glyphicon-ok text-primary"></span> <span class="text-primary">Confirmar</span>
+		  				</button>
+					</form>
+        		</div>
+        		<div class="col-md-5">
+        			Caso não tenha recebido o código por email, 
+        			<a data-toggle="modal" href="#reenviarEmail"> 
+						<span class="fa fa-envelope"></span> Clique Aqui
+					</a>
+        		</div>
+        		<div class="col-md-1"></div>
+        	</div> <br>
+        	<div class="text-center">
+        		Para alterar seu cadastro ou cancelar sua conta,
+        		<a data-toggle="modal" href="#alterarCadastro"> 
+					<span class="glyphicon glyphicon-wrench"></span> Clique Aqui
+				</a>
+        	</div>
+        </div>
+    </c:if>
+    
+    <c:if test="${status == 'modificarConta'}"> 
+        <div class="alert alert-success" role="alert"> 
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Conta alterada com Sucesso.</strong>
+        	Para acessar sua conta você precisa validar seu email, um código de 4 digitos foi enviado para <strong>${usuario.email}</strong><br><br>
+        	
+        	<div class="row">
+        		<div class="col-md-1"></div>
+        		<div class="col-md-5">
+        			<form action="autenticarConta?siape=${usuario.siape}" method="post" class="form-inline">
+		  				<div class="form-group">
+		    				<label for="Código">Insira seu código</label>
+		    				<input type="text" class="form-control" minlength="4" autocomplete="off" maxlength="4" name="codigo" placeholder="Código" ng-model="codigo" required ui-number>
+		  				</div>
+		  				
+		  				<button type="submit" class="btn btn-default">
+		  					<span class="glyphicon glyphicon-ok text-primary"></span> <span class="text-primary">Confirmar</span>
+		  				</button>
+					</form>
+        		</div>
+        		<div class="col-md-5">
+        			Caso não tenha recebido o código por email, 
+        			<a data-toggle="modal" href="#reenviarEmail"> 
+						<span class="fa fa-envelope"></span> Clique Aqui
+					</a>
+        		</div>
+        		<div class="col-md-1"></div>
+        	</div> <br>
+        	<div class="text-center">
+        		Para alterar seu cadastro ou cancelar sua conta,
+        		<a data-toggle="modal" href="#alterarCadastro"> 
+					<span class="glyphicon glyphicon-wrench"></span> Clique Aqui
+				</a>
+        	</div>
+        </div>
+    </c:if>  
+    
+    <c:if test="${status == 'autenticarUsuario'}"> 
+        <div class="alert alert-success" role="alert"> 
+        	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        	<span class="glyphicon glyphicon-ok"></span> <strong>Ok! Conta autenticada com Sucesso.</strong>
+        </div>
+    </c:if>
+	
+	<c:if test="${status == 'erro_autenticarUsuario'}"> 
+        <div class="alert alert-danger" role="alert"> 
+        	<span class="glyphicon glyphicon-warning-sign"></span> <strong>Opa! Código de autenticação invalido.</strong> <br><br>
+        	
+        	<div class="row">
+        		<div class="col-md-1"></div>
+        		<div class="col-md-5">
+        			<form action="autenticarConta?siape=${usuario.siape}" method="post" class="form-inline">
+		  				<div class="form-group">
+		    				<label for="Código">Insira seu código</label>
+		    				<input type="text" class="form-control" minlength="4" autocomplete="off" maxlength="4" name="codigo" placeholder="Código" ng-model="codigo" required ui-number>
+		  				</div>
+		  				
+		  				<button type="submit" class="btn btn-default">
+		  					<span class="glyphicon glyphicon-ok text-primary"></span> <span class="text-primary">Confirmar</span>
+		  				</button>
+					</form>
+        		</div>
+        		<div class="col-md-5">
+        			Caso não tenha recebido o código por email, 
+        			<a data-toggle="modal" href="#reenviarEmail"> 
+						<span class="fa fa-envelope"></span> Clique Aqui
+					</a>
+        		</div>
+        		<div class="col-md-1"></div>
+        	</div> <br>
+        	<div class="text-center">
+        		Para alterar seu cadastro ou cancelar sua conta,
+        		<a data-toggle="modal" href="#alterarCadastro"> 
+					<span class="glyphicon glyphicon-wrench"></span> Clique Aqui
+				</a>
+        	</div>
+        </div>
+    </c:if> 
+	
 <c:set var="status" value="vazio" scope="page" />

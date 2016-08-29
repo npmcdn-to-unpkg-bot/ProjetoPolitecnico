@@ -25,10 +25,17 @@ public class LoginController {
 	@RequestMapping("loginCtrl")
 	public String autenticarUsuario (Usuario usuario, HttpSession session, RedirectAttributes redirectAttributes) throws Exception{
 		Usuario usuarioAutenticado = new ProjetoDAO().altenticarUsuario(usuario);
-		
+
 		if(usuarioAutenticado != null){
-			session.setAttribute("usuarioLogado", usuarioAutenticado);
-			return "menu/menu-projeto";
+			if(usuarioAutenticado.getCadastro()){  // cadastro validade
+				session.setAttribute("usuarioLogado", usuarioAutenticado);
+				return "menu/menu-projeto";
+			}
+			else{  // cadastro não validado
+				redirectAttributes.addFlashAttribute("status", "cadastroInvalidado");
+				session.setAttribute("usuario", usuarioAutenticado);
+				return "redirect:login";
+			}
 		}
 		else{
 			redirectAttributes.addFlashAttribute("status", "erro_login");

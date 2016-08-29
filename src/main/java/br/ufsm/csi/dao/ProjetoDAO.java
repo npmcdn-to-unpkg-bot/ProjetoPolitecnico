@@ -17,7 +17,7 @@ public class ProjetoDAO {
 	
 	public Usuario altenticarUsuario (Usuario usuario) throws Exception{
 		
-		this.query = " SELECT nome FROM usuario WHERE siape = ? AND senha = ? ; ";
+		this.query = " SELECT nome, cadastro, email FROM usuario WHERE siape = ? AND senha = ? ; ";
 		
 		try{
 			stmt = conn.prepareStatement(this.query);
@@ -28,6 +28,10 @@ public class ProjetoDAO {
 			
 			while(rs.next()){
 				usuario.setNome(rs.getString("nome"));
+				String[] primeiroNome = usuario.getNome().split(" ");
+				usuario.setNomeCompleto(primeiroNome[0]);
+				usuario.setCadastro(rs.getBoolean("cadastro"));
+				usuario.setEmail(rs.getString("email"));
 				
 				return usuario;
 			}
@@ -36,6 +40,7 @@ public class ProjetoDAO {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 	
